@@ -1,0 +1,4 @@
+miniRT
+*.o
+.*.swp
+mlx_linux
