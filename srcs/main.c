@@ -5,56 +5,67 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/28 11:56:01 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/01/28 12:52:52 by vfurmane         ###   ########.fr       */
+/*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
+/*   Updated: 2021/02/02 19:13:25 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx.h"
+#include "mini_rt.h"
 
-typedef struct	s_data
+t_vector	ft_canvas_to_viewport(int x, int y, int viewport, t_plan canvas)
 {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}				t_data;
+	double		d_viewport;
+	double		d_width;
+	double		d_height;
+	t_vector	direction;
 
-void			my_mlx_pixel_put(t_data *data, int x, int y, int color)
-{
-	char	*dest;
-
-	dest = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dest = color;
+	d_viewport = (double)viewport;
+	d_width = (double)canvas.width;
+	d_height = (double)canvas.height;
+	direction.x = x * d_viewport / d_width;
+	direction.y = y * d_viewport / d_height;
+	direction.z = (double)canvas.distance;
+	return (direction);
 }
 
-void			my_mlx_square_put(t_data *data, int x, int y, int width, int color)
+int			main(void)
 {
-	int	i;
-	int	j;
+	t_pixel		pixel;
+	t_plan		canvas;
+	t_vector	origin;
+	t_vector	direction;
+	void		*mlx;
+	void		*win;
+	t_data		img;
 
-	i = -1;
-	while (++i < width)
-	{
-		j = -1;
-		while (++j < width)
-			my_mlx_pixel_put(data, x + i, y + j, color);
-	}
-}
-
-int				main(void)
-{
-	void	*mlx;
-	void	*mlx_win;
-	t_data	img;
-
+	canvas.width = 600;
+	canvas.height = 600;
+	canvas.distance = 1;
+	canvas.viewport = 1;
+	origin.x = 0;
+	origin.y = 0;
+	origin.z = 0;
+	pixel.x = -canvas.width / 2;
 	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello World");
-	img.img = mlx_new_image(mlx, 1920, 1080);
+	win = mlx_new_window(mlx, canvas.width, canvas.height, "miniRT");
+	img.img = mlx_new_image(mlx, canvas.width, canvas.height);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 			&img.endian);
-	my_mlx_square_put(&img, 5, 5, 20,  0x00FF0000);
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
+	while (pixel.x < canvas.width / 2)
+	{
+		pixel.y = -canvas.height / 2;
+		while (pixel.y < canvas.height / 2)
+		{
+			direction = ft_canvas_to_viewport(pixel.x, pixel.y, canvas.viewport,
+					canvas);
+			pixel.color = ft_trace_ray(origin, direction, 1, -1);
+			my_mlx_put_pixel(&img, pixel.x + canvas.width / 2,
+					pixel.y + canvas.height / 2, pixel.color);
+			pixel.y++;
+		}
+		pixel.x++;
+	}
+	mlx_put_image_to_window(mlx, win, img.img, 0, 0);
 	mlx_loop(mlx);
+	return (0);
 }
