@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/02 19:13:25 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/03 18:25:44 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int			main(void)
 					canvas);
 			pixel.color = ft_trace_ray(origin, direction, 1, -1);
 			my_mlx_put_pixel(&img, pixel.x + canvas.width / 2,
-					pixel.y + canvas.height / 2, pixel.color);
+					-pixel.y + canvas.height / 2, pixel.color);
 			pixel.y++;
 		}
 		pixel.x++;

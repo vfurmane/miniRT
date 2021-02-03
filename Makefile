@@ -6,11 +6,12 @@
 #    By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/28 15:38:44 by vfurmane          #+#    #+#              #
-#    Updated: 2021/02/02 13:06:55 by vfurmane         ###   ########.fr        #
+#    Updated: 2021/02/03 17:20:09 by vfurmane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS		= $(addprefix srcs/, main.c my_mlx.c raytrace.c vector_calcul.c)
+SRCS		= $(addprefix srcs/, main.c my_mlx.c raytrace.c vectors_calcul.c \
+				vector_double_calcul.c vectors_formula.c)
 OBJS		= $(SRCS:.c=.o)
 INCL		= $(addprefix -I, includes mlx_linux)
 NAME		= miniRT

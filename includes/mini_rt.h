@@ -22,6 +22,9 @@
 #  define M_PI	3.14159265358979323846
 # endif
 
+# define AMBIANT	0
+# define POINT		1
+
 /*
 **	Structures
 */
@@ -63,14 +66,27 @@ typedef struct	s_sphere
 	t_vector	vector;
 }				t_sphere;
 
+typedef struct	s_light
+{
+	int			type;
+	double		intensity;
+	t_vector	vector;
+}				t_light;
+
 /*
 **	Functions
 */
 
 double		ft_dot_product(t_vector v1, t_vector v2);
+double		ft_vector_length(t_vector vector);
 int			ft_trace_ray(t_vector origin, t_vector direction, int t_min,
 				int t_max);
-t_vector	ft_substract_vector(t_vector v1, t_vector v2);
+t_vector	ft_add_vectors(t_vector v1, t_vector v2);
+t_vector	ft_substract_vectors(t_vector v1, t_vector v2);
+t_vector	ft_multiply_vectors(t_vector v1, t_vector v2);
+t_vector	ft_add_vector_double(t_vector v1, double nbr);
+t_vector	ft_substract_vector_double(t_vector v1, double nbr);
+t_vector	ft_multiply_vector_double(t_vector v1, double nbr);
 void		my_mlx_put_pixel(t_data *data, int x, int y, int color);
 
 #endif
