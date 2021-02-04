@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/04 11:11:00 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/04 19:37:17 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,20 +95,20 @@ int		ft_trace_ray(t_vector origin, t_vector direction, int t_min, int t_max)
 	t_light		lights[3];
 
 	closest_sphere.color = -1;
-	spheres[0].vector.x = -2;
-	spheres[0].vector.y = 0;
-	spheres[0].vector.z = 5;
-	spheres[0].radius = 1;
+	spheres[0].vector.x = 0;
+	spheres[0].vector.y = -5001;
+	spheres[0].vector.z = 0;
+	spheres[0].radius = 5000;
 	spheres[0].color = 0x0000FF00;
-	spheres[1].vector.x = 0;
+	spheres[1].vector.x = -1;
 	spheres[1].vector.y = -1;
-	spheres[1].vector.z = 5;
-	spheres[1].radius = 1;
+	spheres[1].vector.z = 15;
+	spheres[1].radius = 5;
 	spheres[1].color = 0x00FFAA88;
-	spheres[2].vector.x = 2;
-	spheres[2].vector.y = 0;
-	spheres[2].vector.z = 5;
-	spheres[2].radius = 1;
+	spheres[2].vector.x = 3;
+	spheres[2].vector.y = 1;
+	spheres[2].vector.z = 3;
+	spheres[2].radius = 2;
 	spheres[2].color = 0x00FECDBA;
 	lights[0].type = AMBIANT;
 	lights[0].intensity = 0.7;
@@ -123,15 +123,16 @@ int		ft_trace_ray(t_vector origin, t_vector direction, int t_min, int t_max)
 	lights[2].vector.y = 2;
 	lights[2].vector.z = 6;
 	i = 0;
+	closest_t = -1;
 	while (i < 3)
 	{
 		ft_intersect_ray_sphere(origin, direction, spheres[i], t);
-		if (t[0] >= t_min && (t[0] <= t_max || t_max == -1))
+		if (t[0] >= t_min && (t[0] <= t_max || t_max == -1) && (t[0] < closest_t || closest_t == -1))
 		{
 			closest_t = t[0];
 			closest_sphere = spheres[i];
 		}
-		if (t[1] >= t_min && (t[1] <= t_max || t_max == -1) && t[1] < closest_t)
+		if (t[1] >= t_min && (t[1] <= t_max || t_max == -1) && (t[1] < closest_t || closest_t == -1))
 		{
 			closest_t = t[1];
 			closest_sphere = spheres[i];
