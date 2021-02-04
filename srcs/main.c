@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/04 11:12:40 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/04 19:26:24 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_vector	ft_canvas_to_viewport(int x, int y, int viewport, t_plan canvas)
 	d_width = (double)canvas.width;
 	d_height = (double)canvas.height;
 	direction.x = x * d_viewport / d_width;
-	direction.y = y * d_viewport / d_height;
+	direction.y = y * d_viewport / d_width;
 	direction.z = (double)canvas.distance;
 	return (direction);
 }
