@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/03 18:25:44 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/04 11:12:40 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ int			main(void)
 	void		*win;
 	t_data		img;
 
-	canvas.width = 600;
-	canvas.height = 600;
+	canvas.width = 960;
+	canvas.height = 960;
 	canvas.distance = 1;
 	canvas.viewport = 1;
 	origin.x = 0;

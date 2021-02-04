@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/03 18:37:32 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/04 11:11:00 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_intersect_ray_sphere(t_vector origin, t_vector direction,
 	}
 }
 
-double	ft_compute_lighting(t_vector point, t_sphere sphere)
+double	ft_compute_lighting(t_vector point, t_sphere sphere, t_light lights[3])
 {
 	int			i;
 	double		normal_len;
@@ -48,18 +48,10 @@ double	ft_compute_lighting(t_vector point, t_sphere sphere)
 	double		n_dot_l;
 	t_vector	normal;
 	t_vector	light_ray;
-	t_light		lights[2];
 
 	i = 0;
 	intensity = 0;
-	lights[0].type = AMBIANT;
-	lights[0].intensity = 0.2;
-	lights[1].type = POINT;
-	lights[1].intensity = 0.6;
-	lights[1].vector.x = 2;
-	lights[1].vector.y = 1;
-	lights[1].vector.z = 0;
-	while (i < 2)
+	while (i < 3)
 	{
 		if (lights[i].type == AMBIANT)
 			intensity += lights[i].intensity;
@@ -75,6 +67,8 @@ double	ft_compute_lighting(t_vector point, t_sphere sphere)
 		}
 		i++;
 	}
+	if (intensity > 1)
+		intensity = 1;
 	return (intensity);
 }
 
@@ -92,31 +86,60 @@ double	ft_multiply_color(int color, double intensity)
 
 int		ft_trace_ray(t_vector origin, t_vector direction, int t_min, int t_max)
 {
+	int			i;
 	double		closest_t;
 	double		t[2];
 	t_vector	point;
-	t_sphere	sphere;
+	t_sphere	spheres[3];
 	t_sphere	closest_sphere;
+	t_light		lights[3];
 
 	closest_sphere.color = -1;
-	sphere.vector.x = -2;
-	sphere.vector.y = -2;
-	sphere.vector.z = 4;
-	sphere.radius = 1;
-	sphere.color = 0x0000FF00;
-	ft_intersect_ray_sphere(origin, direction, sphere, t);
-	if (t[0] >= t_min && (t[0] <= t_max || t_max == -1))
+	spheres[0].vector.x = -2;
+	spheres[0].vector.y = 0;
+	spheres[0].vector.z = 5;
+	spheres[0].radius = 1;
+	spheres[0].color = 0x0000FF00;
+	spheres[1].vector.x = 0;
+	spheres[1].vector.y = -1;
+	spheres[1].vector.z = 5;
+	spheres[1].radius = 1;
+	spheres[1].color = 0x00FFAA88;
+	spheres[2].vector.x = 2;
+	spheres[2].vector.y = 0;
+	spheres[2].vector.z = 5;
+	spheres[2].radius = 1;
+	spheres[2].color = 0x00FECDBA;
+	lights[0].type = AMBIANT;
+	lights[0].intensity = 0.7;
+	lights[1].type = POINT;
+	lights[1].intensity = 0.5;
+	lights[1].vector.x = 0;
+	lights[1].vector.y = 3;
+	lights[2].vector.z = 0;
+	lights[2].type = POINT;
+	lights[2].intensity = 0.3;
+	lights[2].vector.x = 2;
+	lights[2].vector.y = 2;
+	lights[2].vector.z = 6;
+	i = 0;
+	while (i < 3)
 	{
-		closest_t = t[0];
-		closest_sphere = sphere;
-	}
-	if (t[1] >= t_min && (t[1] <= t_max || t_max == -1) && t[1] < closest_t)
-	{
-		closest_t = t[1];
-		closest_sphere = sphere;
+		ft_intersect_ray_sphere(origin, direction, spheres[i], t);
+		if (t[0] >= t_min && (t[0] <= t_max || t_max == -1))
+		{
+			closest_t = t[0];
+			closest_sphere = spheres[i];
+		}
+		if (t[1] >= t_min && (t[1] <= t_max || t_max == -1) && t[1] < closest_t)
+		{
+			closest_t = t[1];
+			closest_sphere = spheres[i];
+		}
+		i++;
 	}
 	if (closest_sphere.color == -1)
-		return (0x00FFFFFF);
+		return (ft_multiply_color(0x00FFFFFF, lights[0].intensity));
 	point = ft_add_vectors(origin, ft_multiply_vector_double(direction, closest_t));
-	return (ft_multiply_color(closest_sphere.color, ft_compute_lighting(point, closest_sphere)));
+	return (ft_multiply_color(closest_sphere.color, ft_compute_lighting(point, closest_sphere, lights)));
 }
