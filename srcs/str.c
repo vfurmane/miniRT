@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 12:04:57 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/05 12:50:10 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/05 14:19:08 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ char		**ft_split(const char *str, char sep)
 
 	i = 0;
 	j = 0;
+	if (str == NULL)
+		return (NULL);
 	if (!(arr = malloc((ft_count_words(str, sep) + 1) * sizeof(*arr))))
 		return (NULL);
 	while (str[i])
