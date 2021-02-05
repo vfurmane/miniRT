@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/04 19:26:24 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/05 09:14:24 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_vector	ft_canvas_to_viewport(int x, int y, int viewport, t_plan canvas)
 	return (direction);
 }
 
-int			main(void)
+int			main(int argc, char **argv)
 {
 	t_pixel		pixel;
 	t_plan		canvas;
@@ -37,11 +37,12 @@ int			main(void)
 	void		*mlx;
 	void		*win;
 	t_data		img;
+	t_scene		scene;
 
-	canvas.width = 960;
+	canvas.width = 1440;
 	canvas.height = 960;
 	canvas.distance = 1;
-	canvas.viewport = 1;
+	canvas.viewport = 2;
 	origin.x = 0;
 	origin.y = 0;
 	origin.z = 0;
@@ -51,6 +52,7 @@ int			main(void)
 	img.img = mlx_new_image(mlx, canvas.width, canvas.height);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 			&img.endian);
+	ft_parameters(argc, argv, &scene);
 	while (pixel.x < canvas.width / 2)
 	{
 		pixel.y = -canvas.height / 2;

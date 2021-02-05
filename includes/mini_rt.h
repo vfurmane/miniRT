@@ -15,8 +15,11 @@
 
 # include <stdio.h>
 # include <stdlib.h>
+# include <unistd.h>
 # include <math.h>
+# include <fcntl.h>
 # include "mlx.h"
+# include "get_next_line.h"
 
 # ifndef M_PI
 #  define M_PI	3.14159265358979323846
@@ -36,6 +39,13 @@ typedef struct	s_data {
 	int			line_length;
 	int			endian;
 }				t_data;
+
+typedef struct		s_lst
+{
+	int				fd;
+	char			*content;
+	struct s_list	*next;
+}					t_lst;
 
 typedef struct	s_vector
 {
@@ -61,17 +71,27 @@ typedef struct	s_plan
 
 typedef struct	s_sphere
 {
-	int			color;
-	int			radius;
-	t_vector	vector;
+	int				color;
+	int				radius;
+	t_vector		vector;
+	struct s_sphere	*next;
 }				t_sphere;
 
 typedef struct	s_light
 {
-	int			type;
-	double		intensity;
-	t_vector	vector;
+	int				color;
+	int				type;
+	double			intensity;
+	t_vector		vector;
+	struct s_light	*next;
 }				t_light;
+
+typedef struct	s_scene
+{
+	struct s_plan	plan;
+	t_sphere		*spheres;
+	t_light			*lights;
+}				t_scene;
 
 /*
 **	Functions
@@ -88,5 +108,18 @@ t_vector	ft_add_vector_double(t_vector v1, double nbr);
 t_vector	ft_substract_vector_double(t_vector v1, double nbr);
 t_vector	ft_multiply_vector_double(t_vector v1, double nbr);
 void		my_mlx_put_pixel(t_data *data, int x, int y, int color);
+void		ft_parameters(int argc, char **argv, t_scene *scene);
+void		ft_handle_resolution(char **args, t_scene *scene);
+void		ft_handle_resolution(char **args, t_scene *scene);
+void		ft_handle_ambiant(char **args, t_scene *scene);
+void		ft_handle_light(char **args, t_scene *scene);
+int			ft_atoi(const char *str);
+double		ft_atof(const char *str);
+int			ft_parse_color(const char *str);
+void		*ft_lstadd_front(void **lst, void *new);
+int			ft_strcmp(char *str1, char *str2);
+char		**ft_split(const char *str, char sep);
+t_light		*ft_new_ambiant(double intensity, const char *color);
+t_light		*ft_new_light(const char *vector, double intensity, const char *color);
 
 #endif
