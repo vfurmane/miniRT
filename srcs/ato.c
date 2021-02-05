@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 10:32:55 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/05 11:36:14 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/05 17:22:58 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		ft_atoi(const char *str)
 double	ft_atof(const char *str)
 {
 	int		i;
-	int		fact;
+	double	fact;
 	double	nbr;
 
 	if (str == NULL)

@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:13:35 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/05 14:40:47 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/05 17:59:27 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ int	ft_parse_line(char *line, t_scene *scene)
 		return (-1);
 	if (ft_strcmp(args[0], "R") == 0)
 		ft_handle_resolution(&args[1], scene);
-	else
+	else if (ft_strcmp(args[0], "A") == 0)
+		ft_handle_ambiant(&args[1], scene);
+	else if (ft_strcmp(args[0], "") != 0)
 		return (-1);
 	return (0);
 }

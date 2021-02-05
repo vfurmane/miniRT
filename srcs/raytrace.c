@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/04 19:50:02 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/05 17:53:21 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_intersect_ray_sphere(t_vector origin, t_vector direction,
 	}
 }
 
-double	ft_compute_lighting(t_vector point, t_sphere sphere, t_light lights[3])
+double	ft_compute_lighting(t_vector point, t_sphere sphere, t_scene scene)
 {
 	int			i;
 	double		normal_len;
@@ -48,24 +48,21 @@ double	ft_compute_lighting(t_vector point, t_sphere sphere, t_light lights[3])
 	double		n_dot_l;
 	t_vector	normal;
 	t_vector	light_ray;
+	t_bulb		*bulb;
 
 	i = 0;
-	intensity = 0;
-	while (i < 3)
+	intensity = scene.ambiant.intensity;
+	bulb = scene.lights;
+	while (bulb != NULL)
 	{
-		if (lights[i].type == AMBIANT)
-			intensity += lights[i].intensity;
-		else if (lights[i].type == POINT)
-		{
-			normal = ft_substract_vectors(point, sphere.vector);
-			normal_len = ft_vector_length(normal);
-			normal = ft_multiply_vector_double(normal, 1.0 / normal_len);
-			light_ray = ft_substract_vectors(lights[i].vector, point);
-			n_dot_l = ft_dot_product(normal, light_ray);
-			if (n_dot_l > 0)
-				intensity += lights[i].intensity * n_dot_l / (normal_len * ft_vector_length(light_ray));
-		}
-		i++;
+		normal = ft_substract_vectors(point, sphere.vector);
+		normal_len = ft_vector_length(normal);
+		normal = ft_multiply_vector_double(normal, 1.0 / normal_len);
+		light_ray = ft_substract_vectors(bulb->vector, point);
+		n_dot_l = ft_dot_product(normal, light_ray);
+		if (n_dot_l > 0)
+			intensity += bulb->light.intensity * n_dot_l / (normal_len * ft_vector_length(light_ray));
+		bulb = bulb->next;
 	}
 	if (intensity > 1)
 		intensity = 1;
@@ -84,7 +81,7 @@ double	ft_multiply_color(int color, double intensity)
 	return ((red << 16) | (green << 8) | blue);
 }
 
-int		ft_trace_ray(t_vector origin, t_vector direction, int t_min, int t_max)
+int		ft_trace_ray(t_vector origin, t_vector direction, int t_min, int t_max, t_scene scene)
 {
 	int			i;
 	double		closest_t;
@@ -92,7 +89,6 @@ int		ft_trace_ray(t_vector origin, t_vector direction, int t_min, int t_max)
 	t_vector	point;
 	t_sphere	spheres[3];
 	t_sphere	closest_sphere;
-	t_light		lights[3];
 
 	closest_sphere.color = -1;
 	spheres[0].vector.x = 0.25;
@@ -110,18 +106,6 @@ int		ft_trace_ray(t_vector origin, t_vector direction, int t_min, int t_max)
 	spheres[2].vector.z = 3;
 	spheres[2].radius = 1;
 	spheres[2].color = 0x0000FF;
-	lights[0].type = AMBIANT;
-	lights[0].intensity = 0.15;
-	lights[1].type = POINT;
-	lights[1].intensity = 0.5;
-	lights[1].vector.x = -2;
-	lights[1].vector.y = 1;
-	lights[2].vector.z = 1;
-	lights[2].type = POINT;
-	lights[2].intensity = 0.2;
-	lights[2].vector.x = 2;
-	lights[2].vector.y = -2;
-	lights[2].vector.z = 3;
 	i = 0;
 	closest_t = -1;
 	while (i < 3)
@@ -140,7 +124,7 @@ int		ft_trace_ray(t_vector origin, t_vector direction, int t_min, int t_max)
 		i++;
 	}
 	if (closest_sphere.color == -1)
-		return (ft_multiply_color(0x00FFFFFF, lights[0].intensity));
+		return (ft_multiply_color(0x00FFFFFF, scene.ambiant.intensity)); /* ambiant light instead of 0 */
 	point = ft_add_vectors(origin, ft_multiply_vector_double(direction, closest_t));
-	return (ft_multiply_color(closest_sphere.color, ft_compute_lighting(point, closest_sphere, lights)));
+	return (ft_multiply_color(closest_sphere.color, ft_compute_lighting(point, closest_sphere, scene)));
 }

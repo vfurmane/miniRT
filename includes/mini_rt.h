@@ -80,17 +80,22 @@ typedef struct	s_sphere
 typedef struct	s_light
 {
 	int				color;
-	int				type;
 	double			intensity;
-	t_vector		vector;
-	struct s_light	*next;
 }				t_light;
+
+typedef struct	s_bulb
+{
+	t_light			light;
+	t_vector		vector;
+	struct s_bulb	*next;
+}				t_bulb;
 
 typedef struct	s_scene
 {
 	struct s_plan	plan;
 	t_sphere		*spheres;
-	t_light			*lights;
+	t_light			ambiant;
+	t_bulb			*lights;
 }				t_scene;
 
 /*
@@ -100,7 +105,7 @@ typedef struct	s_scene
 double		ft_dot_product(t_vector v1, t_vector v2);
 double		ft_vector_length(t_vector vector);
 int			ft_trace_ray(t_vector origin, t_vector direction, int t_min,
-				int t_max);
+				int t_max, t_scene scene);
 t_vector	ft_add_vectors(t_vector v1, t_vector v2);
 t_vector	ft_substract_vectors(t_vector v1, t_vector v2);
 t_vector	ft_multiply_vectors(t_vector v1, t_vector v2);
@@ -120,7 +125,7 @@ int			ft_error(void);
 void		*ft_lstadd_front(void **lst, void *new);
 int			ft_strcmp(char *str1, char *str2);
 char		**ft_split(const char *str, char sep);
-t_light		*ft_new_ambiant(double intensity, const char *color);
-t_light		*ft_new_light(const char *vector, double intensity, const char *color);
+void		ft_set_ambiant(t_scene *scene, double intensity, const char *color);
+t_bulb		*ft_new_light(const char *vector, double intensity, const char *color);
 
 #endif

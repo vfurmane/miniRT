@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/05 14:32:31 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/05 16:45:05 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int			main(int argc, char **argv)
 		{
 			direction = ft_canvas_to_viewport(pixel.x, pixel.y, scene.plan.viewport,
 					scene.plan);
-			pixel.color = ft_trace_ray(origin, direction, 1, -1);
+			pixel.color = ft_trace_ray(origin, direction, 1, -1, scene);
 			my_mlx_put_pixel(&img, pixel.x + scene.plan.width / 2,
 					-pixel.y + scene.plan.height / 2, pixel.color);
 			pixel.y++;
