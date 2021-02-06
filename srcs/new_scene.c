@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 11:38:14 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/06 10:58:17 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/06 13:30:13 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_bulb		*ft_new_light(const char *vector, double intensity, const char *color)
 	light = malloc(sizeof(*light));
 	if (light == NULL)
 		return (NULL);
-	light->vector = ft_str_to_vector(vector);
+	light->center = ft_str_to_vector(vector);
 	light->light.intensity = intensity;
 	light->light.color = ft_parse_color(color);
 	light->next = NULL;

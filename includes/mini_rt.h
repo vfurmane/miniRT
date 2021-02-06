@@ -85,7 +85,7 @@ typedef struct	s_bulb
 {
 	struct s_bulb	*next;
 	t_light			light;
-	t_vector		vector;
+	t_vector		center;
 }				t_bulb;
 
 typedef struct	s_scene
