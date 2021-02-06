@@ -93,7 +93,7 @@ typedef struct	s_scene
 	struct s_plan	plan;
 	t_sphere		*spheres;
 	t_light			ambiant;
-	t_bulb			*lights;
+	t_bulb			*bulbs;
 }				t_scene;
 
 /*

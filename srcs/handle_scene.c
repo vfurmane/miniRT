@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:47:22 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/06 09:20:01 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/06 10:08:14 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,5 @@ void	ft_handle_light(char **args, t_scene *scene)
 	ret = ft_atof(args[1]);
 	if (ret < 0)
 		return ; /* return value */
-	ft_lstadd_front((void**)&scene->lights, (void*)ft_new_light(args[0], ret, args[2]));
+	ft_lstadd_front((void**)&scene->bulbs, (void*)ft_new_light(args[0], ret, args[2]));
 }
