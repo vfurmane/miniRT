@@ -68,23 +68,23 @@ typedef struct	s_sphere
 
 typedef struct	s_light
 {
-	int				color;
 	double			intensity;
+	int				color;
 }				t_light;
 
 typedef struct	s_bulb
 {
 	struct s_bulb	*next;
-	t_light			light;
 	t_vector		center;
+	t_light			light;
 }				t_bulb;
 
 typedef struct	s_scene
 {
 	struct s_plan	plan;
-	t_sphere		*spheres;
 	t_light			ambiant;
 	t_bulb			*bulbs;
+	t_sphere		*spheres;
 }				t_scene;
 
 /*
