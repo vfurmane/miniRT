@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/06 10:07:55 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/06 11:27:10 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,14 @@ double	ft_multiply_color(int color, double intensity)
 
 int		ft_trace_ray(t_vector origin, t_vector direction, int t_min, int t_max, t_scene scene)
 {
-	int			i;
 	double		closest_t;
 	double		t[2];
 	t_vector	point;
-	t_sphere	spheres[3];
+	t_sphere	*sphere;
 	t_sphere	closest_sphere;
 
 	closest_sphere.color = -1;
+	/*
 	spheres[0].vector.x = 0.25;
 	spheres[0].vector.y = -0.25;
 	spheres[0].vector.z = 3;
@@ -106,22 +106,23 @@ int		ft_trace_ray(t_vector origin, t_vector direction, int t_min, int t_max, t_s
 	spheres[2].vector.z = 3.2;
 	spheres[2].radius = 1;
 	spheres[2].color = 0x0000FF;
-	i = 0;
+	*/
 	closest_t = -1;
-	while (i < 3)
+	sphere = scene.spheres;
+	while (sphere != NULL)
 	{
-		ft_intersect_ray_sphere(origin, direction, spheres[i], t);
+		ft_intersect_ray_sphere(origin, direction, *sphere, t);
 		if (t[0] >= t_min && (t[0] <= t_max || t_max == -1) && (t[0] < closest_t || closest_t == -1))
 		{
 			closest_t = t[0];
-			closest_sphere = spheres[i];
+			closest_sphere = *sphere;
 		}
 		if (t[1] >= t_min && (t[1] <= t_max || t_max == -1) && (t[1] < closest_t || closest_t == -1))
 		{
 			closest_t = t[1];
-			closest_sphere = spheres[i];
+			closest_sphere = *sphere;
 		}
-		i++;
+		sphere = sphere->next;
 	}
 	if (closest_sphere.color == -1)
 		return (ft_multiply_color(0x00FFFFFF, scene.ambiant.intensity));

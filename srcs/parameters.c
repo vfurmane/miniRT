@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:13:35 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/06 10:08:24 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/06 11:05:07 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	ft_parse_line(char *line, t_scene *scene)
 		ft_handle_ambiant(&args[1], scene);
 	else if (ft_strcmp(args[0], "l") == 0)
 		ft_handle_light(&args[1], scene);
+	else if (ft_strcmp(args[0], "sp") == 0)
+		ft_handle_sphere(&args[1], scene);
 	else if (ft_strcmp(args[0], "") != 0)
 		return (-1);
 	return (0);
@@ -62,6 +64,7 @@ int	ft_parameters(int argc, char **argv, t_scene *scene)
 		return (-1);
 	i = 1;
 	scene->bulbs = NULL;
+	scene->spheres = NULL;
 	while (i < argc)
 	{
 		file = argv[i];

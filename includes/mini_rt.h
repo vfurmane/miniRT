@@ -70,9 +70,9 @@ typedef struct	s_plan
 typedef struct	s_sphere
 {
 	struct s_sphere	*next;
-	int				color;
-	int				radius;
 	t_vector		vector;
+	double			radius;
+	int				color;
 }				t_sphere;
 
 typedef struct	s_light
@@ -125,5 +125,8 @@ int			ft_strcmp(char *str1, char *str2);
 char		**ft_split(const char *str, char sep);
 void		ft_set_ambiant(t_scene *scene, double intensity, const char *color);
 t_bulb		*ft_new_light(const char *vector, double intensity, const char *color);
+t_sphere	*ft_new_sphere(char *vector, double diameter, char *color);
+void		ft_handle_sphere(char **args, t_scene *scene);
+t_vector	ft_str_to_vector(const char *str);
 
 #endif
