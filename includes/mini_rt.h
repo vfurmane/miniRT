@@ -14,19 +14,10 @@
 # define MINI_RT_H
 
 # include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
 # include <math.h>
 # include <fcntl.h>
 # include "mlx.h"
 # include "get_next_line.h"
-
-# ifndef M_PI
-#  define M_PI	3.14159265358979323846
-# endif
-
-# define AMBIANT	0
-# define POINT		1
 
 /*
 **	Structures
@@ -100,33 +91,46 @@ typedef struct	s_scene
 **	Functions
 */
 
-double		ft_dot_product(t_vector v1, t_vector v2);
-double		ft_vector_length(t_vector vector);
-int			ft_trace_ray(t_vector origin, t_vector direction, int t_min,
-				int t_max, t_scene scene);
-t_vector	ft_add_vectors(t_vector v1, t_vector v2);
-t_vector	ft_substract_vectors(t_vector v1, t_vector v2);
-t_vector	ft_multiply_vectors(t_vector v1, t_vector v2);
-t_vector	ft_add_vector_double(t_vector v1, double nbr);
-t_vector	ft_substract_vector_double(t_vector v1, double nbr);
-t_vector	ft_multiply_vector_double(t_vector v1, double nbr);
-void		my_mlx_put_pixel(t_data *data, int x, int y, int color);
-int			ft_parameters(int argc, char **argv, t_scene *scene);
-void		ft_handle_resolution(char **args, t_scene *scene);
+int			ft_atoi(const char *str);
+double		ft_atof(const char *str);
+
+int			ft_parse_color(const char *str);
+
 void		ft_handle_resolution(char **args, t_scene *scene);
 void		ft_handle_ambiant(char **args, t_scene *scene);
 void		ft_handle_light(char **args, t_scene *scene);
-int			ft_atoi(const char *str);
-double		ft_atof(const char *str);
-int			ft_parse_color(const char *str);
-int			ft_error(void);
+
+void		ft_handle_sphere(char **args, t_scene *scene);
+
 void		*ft_lstadd_front(void **lst, void *new);
-int			ft_strcmp(char *str1, char *str2);
-char		**ft_split(const char *str, char sep);
+
+void		my_mlx_put_pixel(t_data *data, int x, int y, int color);
+
 void		ft_set_ambiant(t_scene *scene, double intensity, const char *color);
 t_bulb		*ft_new_light(const char *vector, double intensity, const char *color);
 t_sphere	*ft_new_sphere(char *vector, double diameter, char *color);
-void		ft_handle_sphere(char **args, t_scene *scene);
+
+int			ft_parameters(int argc, char **argv, t_scene *scene);
+
+int			ft_error(void);
+
+int			ft_trace_ray(t_vector origin, t_vector direction, int t_min,
+				int t_max, t_scene scene);
+
+int			ft_strcmp(char *str1, char *str2);
+char		**ft_split(const char *str, char sep);
+
 t_vector	ft_str_to_vector(const char *str);
+
+t_vector	ft_add_vector_double(t_vector v1, double nbr);
+t_vector	ft_substract_vector_double(t_vector v1, double nbr);
+t_vector	ft_multiply_vector_double(t_vector v1, double nbr);
+
+t_vector	ft_add_vectors(t_vector v1, t_vector v2);
+t_vector	ft_substract_vectors(t_vector v1, t_vector v2);
+t_vector	ft_multiply_vectors(t_vector v1, t_vector v2);
+
+double		ft_dot_product(t_vector v1, t_vector v2);
+double		ft_vector_length(t_vector vector);
 
 #endif
