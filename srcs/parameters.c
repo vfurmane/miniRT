@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:13:35 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/05 18:00:46 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/06 09:55:44 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	ft_parameters(int argc, char **argv, t_scene *scene)
 	if (argc != 2)
 		return (-1);
 	i = 1;
+	scene->lights = NULL;
 	while (i < argc)
 	{
 		file = argv[i];

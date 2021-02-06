@@ -40,12 +40,10 @@ typedef struct	s_data {
 	int			endian;
 }				t_data;
 
-typedef struct		s_lst
+typedef struct		s_next
 {
-	int				fd;
-	char			*content;
-	struct s_list	*next;
-}					t_lst;
+	struct s_next	*next;
+}					t_next;
 
 typedef struct	s_vector
 {
@@ -71,10 +69,10 @@ typedef struct	s_plan
 
 typedef struct	s_sphere
 {
+	struct s_sphere	*next;
 	int				color;
 	int				radius;
 	t_vector		vector;
-	struct s_sphere	*next;
 }				t_sphere;
 
 typedef struct	s_light
@@ -85,9 +83,9 @@ typedef struct	s_light
 
 typedef struct	s_bulb
 {
+	struct s_bulb	*next;
 	t_light			light;
 	t_vector		vector;
-	struct s_bulb	*next;
 }				t_bulb;
 
 typedef struct	s_scene

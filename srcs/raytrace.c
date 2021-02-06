@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/05 17:53:21 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/06 09:58:48 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,12 @@ int		ft_trace_ray(t_vector origin, t_vector direction, int t_min, int t_max, t_s
 	spheres[0].color = 0x00FF0000;
 	spheres[1].vector.x = 0;
 	spheres[1].vector.y = 0.25;
-	spheres[1].vector.z = 3;
+	spheres[1].vector.z = 2.8;
 	spheres[1].radius = 1;
 	spheres[1].color = 0x0000FF00;
 	spheres[2].vector.x = -0.25;
 	spheres[2].vector.y = -0.25;
-	spheres[2].vector.z = 3;
+	spheres[2].vector.z = 3.2;
 	spheres[2].radius = 1;
 	spheres[2].color = 0x0000FF;
 	i = 0;
