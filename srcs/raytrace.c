@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/06 13:30:28 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/06 18:02:42 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,34 +81,34 @@ double	ft_multiply_color(int color, double intensity)
 	return ((red << 16) | (green << 8) | blue);
 }
 
-int		ft_trace_ray(t_vector origin, t_vector direction, int t_min, int t_max, t_scene scene)
+int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 {
-	double		closest_t;
-	double		t[2];
+	double		closest_inter;
+	double		inter[2];
 	t_vector	point;
 	t_sphere	*sphere;
 	t_sphere	closest_sphere;
 
 	closest_sphere.color = -1;
-	closest_t = -1;
+	closest_inter = -1;
 	sphere = scene.spheres;
 	while (sphere != NULL)
 	{
-		ft_intersect_ray_sphere(origin, direction, *sphere, t);
-		if (t[0] >= t_min && (t[0] <= t_max || t_max == -1) && (t[0] < closest_t || closest_t == -1))
+		ft_intersect_ray_sphere(origin, direction, *sphere, inter);
+		if (inter[0] >= scene.inter_min && (inter[0] <= scene.inter_max || scene.inter_max == -1) && (inter[0] < closest_inter || closest_inter == -1))
 		{
-			closest_t = t[0];
+			closest_inter = inter[0];
 			closest_sphere = *sphere;
 		}
-		if (t[1] >= t_min && (t[1] <= t_max || t_max == -1) && (t[1] < closest_t || closest_t == -1))
+		if (inter[1] >= scene.inter_min && (inter[1] <= scene.inter_max || scene.inter_max == -1) && (inter[1] < closest_inter || closest_inter == -1))
 		{
-			closest_t = t[1];
+			closest_inter = inter[1];
 			closest_sphere = *sphere;
 		}
 		sphere = sphere->next;
 	}
 	if (closest_sphere.color == -1)
 		return (ft_multiply_color(0x00FFFFFF, scene.ambiant.intensity));
-	point = ft_add_vectors(origin, ft_multiply_vector_double(direction, closest_t));
+	point = ft_add_vectors(origin, ft_multiply_vector_double(direction, closest_inter));
 	return (ft_multiply_color(closest_sphere.color, ft_compute_lighting(point, closest_sphere, scene)));
 }

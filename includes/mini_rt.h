@@ -82,6 +82,8 @@ typedef struct	s_bulb
 typedef struct	s_scene
 {
 	struct s_plan	plan;
+	double			inter_min;
+	double			inter_max;
 	t_light			ambiant;
 	t_bulb			*bulbs;
 	t_sphere		*spheres;
@@ -114,8 +116,7 @@ int			ft_parameters(int argc, char **argv, t_scene *scene);
 
 int			ft_error(void);
 
-int			ft_trace_ray(t_vector origin, t_vector direction, int t_min,
-				int t_max, t_scene scene);
+int			ft_trace_ray(t_vector origin, t_vector direction, t_scene scene);
 
 int			ft_strcmp(char *str1, char *str2);
 char		**ft_split(const char *str, char sep);
