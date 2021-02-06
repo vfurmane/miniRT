@@ -19,6 +19,10 @@
 # include "mlx.h"
 # include "get_next_line.h"
 
+# ifndef MINI_RT_BONUS
+#  define MINI_RT_BONUS 0
+# endif
+
 /*
 **	Structures
 */
