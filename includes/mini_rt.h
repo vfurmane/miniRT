@@ -106,7 +106,7 @@ void		ft_handle_sphere(char **args, t_scene *scene);
 
 void		*ft_lstadd_front(void **lst, void *new);
 
-void		my_mlx_put_pixel(t_data *data, int x, int y, int color);
+void		my_mlx_put_pixel(t_data *data, int x, int y, int color, int pixel, t_scene scene);
 
 void		ft_set_ambiant(t_scene *scene, double intensity, const char *color);
 t_bulb		*ft_new_light(const char *vector, double intensity, const char *color);

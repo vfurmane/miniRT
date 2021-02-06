@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/06 18:03:12 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/06 18:56:53 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int			main(int argc, char **argv)
 	void		*win;
 	t_data		img;
 	t_scene		scene;
+	int			pixel_size;
 
 	if (ft_parameters(argc, argv, &scene) == -1)
 		return (ft_error());
@@ -53,6 +54,7 @@ int			main(int argc, char **argv)
 	img.img = mlx_new_image(mlx, scene.plan.width, scene.plan.height);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 			&img.endian);
+	pixel_size = 1;
 	while (pixel.x < scene.plan.width / 2)
 	{
 		pixel.y = -scene.plan.height / 2;
@@ -62,10 +64,10 @@ int			main(int argc, char **argv)
 					scene.plan);
 			pixel.color = ft_trace_ray(origin, direction, scene);
 			my_mlx_put_pixel(&img, pixel.x + scene.plan.width / 2,
-					-pixel.y + scene.plan.height / 2, pixel.color);
-			pixel.y++;
+					-pixel.y + scene.plan.height / 2, pixel.color, pixel_size, scene);
+			pixel.y += pixel_size;
 		}
-		pixel.x++;
+		pixel.x += pixel_size;
 	}
 	mlx_put_image_to_window(mlx, win, img.img, 0, 0);
 	mlx_loop(mlx);
