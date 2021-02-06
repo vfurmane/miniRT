@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/06 12:25:20 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/06 13:28:54 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_intersect_ray_sphere(t_vector origin, t_vector direction,
 	t_vector	oc;
 	t_vector	center;
 
-	center = sphere.vector;
+	center = sphere.center;
 	radius = sphere.radius;
 	oc = ft_substract_vectors(origin, center);
 	k[0] = ft_dot_product(direction, direction);
@@ -55,7 +55,7 @@ double	ft_compute_lighting(t_vector point, t_sphere sphere, t_scene scene)
 	bulb = scene.bulbs;
 	while (bulb != NULL)
 	{
-		normal = ft_substract_vectors(point, sphere.vector);
+		normal = ft_substract_vectors(point, sphere.center);
 		normal_len = ft_vector_length(normal);
 		normal = ft_multiply_vector_double(normal, 1.0 / normal_len);
 		light_ray = ft_substract_vectors(bulb->vector, point);

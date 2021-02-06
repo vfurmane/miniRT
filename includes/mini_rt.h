@@ -70,7 +70,7 @@ typedef struct	s_plan
 typedef struct	s_sphere
 {
 	struct s_sphere	*next;
-	t_vector		vector;
+	t_vector		center;
 	double			radius;
 	int				color;
 }				t_sphere;
