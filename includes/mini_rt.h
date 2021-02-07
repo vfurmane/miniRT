@@ -102,6 +102,7 @@ double		ft_atof(const char *str);
 
 int			ft_parse_color(const char *str);
 int			ft_color_average(int colors[16]);
+double		ft_multiply_color(int color, double intensity);
 
 void		ft_handle_resolution(char **args, t_scene *scene);
 void		ft_handle_ambiant(char **args, t_scene *scene);

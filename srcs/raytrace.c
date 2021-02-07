@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/06 18:02:42 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/07 18:18:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,6 @@ double	ft_compute_lighting(t_vector point, t_sphere sphere, t_scene scene)
 	if (intensity > 1)
 		intensity = 1;
 	return (intensity);
-}
-
-double	ft_multiply_color(int color, double intensity)
-{
-	int	red;
-	int	green;
-	int	blue;
-
-	blue = (color & 255) * intensity;
-	green = ((color >> 8) & 255) * intensity;
-	red = ((color >> 16) & 255) * intensity;
-	return ((red << 16) | (green << 8) | blue);
 }
 
 int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
