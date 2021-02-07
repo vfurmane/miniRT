@@ -101,6 +101,7 @@ int			ft_atoi(const char *str);
 double		ft_atof(const char *str);
 
 int			ft_parse_color(const char *str);
+int			ft_color_average(int colors[16]);
 
 void		ft_handle_resolution(char **args, t_scene *scene);
 void		ft_handle_ambiant(char **args, t_scene *scene);

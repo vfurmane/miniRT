@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 11:44:04 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/06 13:34:40 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/07 18:14:07 by hintauh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,25 @@ int	ft_parse_color(const char *str)
 		i++;
 	}
 	return (color);
+}
+
+int			ft_color_average(int colors[16])
+{
+	int					i;
+	unsigned long int	red;
+	unsigned long int	green;
+	unsigned long int	blue;
+
+	i = 0;
+	red = 0;
+	green = 0;
+	blue = 0;
+	while (i < 16)
+	{
+		red += (unsigned long long int)((colors[i] & 16711680) >> 16) * (unsigned long long int)((colors[i] & 16711680) >> 16);
+		green += (unsigned long long int)((colors[i] & 65280) >> 8) * (unsigned long long int)((colors[i] & 65280) >> 8);
+		blue += (unsigned long long int)(colors[i] & 255) * (unsigned long long int)(colors[i] & 255);
+		i++;
+	}
+	return ((int)(sqrt(red / 16)) << 16 | (int)(sqrt(green / 16)) << 8 | (int)sqrt(blue / 16));
 }
