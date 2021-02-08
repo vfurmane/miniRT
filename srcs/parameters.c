@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:13:35 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/06 11:05:07 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/08 18:30:58 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 int	ft_parse_line(char *line, t_scene *scene)
 {
+	int		ret;
 	char	**args;
 
+	ret = 0;
 	args = ft_split(line, ' ');
 	if (args == NULL)
 		return (-1);
@@ -28,8 +30,9 @@ int	ft_parse_line(char *line, t_scene *scene)
 	else if (ft_strcmp(args[0], "sp") == 0)
 		ft_handle_sphere(&args[1], scene);
 	else if (ft_strcmp(args[0], "") != 0)
-		return (-1);
-	return (0);
+		ret = -1;
+	ft_free_split(args);
+	return (ret);
 }
 
 int	ft_parse_scene(char *file, t_scene *scene)

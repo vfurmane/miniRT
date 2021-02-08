@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new_shape.c                                        :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/06 10:22:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/08 18:39:48 by vfurmane         ###   ########.fr       */
+/*   Created: 2021/02/08 18:31:03 by vfurmane          #+#    #+#             */
+/*   Updated: 2021/02/08 18:32:50 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-t_sphere	*ft_new_sphere(char *vector, double diameter, char *color)
+void	ft_free_split(char **strarr)
 {
-	t_sphere	*sphere;
+	int	i;
 
-	sphere = malloc(sizeof(*sphere));
-	if (sphere == NULL)
-		ft_fatal_error("Failed to create a new sphere");
-	sphere->next = NULL;
-	sphere->center = ft_str_to_vector(vector);
-	sphere->radius = diameter / 2.0;
-	sphere->color = ft_parse_color(color);
-	return (sphere);
+	i = 0;
+	while (strarr[i] != NULL)
+		free(strarr[i++]);
+	free(strarr);
 }

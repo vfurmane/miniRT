@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 12:10:45 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/05 12:55:30 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/08 19:12:04 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ char	*ft_splitc(char **str)
 	str_len = 0;
 	while ((*str)[str_len] && (*str)[str_len] != '\n')
 		str_len++;
-	if ((new_str = malloc((str_len + 1) * sizeof(*new_str))) == NULL)
+	new_str = malloc((str_len + 1) * sizeof(*new_str));
+	if (new_str == NULL)
 		return (NULL);
 	i = -1;
 	while (++i < str_len)

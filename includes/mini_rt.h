@@ -104,6 +104,8 @@ int			ft_parse_color(const char *str);
 int			ft_color_average(int colors[16]);
 double		ft_multiply_color(int color, double intensity);
 
+void		ft_free_split(char **strarr);
+
 void		ft_handle_resolution(char **args, t_scene *scene);
 void		ft_handle_ambiant(char **args, t_scene *scene);
 void		ft_handle_light(char **args, t_scene *scene);
@@ -120,6 +122,7 @@ t_sphere	*ft_new_sphere(char *vector, double diameter, char *color);
 
 int			ft_parameters(int argc, char **argv, t_scene *scene);
 
+void		ft_fatal_error(const char *str);
 int			ft_error(void);
 
 int			ft_trace_ray(t_vector origin, t_vector direction, t_scene scene);
