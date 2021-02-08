@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/07 18:14:01 by hintauh          ###   ########.fr       */
+/*   Updated: 2021/02/08 17:54:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,10 @@ int			main(int argc, char **argv)
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 			&img.endian);
 	pixel_size = 1;
-	while (pixel.x < scene.plan.width / 2)
+	while (pixel.x <= scene.plan.width / 2)
 	{
-		pixel.y = -scene.plan.height / 2;
-		while (pixel.y < scene.plan.height / 2)
+		pixel.y = -scene.plan.height / 2 + 1;
+		while (pixel.y <= scene.plan.height / 2)
 		{
 #if MINI_RT_BONUS == 1
 			pixel.color = 0;
