@@ -106,11 +106,11 @@ double		ft_multiply_color(int color, double intensity);
 
 void		ft_free_split(char **strarr);
 
-void		ft_handle_resolution(char **args, t_scene *scene);
-void		ft_handle_ambiant(char **args, t_scene *scene);
-void		ft_handle_light(char **args, t_scene *scene);
+int			ft_handle_resolution(char **args, t_scene *scene);
+int			ft_handle_ambiant(char **args, t_scene *scene);
+int			ft_handle_light(char **args, t_scene *scene);
 
-void		ft_handle_sphere(char **args, t_scene *scene);
+int			ft_handle_sphere(char **args, t_scene *scene);
 
 void		*ft_lstadd_front(void **lst, void *new);
 
