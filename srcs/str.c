@@ -6,13 +6,13 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 12:04:57 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/08 19:28:43 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/08 21:42:57 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-int	ft_strcmp(char *str1, char *str2)
+int			ft_strcmp(char *str1, char *str2)
 {
 	size_t	i;
 

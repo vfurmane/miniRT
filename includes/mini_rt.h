@@ -100,6 +100,11 @@ typedef struct	s_scene
 int			ft_atoi(const char *str);
 double		ft_atof(const char *str);
 
+t_vector	ft_canvas_to_viewport_aa(t_pixel pixel, int viewport, t_plan canvas,
+				double *aa);
+t_vector	ft_canvas_to_viewport(t_pixel pixel, int viewport, t_plan canvas);
+t_pixel		ft_translate_pixel(t_pixel pixel, t_plan plan);
+
 int			ft_parse_color(const char *str);
 int			ft_color_average(int colors[16]);
 double		ft_multiply_color(int color, double intensity);
@@ -114,7 +119,7 @@ int			ft_handle_sphere(char **args, t_scene *scene);
 
 void		*ft_lstadd_front(void **lst, void *new);
 
-void		my_mlx_put_pixel(t_data *data, int x, int y, int color, int pixel, t_scene scene);
+void		my_mlx_put_pixel(t_data *data, t_pixel pixel, int pixel_size, t_scene scene);
 
 void		ft_set_ambiant(t_scene *scene, double intensity, const char *color);
 t_bulb		*ft_new_light(const char *vector, double intensity, const char *color);

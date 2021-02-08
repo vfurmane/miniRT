@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 11:38:14 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/08 18:38:36 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/08 21:42:39 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void		ft_set_ambiant(t_scene *scene, double intensity, const char *color)
 	scene->ambiant.color = ft_parse_color(color);
 }
 
-t_bulb		*ft_new_light(const char *vector, double intensity, const char *color)
+t_bulb		*ft_new_light(const char *vector, double intensity,
+		const char *color)
 {
 	t_bulb	*light;
 

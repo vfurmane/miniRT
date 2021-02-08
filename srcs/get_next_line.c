@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 12:09:01 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/05 12:56:58 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/08 21:44:14 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static int		ft_read(int fd, t_list *elm)
 	return (result);
 }
 
-int			get_next_line(int fd, char **line)
+int				get_next_line(int fd, char **line)
 {
 	static t_list	*line_list;
 	int				result;

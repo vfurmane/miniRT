@@ -6,13 +6,13 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 11:44:04 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/08 16:20:51 by marvin           ###   ########.fr       */
+/*   Updated: 2021/02/08 21:43:53 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-int	ft_parse_color(const char *str)
+int		ft_parse_color(const char *str)
 {
 	int				i;
 	int				color;
@@ -36,7 +36,7 @@ int	ft_parse_color(const char *str)
 	return (color);
 }
 
-int			ft_color_average(int colors[16])
+int		ft_color_average(int colors[16])
 {
 	int				i;
 	unsigned int	red;
@@ -49,12 +49,16 @@ int			ft_color_average(int colors[16])
 	blue = 0;
 	while (i < 16)
 	{
-		red += (unsigned int)((colors[i] & 16711680) >> 16) * (unsigned int)((colors[i] & 16711680) >> 16);
-		green += (unsigned int)((colors[i] & 65280) >> 8) * (unsigned int)((colors[i] & 65280) >> 8);
-		blue += (unsigned int)(colors[i] & 255) * (unsigned int)(colors[i] & 255);
+		red += (unsigned int)((colors[i] & 16711680) >> 16) *
+			(unsigned int)((colors[i] & 16711680) >> 16);
+		green += (unsigned int)((colors[i] & 65280) >> 8) *
+			(unsigned int)((colors[i] & 65280) >> 8);
+		blue += (unsigned int)(colors[i] & 255) *
+			(unsigned int)(colors[i] & 255);
 		i++;
 	}
-	return ((int)(sqrt(red / 16)) << 16 | (int)(sqrt(green / 16)) << 8 | (int)sqrt(blue / 16));
+	return ((int)(sqrt(red / 16)) << 16 | (int)(sqrt(green / 16)) << 8 |
+			(int)sqrt(blue / 16));
 }
 
 double	ft_multiply_color(int color, double intensity)

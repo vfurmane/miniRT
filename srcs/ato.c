@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 10:32:55 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/06 12:02:37 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/08 21:22:36 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,15 @@ double	ft_atof(const char *str)
 		i++;
 	}
 	nbr = 0;
-	while (str[i] >= '0' && str[i] <= '9')
+	while ((str[i] >= '0' && str[i] <= '9') ||
+			(str[i] == '.' && (fact == -1 || fact == 1)))
 	{
+		if ((fact > 0 && fact < 1) || (fact > -1 && fact < 0))
+			fact /= 10;
+		if (str[i] == '.')
+			fact /= 10 + i++ * 0;
 		nbr = nbr * 10 + str[i] - '0';
 		i++;
-	}
-	if (str[i++] == '.')
-	{
-		while (str[i] >= '0' && str[i] <= '9')
-		{
-			nbr = nbr * 10 + str[i] - '0';
-			fact /= 10;
-			i++;
-		}
 	}
 	return (nbr * fact);
 }

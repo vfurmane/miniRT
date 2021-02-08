@@ -6,43 +6,11 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/08 17:54:48 by marvin           ###   ########.fr       */
+/*   Updated: 2021/02/08 21:49:20 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
-
-t_vector	ft_canvas_to_viewport_aa(int x, int y, int viewport, t_plan canvas, double aa[32], int i)
-{
-	double		d_viewport;
-	double		d_width;
-	double		d_height;
-	t_vector	direction;
-
-	d_viewport = (double)viewport;
-	d_width = (double)canvas.width;
-	d_height = (double)canvas.height;
-	direction.x = (x + aa[2 * i]) * d_viewport / d_width;
-	direction.y = (y + aa[2 * i + 1]) * d_viewport / d_width;
-	direction.z = (double)canvas.distance;
-	return (direction);
-}
-
-t_vector	ft_canvas_to_viewport(int x, int y, int viewport, t_plan canvas)
-{
-	double		d_viewport;
-	double		d_width;
-	double		d_height;
-	t_vector	direction;
-
-	d_viewport = (double)viewport;
-	d_width = (double)canvas.width;
-	d_height = (double)canvas.height;
-	direction.x = x * d_viewport / d_width;
-	direction.y = y * d_viewport / d_width;
-	direction.z = (double)canvas.distance;
-	return (direction);
-}
 
 int			main(int argc, char **argv)
 {
@@ -102,19 +70,19 @@ int			main(int argc, char **argv)
 			i = 0;
 			while (i < 16)
 			{
-				direction = ft_canvas_to_viewport_aa(pixel.x, pixel.y, scene.plan.viewport,
-						scene.plan, aa, i);
+				direction = ft_canvas_to_viewport_aa(pixel, scene.plan.viewport,
+						scene.plan, &aa[i]);
 				colors[i] = ft_trace_ray(origin, direction, scene);
 				i++;
 			}
 			pixel.color = ft_color_average(colors);
 #else
-			direction = ft_canvas_to_viewport(pixel.x, pixel.y, scene.plan.viewport,
+			direction = ft_canvas_to_viewport(pixel, scene.plan.viewport,
 					scene.plan);
 			pixel.color = ft_trace_ray(origin, direction, scene);
 #endif
-			my_mlx_put_pixel(&img, pixel.x + scene.plan.width / 2,
-					-pixel.y + scene.plan.height / 2, pixel.color, pixel_size, scene);
+			my_mlx_put_pixel(&img, ft_translate_pixel(pixel, scene.plan),
+					pixel_size, scene);
 			pixel.y += pixel_size;
 		}
 		pixel.x += pixel_size;

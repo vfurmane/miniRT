@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/08 18:01:38 by marvin           ###   ########.fr       */
+/*   Updated: 2021/02/08 21:49:39 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,12 @@ void	ft_intersect_ray_sphere(t_vector origin, t_vector direction,
 
 double	ft_compute_lighting(t_vector point, t_sphere *sphere, t_scene scene)
 {
-	int			i;
 	double		normal_len;
-	double		intensity;
 	double		n_dot_l;
 	t_vector	normal;
 	t_vector	light_ray;
 	t_bulb		*bulb;
 
-	i = 0;
-	intensity = scene.ambiant.intensity;
 	bulb = scene.bulbs;
 	while (bulb != NULL)
 	{
@@ -61,12 +57,13 @@ double	ft_compute_lighting(t_vector point, t_sphere *sphere, t_scene scene)
 		light_ray = ft_substract_vectors(bulb->center, point);
 		n_dot_l = ft_dot_product(normal, light_ray);
 		if (n_dot_l > 0)
-			intensity += bulb->light.intensity * n_dot_l / (normal_len * ft_vector_length(light_ray));
+			scene.ambiant.intensity += bulb->light.intensity * n_dot_l /
+				(normal_len * ft_vector_length(light_ray));
 		bulb = bulb->next;
 	}
-	if (intensity > 1)
-		intensity = 1;
-	return (intensity);
+	if (scene.ambiant.intensity > 1)
+		scene.ambiant.intensity = 1;
+	return (scene.ambiant.intensity);
 }
 
 int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
@@ -83,12 +80,16 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 	while (sphere != NULL)
 	{
 		ft_intersect_ray_sphere(origin, direction, sphere, inter);
-		if (inter[0] >= scene.inter_min && (inter[0] <= scene.inter_max || scene.inter_max == -1) && (inter[0] < closest_inter || closest_inter == -1))
+		if (inter[0] >= scene.inter_min &&
+				(inter[0] <= scene.inter_max || scene.inter_max == -1) &&
+				(inter[0] < closest_inter || closest_inter == -1))
 		{
 			closest_inter = inter[0];
 			closest_sphere = sphere;
 		}
-		if (inter[1] >= scene.inter_min && (inter[1] <= scene.inter_max || scene.inter_max == -1) && (inter[1] < closest_inter || closest_inter == -1))
+		if (inter[1] >= scene.inter_min &&
+				(inter[1] <= scene.inter_max || scene.inter_max == -1) &&
+				(inter[1] < closest_inter || closest_inter == -1))
 		{
 			closest_inter = inter[1];
 			closest_sphere = sphere;
@@ -97,6 +98,8 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 	}
 	if (closest_sphere == NULL)
 		return (ft_multiply_color(0x00FFFFFF, scene.ambiant.intensity));
-	point = ft_add_vectors(origin, ft_multiply_vector_double(direction, closest_inter));
-	return (ft_multiply_color(closest_sphere->color, ft_compute_lighting(point, closest_sphere, scene)));
+	point = ft_add_vectors(origin, ft_multiply_vector_double(direction,
+				closest_inter));
+	return (ft_multiply_color(closest_sphere->color,
+				ft_compute_lighting(point, closest_sphere, scene)));
 }
