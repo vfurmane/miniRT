@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:13:35 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/08 19:21:42 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/08 19:23:42 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_parse_line(char *line, t_scene *scene)
 	char	**args;
 
 	ret = 0;
-	args = ft_split(line, ' ');
+	args = ft_split(line, "\t\v\f\r ");
 	if (args == NULL)
 		return (-1);
 	if (ft_strcmp(args[0], "R") == 0)

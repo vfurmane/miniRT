@@ -128,7 +128,7 @@ int			ft_error(void);
 int			ft_trace_ray(t_vector origin, t_vector direction, t_scene scene);
 
 int			ft_strcmp(char *str1, char *str2);
-char		**ft_split(const char *str, char sep);
+char		**ft_split(const char *str, char *sep);
 
 t_vector	ft_str_to_vector(const char *str);
 

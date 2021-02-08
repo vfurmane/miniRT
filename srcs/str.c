@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 12:04:57 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/08 19:19:24 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/08 19:28:43 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_strcmp(char *str1, char *str2)
 	return (0);
 }
 
-static int	ft_count_words(const char *str, char sep)
+static int	ft_count_words(const char *str, char *sep)
 {
 	int	i;
 	int	count;
@@ -37,32 +37,32 @@ static int	ft_count_words(const char *str, char sep)
 	count = 0;
 	while (str[i])
 	{
-		while (str[i] == sep)
+		while (ft_strchr(sep, str[i]) != NULL)
 			i++;
 		if (str[i])
 			count++;
 		else
 			break ;
-		while (str[i] && str[i] != sep)
+		while (str[i] && ft_strchr(sep, str[i]) == NULL)
 			i++;
 	}
 	return (count);
 }
 
-static char	*ft_strcdup(const char *str, char sep)
+static char	*ft_strcdup(const char *str, char *sep)
 {
 	int		i;
 	int		str_len;
 	char	*new_str;
 
 	str_len = 0;
-	while (str[str_len] && str[str_len] != sep)
+	while (str[str_len] && ft_strchr(sep, str[str_len]) == NULL)
 		str_len++;
 	new_str = malloc(sizeof(*new_str) * (str_len + 1));
 	if (new_str == NULL)
 		ft_fatal_error("Failed to duplicate the string");
 	i = 0;
-	while (str[i] && str[i] != sep)
+	while (str[i] && ft_strchr(sep, str[i]) == NULL)
 	{
 		new_str[i] = str[i];
 		i++;
@@ -71,7 +71,7 @@ static char	*ft_strcdup(const char *str, char sep)
 	return (new_str);
 }
 
-char		**ft_split(const char *str, char sep)
+char		**ft_split(const char *str, char *sep)
 {
 	int		i;
 	int		j;
@@ -86,13 +86,13 @@ char		**ft_split(const char *str, char sep)
 		ft_fatal_error("Failed to allocate a string array");
 	while (str[i])
 	{
-		while (str[i] == sep)
+		while (ft_strchr(sep, str[i]) != NULL)
 			i++;
 		if (str[i])
 			arr[j++] = ft_strcdup(&str[i], sep);
 		else
 			break ;
-		while (str[i] && str[i] != sep)
+		while (str[i] && ft_strchr(sep, str[i]) == NULL)
 			i++;
 	}
 	arr[j] = NULL;
