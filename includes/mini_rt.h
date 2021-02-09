@@ -70,6 +70,16 @@ typedef struct	s_sphere
 	int				color;
 }				t_sphere;
 
+typedef struct	s_cylinder
+{
+	struct s_cylinder	*next;
+	t_vector			center;
+	double				radius;
+	t_vector			direction;
+	double				height;
+	int					color;
+}				t_cylinder;
+
 typedef struct	s_light
 {
 	double			intensity;
@@ -91,6 +101,7 @@ typedef struct	s_scene
 	t_light			ambiant;
 	t_bulb			*bulbs;
 	t_sphere		*spheres;
+	t_cylinder		*cylinders;
 }				t_scene;
 
 /*

@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:13:35 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/08 19:51:37 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/09 12:51:45 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	ft_parameters(int argc, char **argv, t_scene *scene)
 	i = 1;
 	scene->bulbs = NULL;
 	scene->spheres = NULL;
+	scene->cylinders = NULL;
 	while (i < argc)
 	{
 		file = argv[i];
