@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/10 12:18:01 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/10 14:40:27 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ft_intersect_ray_cylinder(t_vector origin, t_vector direction,
 	k[1] = 2 * ft_dot_product(ft_substract_vectors(direction, ft_multiply_vector_double(cylinder->direction, ft_dot_product(direction, cylinder->direction))), ft_substract_vectors(oc, ft_multiply_vector_double(cylinder->direction, ft_dot_product(oc, cylinder->direction))));
 	k[2] = ft_dot_product(ft_substract_vectors(oc, ft_multiply_vector_double(cylinder->direction, ft_dot_product(oc, cylinder->direction))), ft_substract_vectors(oc, ft_multiply_vector_double(cylinder->direction, ft_dot_product(oc, cylinder->direction)))) - radius * radius;
 	discriminant = k[1] * k[1] - (4 * k[0] * k[2]);
-	if (discriminant < 0)
+	if (discriminant < 0 || (ft_dot_product(cylinder->direction, ft_substract_vectors(direction, cylinder->center)) <= 0 || ft_dot_product(cylinder->direction, ft_substract_vectors(direction, ft_add_vectors(cylinder->center, ft_multiply_vector_double(cylinder->direction, cylinder->height)))) >= 0))
 	{
 		t[0] = -1;
 		t[1] = -1;
@@ -135,7 +135,7 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 	scene.cylinders->next = NULL;
 	scene.cylinders->center.x = 0;
 	scene.cylinders->center.y = 0;
-	scene.cylinders->center.z = 5;
+	scene.cylinders->center.z = 6;
 	scene.cylinders->radius = 1;
 	scene.cylinders->direction.x = 1;
 	scene.cylinders->direction.y = 1;
