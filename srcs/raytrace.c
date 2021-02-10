@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/09 19:04:52 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/10 12:18:01 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ void	ft_intersect_ray_cylinder(t_vector origin, t_vector direction,
 	double		k[3];
 	t_vector	oc;
 	t_vector	center;
-
+	
 	center = cylinder->center;
 	radius = cylinder->radius;
 	oc = ft_substract_vectors(origin, center);
-	k[0] = direction.x * direction.x + direction.z * direction.z;
-	k[1] = 2 * oc.x * direction.x + 2 * oc.z * direction.z;
-	k[2] = oc.x * oc.x + oc.z * oc.z - radius * radius;
+	k[0] = ft_dot_product(ft_substract_vectors(direction, ft_multiply_vector_double(cylinder->direction, ft_dot_product(direction, cylinder->direction))), ft_substract_vectors(direction, ft_multiply_vector_double(cylinder->direction, ft_dot_product(direction, cylinder->direction))));
+	k[1] = 2 * ft_dot_product(ft_substract_vectors(direction, ft_multiply_vector_double(cylinder->direction, ft_dot_product(direction, cylinder->direction))), ft_substract_vectors(oc, ft_multiply_vector_double(cylinder->direction, ft_dot_product(oc, cylinder->direction))));
+	k[2] = ft_dot_product(ft_substract_vectors(oc, ft_multiply_vector_double(cylinder->direction, ft_dot_product(oc, cylinder->direction))), ft_substract_vectors(oc, ft_multiply_vector_double(cylinder->direction, ft_dot_product(oc, cylinder->direction)))) - radius * radius;
 	discriminant = k[1] * k[1] - (4 * k[0] * k[2]);
 	if (discriminant < 0)
 	{
@@ -66,7 +66,6 @@ void	ft_intersect_ray_cylinder(t_vector origin, t_vector direction,
 		t[0] = (-k[1] + sqrt(discriminant)) / (2 * k[0]);
 		t[1] = (-k[1] - sqrt(discriminant)) / (2 * k[0]);
 	}
-
 }
 
 double	ft_compute_lighting(t_vector point, t_vector center, t_scene scene)
@@ -138,17 +137,18 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 	scene.cylinders->center.y = 0;
 	scene.cylinders->center.z = 5;
 	scene.cylinders->radius = 1;
-	scene.cylinders->direction.x = 0;
+	scene.cylinders->direction.x = 1;
 	scene.cylinders->direction.y = 1;
-	scene.cylinders->direction.z = 5;
+	scene.cylinders->direction.z = 0;
 	scene.cylinders->color = 0x00FFFF00;
-	scene.cylinders->height = 2;
+	scene.cylinders->height = 1;
 
 	/* ===== DELETE ===== */
 
 	cylinder = scene.cylinders;
 	while (cylinder != NULL)
 	{
+		cylinder->direction = ft_normalize_vector(cylinder->direction);
 		ft_intersect_ray_cylinder(origin, direction, cylinder, inter);
 		if (inter[0] >= scene.inter_min &&
 				(inter[0] <= scene.inter_max || scene.inter_max == -1) &&

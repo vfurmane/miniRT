@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/09 13:08:33 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/10 09:46:28 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int			main(int argc, char **argv)
 	scene.inter_min = 1;
 	scene.inter_max = -1;
 	scene.plan.distance = 1;
-	scene.plan.viewport = 2;
+	scene.plan.viewport = 5;
 	origin.x = 0;
 	origin.y = 0;
 	origin.z = 0;

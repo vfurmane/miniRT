@@ -158,5 +158,6 @@ t_vector	ft_multiply_vectors(t_vector v1, t_vector v2);
 
 double		ft_dot_product(t_vector v1, t_vector v2);
 double		ft_vector_length(t_vector vector);
+t_vector	ft_normalize_vector(t_vector vector);
 
 #endif
