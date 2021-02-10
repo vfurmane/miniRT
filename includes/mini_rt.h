@@ -139,6 +139,7 @@ int			ft_handle_ambiant(char **args, t_scene *scene);
 int			ft_handle_light(char **args, t_scene *scene);
 
 int			ft_handle_sphere(char **args, t_scene *scene);
+int			ft_handle_cylinder(char **args, t_scene *scene);
 
 void		*ft_lstadd_front(void **lst, void *new);
 
@@ -146,7 +147,9 @@ void		my_mlx_put_pixel(t_data *data, t_pixel pixel, int pixel_size, t_scene scen
 
 void		ft_set_ambiant(t_scene *scene, double intensity, const char *color);
 t_bulb		*ft_new_light(const char *vector, double intensity, const char *color);
+
 t_sphere	*ft_new_sphere(char *vector, double diameter, char *color);
+t_cylinder	*ft_new_cylinder(char **vector, double diameter, double height, char *color);
 
 int			ft_parameters(int argc, char **argv, t_scene *scene);
 

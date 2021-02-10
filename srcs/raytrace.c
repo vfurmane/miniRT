@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/10 19:56:10 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/10 20:07:01 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,22 +142,6 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 		}
 		sphere = sphere->next;
 	}
-
-	/* ===== DELETE ===== */
-
-	scene.cylinders = malloc(sizeof(*scene.cylinders));
-	scene.cylinders->next = NULL;
-	scene.cylinders->center.x = 0;
-	scene.cylinders->center.y = -1;
-	scene.cylinders->center.z = 5;
-	scene.cylinders->radius = 1;
-	scene.cylinders->direction.x = 0;
-	scene.cylinders->direction.y = 1;
-	scene.cylinders->direction.z = 0;
-	scene.cylinders->color = 0x00FFFF00;
-	scene.cylinders->height = 2;
-
-	/* ===== DELETE ===== */
 
 	cylinder = scene.cylinders;
 	while (cylinder != NULL)

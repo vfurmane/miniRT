@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:13:35 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/09 12:51:45 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/10 20:01:47 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	ft_parse_line(char *line, t_scene *scene)
 		ret = ft_handle_light(&args[1], scene);
 	else if (ft_strcmp(args[0], "sp") == 0)
 		ret = ft_handle_sphere(&args[1], scene);
+	else if (ft_strcmp(args[0], "cy") == 0)
+		ret = ft_handle_cylinder(&args[1], scene);
 	else if (args[0] != NULL)
 		ret = -1;
 	ft_free_split(args);
