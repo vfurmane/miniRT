@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/10 14:40:27 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/10 19:56:10 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	ft_intersect_ray_cylinder(t_vector origin, t_vector direction,
 	}
 }
 
-double	ft_compute_lighting(t_vector point, t_vector center, t_scene scene)
+double	ft_compute_lighting(t_vector point, t_obj obj, t_scene scene)
 {
 	double		normal_len;
 	double		n_dot_l;
@@ -79,9 +79,18 @@ double	ft_compute_lighting(t_vector point, t_vector center, t_scene scene)
 	bulb = scene.bulbs;
 	while (bulb != NULL)
 	{
-		normal = ft_substract_vectors(point, center);
-		normal_len = ft_vector_length(normal);
-		normal = ft_multiply_vector_double(normal, 1.0 / normal_len);
+		if (obj.type == SPHERE)
+		{
+			normal = ft_substract_vectors(point, ((t_sphere*)obj.ptr)->center);
+			normal_len = ft_vector_length(normal);
+			normal = ft_multiply_vector_double(normal, 1.0 / normal_len);
+		}
+		else if (obj.type == CYLINDER)
+		{
+			normal = ft_substract_vectors(point, ft_add_vectors(((t_cylinder*)obj.ptr)->center, ft_multiply_vector_double(((t_cylinder*)obj.ptr)->direction, ft_dot_product(ft_substract_vectors(point, ((t_cylinder*)obj.ptr)->center), ((t_cylinder*)obj.ptr)->direction))));
+			normal_len = ft_vector_length(normal);
+			normal = ft_multiply_vector_double(normal, 1.0 / normal_len);
+		}
 		light_ray = ft_substract_vectors(bulb->center, point);
 		n_dot_l = ft_dot_product(normal, light_ray);
 		if (n_dot_l > 0)
@@ -103,6 +112,7 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 	t_cylinder	*cylinder;
 	int			color;
 	t_vector	center;
+	t_obj		obj;
 
 	color = -1;
 	closest_inter = -1;
@@ -117,6 +127,8 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 			closest_inter = inter[0];
 			color = sphere->color;
 			center = sphere->center;
+			obj.type = SPHERE;
+			obj.ptr = sphere;
 		}
 		if (inter[1] >= scene.inter_min &&
 				(inter[1] <= scene.inter_max || scene.inter_max == -1) &&
@@ -125,6 +137,8 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 			closest_inter = inter[1];
 			color = sphere->color;
 			center = sphere->center;
+			obj.type = SPHERE;
+			obj.ptr = sphere;
 		}
 		sphere = sphere->next;
 	}
@@ -134,14 +148,14 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 	scene.cylinders = malloc(sizeof(*scene.cylinders));
 	scene.cylinders->next = NULL;
 	scene.cylinders->center.x = 0;
-	scene.cylinders->center.y = 0;
-	scene.cylinders->center.z = 6;
+	scene.cylinders->center.y = -1;
+	scene.cylinders->center.z = 5;
 	scene.cylinders->radius = 1;
-	scene.cylinders->direction.x = 1;
+	scene.cylinders->direction.x = 0;
 	scene.cylinders->direction.y = 1;
 	scene.cylinders->direction.z = 0;
 	scene.cylinders->color = 0x00FFFF00;
-	scene.cylinders->height = 1;
+	scene.cylinders->height = 2;
 
 	/* ===== DELETE ===== */
 
@@ -157,6 +171,8 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 			closest_inter = inter[0];
 			color = cylinder->color;
 			center = cylinder->center;
+			obj.type = CYLINDER;
+			obj.ptr = cylinder;
 		}
 		if (inter[1] >= scene.inter_min &&
 				(inter[1] <= scene.inter_max || scene.inter_max == -1) &&
@@ -165,6 +181,8 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 			closest_inter = inter[1];
 			color = cylinder->color;
 			center = cylinder->center;
+			obj.type = CYLINDER;
+			obj.ptr = cylinder;
 		}
 		cylinder = cylinder->next;
 	}
@@ -173,5 +191,5 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 	point = ft_add_vectors(origin, ft_multiply_vector_double(direction,
 				closest_inter));
 	return (ft_multiply_color(color,
-				ft_compute_lighting(point, center, scene)));
+				ft_compute_lighting(point, obj, scene)));
 }

@@ -40,6 +40,18 @@ typedef struct		s_next
 	struct s_next	*next;
 }					t_next;
 
+typedef enum		e_obj_type
+{
+	SPHERE,
+	CYLINDER
+}					t_obj_type;
+
+typedef struct		s_obj
+{
+	t_obj_type	type;
+	void		*ptr;
+}					t_obj;
+
 typedef struct	s_vector
 {
 	double	x;
