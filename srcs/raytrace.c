@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/10 20:07:01 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/11 12:39:36 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_intersect_ray_sphere(t_vector origin, t_vector direction,
 		t_sphere *sphere, double t[2])
 {
-	int			radius;
+	double		radius;
 	double		discriminant;
 	double		k[3];
 	t_vector	oc;
@@ -43,7 +43,7 @@ void	ft_intersect_ray_sphere(t_vector origin, t_vector direction,
 void	ft_intersect_ray_cylinder(t_vector origin, t_vector direction,
 		t_cylinder *cylinder, double t[2])
 {
-	int			radius;
+	double		radius;
 	double		discriminant;
 	double		k[3];
 	t_vector	oc;
@@ -52,9 +52,9 @@ void	ft_intersect_ray_cylinder(t_vector origin, t_vector direction,
 	center = cylinder->center;
 	radius = cylinder->radius;
 	oc = ft_substract_vectors(origin, center);
-	k[0] = ft_dot_product(ft_substract_vectors(direction, ft_multiply_vector_double(cylinder->direction, ft_dot_product(direction, cylinder->direction))), ft_substract_vectors(direction, ft_multiply_vector_double(cylinder->direction, ft_dot_product(direction, cylinder->direction))));
-	k[1] = 2 * ft_dot_product(ft_substract_vectors(direction, ft_multiply_vector_double(cylinder->direction, ft_dot_product(direction, cylinder->direction))), ft_substract_vectors(oc, ft_multiply_vector_double(cylinder->direction, ft_dot_product(oc, cylinder->direction))));
-	k[2] = ft_dot_product(ft_substract_vectors(oc, ft_multiply_vector_double(cylinder->direction, ft_dot_product(oc, cylinder->direction))), ft_substract_vectors(oc, ft_multiply_vector_double(cylinder->direction, ft_dot_product(oc, cylinder->direction)))) - radius * radius;
+	k[0] = ft_dot_product(direction, direction) - pow(ft_dot_product(direction, cylinder->direction), 2);
+	k[1] = 2 * ((ft_dot_product(direction, oc)) - ft_dot_product(direction, cylinder->direction) * ft_dot_product(oc, cylinder->direction));
+	k[2] = ft_dot_product(oc, oc) - pow(ft_dot_product(oc, cylinder->direction), 2) - radius * radius;
 	discriminant = k[1] * k[1] - (4 * k[0] * k[2]);
 	if (discriminant < 0 || (ft_dot_product(cylinder->direction, ft_substract_vectors(direction, cylinder->center)) <= 0 || ft_dot_product(cylinder->direction, ft_substract_vectors(direction, ft_add_vectors(cylinder->center, ft_multiply_vector_double(cylinder->direction, cylinder->height)))) >= 0))
 	{
