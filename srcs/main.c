@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/10 09:46:28 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/11 09:44:22 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int			main(int argc, char **argv)
 	origin.z = 0;
 	pixel.x = -scene.plan.width / 2;
 	mlx = mlx_init();
-	win = mlx_new_window(mlx, scene.plan.width, scene.plan.height, "miniRT");
 	img.img = mlx_new_image(mlx, scene.plan.width, scene.plan.height);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 			&img.endian);
@@ -87,6 +86,7 @@ int			main(int argc, char **argv)
 		}
 		pixel.x += pixel_size;
 	}
+	win = mlx_new_window(mlx, scene.plan.width, scene.plan.height, "miniRT");
 	mlx_put_image_to_window(mlx, win, img.img, 0, 0);
 	mlx_loop(mlx);
 	return (0);
