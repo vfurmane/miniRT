@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/11 12:39:36 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/15 14:29:58 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,24 @@ void	ft_intersect_ray_cylinder(t_vector origin, t_vector direction,
 	k[1] = 2 * ((ft_dot_product(direction, oc)) - ft_dot_product(direction, cylinder->direction) * ft_dot_product(oc, cylinder->direction));
 	k[2] = ft_dot_product(oc, oc) - pow(ft_dot_product(oc, cylinder->direction), 2) - radius * radius;
 	discriminant = k[1] * k[1] - (4 * k[0] * k[2]);
-	if (discriminant < 0 || (ft_dot_product(cylinder->direction, ft_substract_vectors(direction, cylinder->center)) <= 0 || ft_dot_product(cylinder->direction, ft_substract_vectors(direction, ft_add_vectors(cylinder->center, ft_multiply_vector_double(cylinder->direction, cylinder->height)))) >= 0))
+	if (discriminant < 0)
 	{
 		t[0] = -1;
 		t[1] = -1;
 	}
 	else
 	{
-		t[0] = (-k[1] + sqrt(discriminant)) / (2 * k[0]);
-		t[1] = (-k[1] - sqrt(discriminant)) / (2 * k[0]);
+		t[0] = (-k[1] - sqrt(discriminant)) / (2 * k[0]);
+		t[1] = (-k[1] + sqrt(discriminant)) / (2 * k[0]);
+		if (ft_dot_product(cylinder->direction, ft_substract_vectors(ft_add_vectors(origin, ft_multiply_vector_double(direction, t[0])), cylinder->center)) >= 0 && ft_dot_product(ft_substract_vectors(ft_add_vectors(origin, ft_multiply_vector_double(direction, t[0])), ft_add_vectors(cylinder->center, ft_multiply_vector_double(cylinder->direction, cylinder->height))), cylinder->direction) <= 0)
+			t[1] = t[0];
+		else if (ft_dot_product(cylinder->direction, ft_substract_vectors(ft_add_vectors(origin, ft_multiply_vector_double(direction, t[1])), cylinder->center)) >= 0 && ft_dot_product(ft_substract_vectors(ft_add_vectors(origin, ft_multiply_vector_double(direction, t[1])), ft_add_vectors(cylinder->center, ft_multiply_vector_double(cylinder->direction, cylinder->height))), cylinder->direction) <= 0)
+			t[0] = t[1];
+		else
+		{
+			t[0] = -1;
+			t[1] = -1;
+		}
 	}
 }
 
