@@ -6,11 +6,23 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/15 14:29:58 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/15 20:14:23 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
+
+void	ft_intersect_ray_plane(t_vector origin, t_vector direction,
+		t_plane *plane, double t[2])
+{
+	t_vector	oc;
+	t_vector	center;
+
+	center = plane->center;
+	oc = ft_substract_vectors(origin, center);
+	t[0] = ft_dot_product(ft_substract_vectors(plane->center, origin), plane->direction) / ft_dot_product(plane->direction, direction);
+	t[1] = t[0];
+}
 
 void	ft_intersect_ray_sphere(t_vector origin, t_vector direction,
 		t_sphere *sphere, double t[2])
@@ -91,15 +103,17 @@ double	ft_compute_lighting(t_vector point, t_obj obj, t_scene scene)
 		if (obj.type == SPHERE)
 		{
 			normal = ft_substract_vectors(point, ((t_sphere*)obj.ptr)->center);
-			normal_len = ft_vector_length(normal);
-			normal = ft_multiply_vector_double(normal, 1.0 / normal_len);
 		}
 		else if (obj.type == CYLINDER)
 		{
 			normal = ft_substract_vectors(point, ft_add_vectors(((t_cylinder*)obj.ptr)->center, ft_multiply_vector_double(((t_cylinder*)obj.ptr)->direction, ft_dot_product(ft_substract_vectors(point, ((t_cylinder*)obj.ptr)->center), ((t_cylinder*)obj.ptr)->direction))));
-			normal_len = ft_vector_length(normal);
-			normal = ft_multiply_vector_double(normal, 1.0 / normal_len);
 		}
+		else if (obj.type == PLANE)
+		{
+			normal = ((t_plane*)obj.ptr)->direction;
+		}
+		normal_len = ft_vector_length(normal);
+		normal = ft_multiply_vector_double(normal, 1.0 / normal_len);
 		light_ray = ft_substract_vectors(bulb->center, point);
 		n_dot_l = ft_dot_product(normal, light_ray);
 		if (n_dot_l > 0)
@@ -117,6 +131,7 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 	double		closest_inter;
 	double		inter[2];
 	t_vector	point;
+	t_plane		*plane;
 	t_sphere	*sphere;
 	t_cylinder	*cylinder;
 	int			color;
@@ -125,6 +140,42 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 
 	color = -1;
 	closest_inter = -1;
+	//plane = scene.planes;
+	plane = malloc(sizeof(*plane));
+	plane->next = NULL;
+	plane->center.x = 0;
+	plane->center.y = -3;
+	plane->center.z = 5;
+	plane->direction.x = 0;
+	plane->direction.y = 1;
+	plane->direction.z = 0;
+	plane->color = 0x00FF00FF;
+	while (plane != NULL)
+	{
+		ft_intersect_ray_plane(origin, direction, plane, inter);
+		if (inter[0] >= scene.inter_min &&
+				(inter[0] <= scene.inter_max || scene.inter_max == -1) &&
+				(inter[0] < closest_inter || closest_inter == -1))
+		{
+			closest_inter = inter[0];
+			color = plane->color;
+			center = plane->center;
+			obj.type = PLANE;
+			obj.ptr = plane;
+		}
+		if (inter[1] >= scene.inter_min &&
+				(inter[1] <= scene.inter_max || scene.inter_max == -1) &&
+				(inter[1] < closest_inter || closest_inter == -1))
+		{
+			closest_inter = inter[1];
+			color = plane->color;
+			center = plane->center;
+			obj.type = PLANE;
+			obj.ptr = plane;
+		}
+		plane = plane->next;
+	}
+
 	sphere = scene.spheres;
 	while (sphere != NULL)
 	{

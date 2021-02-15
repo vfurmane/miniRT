@@ -42,6 +42,7 @@ typedef struct		s_next
 
 typedef enum		e_obj_type
 {
+	PLANE,
 	SPHERE,
 	CYLINDER
 }					t_obj_type;
@@ -73,6 +74,14 @@ typedef struct	s_plan
 	int	viewport;
 	int	distance;
 }				t_plan;
+
+typedef struct	s_plane
+{
+	struct s_plane	*next;
+	t_vector		center;
+	t_vector		direction;
+	int				color;
+}				t_plane;
 
 typedef struct	s_sphere
 {
