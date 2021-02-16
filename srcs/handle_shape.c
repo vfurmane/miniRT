@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 10:18:02 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/10 20:12:50 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/16 17:41:07 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@ int	ft_handle_sphere(char **args, t_scene *scene)
 		return (-1);
 	ft_lstadd_front((void**)&scene->spheres,
 			(void*)ft_new_sphere(args[0], ret, args[2]));
+	return (0);
+}
+
+int	ft_handle_plane(char **args, t_scene *scene)
+{
+	ft_lstadd_front((void**)&scene->planes,
+			(void*)ft_new_plane(args[0], args[1], args[2]));
 	return (0);
 }
 

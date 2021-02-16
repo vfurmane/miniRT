@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:13:35 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/10 20:01:47 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/16 17:44:51 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	ft_parse_line(char *line, t_scene *scene)
 		ret = ft_handle_light(&args[1], scene);
 	else if (ft_strcmp(args[0], "sp") == 0)
 		ret = ft_handle_sphere(&args[1], scene);
+	else if (ft_strcmp(args[0], "pl") == 0)
+		ret = ft_handle_plane(&args[1], scene);
 	else if (ft_strcmp(args[0], "cy") == 0)
 		ret = ft_handle_cylinder(&args[1], scene);
 	else if (args[0] != NULL)
@@ -70,6 +72,7 @@ int	ft_parameters(int argc, char **argv, t_scene *scene)
 	i = 1;
 	scene->bulbs = NULL;
 	scene->spheres = NULL;
+	scene->planes = NULL;
 	scene->cylinders = NULL;
 	while (i < argc)
 	{

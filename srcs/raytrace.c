@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/15 20:14:23 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/16 18:43:50 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,16 +140,7 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 
 	color = -1;
 	closest_inter = -1;
-	//plane = scene.planes;
-	plane = malloc(sizeof(*plane));
-	plane->next = NULL;
-	plane->center.x = 0;
-	plane->center.y = -3;
-	plane->center.z = 5;
-	plane->direction.x = 0;
-	plane->direction.y = 1;
-	plane->direction.z = 0;
-	plane->color = 0x00FF00FF;
+	plane = scene.planes;
 	while (plane != NULL)
 	{
 		ft_intersect_ray_plane(origin, direction, plane, inter);

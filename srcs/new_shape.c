@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 10:22:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/10 20:11:23 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/16 17:42:33 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,20 @@ t_sphere	*ft_new_sphere(char *vector, double diameter, char *color)
 	sphere->radius = diameter / 2.0;
 	sphere->color = ft_parse_color(color);
 	return (sphere);
+}
+
+t_plane		*ft_new_plane(char *vector, char *direction, char *color)
+{
+	t_plane	*plane;
+
+	plane = malloc(sizeof(*plane));
+	if (plane == NULL)
+		ft_fatal_error("Failed to create a new plane");
+	plane->next = NULL;
+	plane->center = ft_str_to_vector(vector);
+	plane->direction = ft_str_to_vector(direction);
+	plane->color = ft_parse_color(color);
+	return (plane);
 }
 
 t_cylinder	*ft_new_cylinder(char **vector, double diameter, double height, char *color)
