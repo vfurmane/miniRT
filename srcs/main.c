@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/11 09:44:22 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/16 19:22:12 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int			main(int argc, char **argv)
 	t_data		img;
 	t_scene		scene;
 	int			pixel_size;
+	int			loading;
 #if MINI_RT_BONUS == 1
 	int			i;
 	double		aa[32] = {	-0.375,	0.375,
@@ -59,12 +60,18 @@ int			main(int argc, char **argv)
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 			&img.endian);
 	pixel_size = 1;
+	loading = 10;
 	while (pixel.x <= scene.plan.width / 2)
 	{
 		pixel.y = -scene.plan.height / 2 + 1;
 		while (pixel.y <= scene.plan.height / 2)
 		{
 #if MINI_RT_BONUS == 1
+			if (((pixel.x + scene.plan.width / 2) * scene.plan.height + pixel.y) / (scene.plan.width * scene.plan.height) * 100 >= loading)
+			{
+				printf("Loading... %d%%\n", loading);
+				loading += 10;
+			}
 			pixel.color = 0;
 			i = 0;
 			while (i < 16)
