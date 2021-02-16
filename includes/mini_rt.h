@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <math.h>
 # include <fcntl.h>
+# include <errno.h>
 # include "mlx.h"
 # include "get_next_line.h"
 
@@ -172,6 +173,7 @@ int			ft_trace_ray(t_vector origin, t_vector direction, t_scene scene);
 
 int			ft_strcmp(char *str1, char *str2);
 char		**ft_split(const char *str, char *sep);
+char		*ft_strrchr(char *str, int chr);
 
 t_vector	ft_str_to_vector(const char *str);
 

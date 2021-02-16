@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 12:04:57 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/08 21:42:57 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/16 18:56:12 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,22 @@ char		**ft_split(const char *str, char *sep)
 	}
 	arr[j] = NULL;
 	return (arr);
+}
+
+char	*ft_strrchr(char *str, int chr)
+{
+	int		i;
+	char	*ptr;
+
+	i = 0;
+	ptr = NULL;
+	while (str[i])
+	{
+		if (str[i] == (unsigned char)chr)
+			ptr = &str[i];
+		i++;
+	}
+	if ((unsigned char)chr == '\0')
+		return (&str[i]);
+	return (ptr);
 }

@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:13:35 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/16 17:44:51 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/16 18:59:31 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,11 @@ int	ft_parameters(int argc, char **argv, t_scene *scene)
 	while (i < argc)
 	{
 		file = argv[i];
+		if (ft_strcmp(ft_strrchr(file, '.'), ".rt") != 0)
+		{
+			errno = 22;
+			ft_fatal_error("File extension is not .rt");
+		}
 		if (ft_parse_scene(file, scene) == -1)
 			return (-1);
 		i++;
