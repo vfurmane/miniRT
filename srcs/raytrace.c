@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/18 12:13:59 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/18 14:05:59 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int		ft_compute_lighting(t_vector point, t_obj obj, t_scene scene, int color)
 	intensity[0] = 0;
 	intensity[1] = 0;
 	intensity[2] = 0;
-	ft_add_light_intensity(intensity, scene.ambiant.color, scene.ambiant.intensity);
+	ft_add_light_intensity(intensity, scene.ambiant->color, scene.ambiant->intensity);
 	while (bulb != NULL)
 	{
 		if (obj.type == SPHERE)
@@ -245,7 +245,7 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 		cylinder = cylinder->next;
 	}
 	if (color == -1)
-		return (ft_multiply_color(scene.ambiant.color, scene.ambiant.intensity));
+		return (ft_multiply_color(scene.ambiant->color, scene.ambiant->intensity));
 	point = ft_add_vectors(origin, ft_multiply_vector_double(direction,
 				closest_inter));
 	return (ft_compute_lighting(point, obj, scene, color));

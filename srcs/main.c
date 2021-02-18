@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/16 19:22:12 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/18 14:48:05 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ int			main(int argc, char **argv)
 #endif
 
 	if (ft_parameters(argc, argv, &scene) == -1)
-		return (ft_error());
+	{
+		ft_free_scene(&scene);
+		return (1);
+	}
 	scene.inter_min = 1;
 	scene.inter_max = -1;
 	scene.plan.distance = 1;
@@ -96,5 +99,6 @@ int			main(int argc, char **argv)
 	win = mlx_new_window(mlx, scene.plan.width, scene.plan.height, "miniRT");
 	mlx_put_image_to_window(mlx, win, img.img, 0, 0);
 	mlx_loop(mlx);
+	ft_free_scene(&scene);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 12:04:57 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/16 18:56:12 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/18 14:46:15 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static char	*ft_strcdup(const char *str, char *sep)
 		str_len++;
 	new_str = malloc(sizeof(*new_str) * (str_len + 1));
 	if (new_str == NULL)
-		ft_fatal_error("Failed to duplicate the string");
+		return (NULL);
 	i = 0;
 	while (str[i] && ft_strchr(sep, str[i]) == NULL)
 	{
@@ -83,7 +83,7 @@ char		**ft_split(const char *str, char *sep)
 		return (NULL);
 	arr = malloc((ft_count_words(str, sep) + 1) * sizeof(*arr));
 	if (arr == NULL)
-		ft_fatal_error("Failed to allocate a string array");
+		return (NULL);
 	while (str[i])
 	{
 		while (ft_strchr(sep, str[i]) != NULL)
