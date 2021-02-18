@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:13:35 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/16 18:59:31 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/18 13:26:19 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ int	ft_parse_line(char *line, t_scene *scene)
 	args = ft_split(line, "\t\v\f\r ");
 	if (args == NULL)
 		return (-1);
-	if (ft_strcmp(args[0], "R") == 0)
+	if (args[0] != NULL && args[0][0] == '#')
+		ret = 0;
+	else if (ft_strcmp(args[0], "R") == 0)
 		ret = ft_handle_resolution(&args[1], scene);
 	else if (ft_strcmp(args[0], "A") == 0)
 		ret = ft_handle_ambiant(&args[1], scene);
