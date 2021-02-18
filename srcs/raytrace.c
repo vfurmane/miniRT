@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/16 18:43:50 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/18 12:13:59 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,15 +89,34 @@ void	ft_intersect_ray_cylinder(t_vector origin, t_vector direction,
 	}
 }
 
-double	ft_compute_lighting(t_vector point, t_obj obj, t_scene scene)
+void	ft_add_light_intensity(double intensity[3], int color, double light_intensity)
+{
+	intensity[0] += ((double)((color & 16711680) >> 16) / 255) * ((double)((color & 16711680) >> 16) / 255) * light_intensity;
+	if (intensity[0] > 1)
+		intensity[0] = 1;
+	intensity[1] += ((double)((color & 65280) >> 8) / 255) * ((double)((color & 65280) >> 8) / 255) * light_intensity;
+	if (intensity[1] > 1)
+		intensity[1] = 1;
+	intensity[2] += ((double)(color & 255) / 255) * ((double)(color & 255) / 255) * light_intensity;
+	if (intensity[2] > 1)
+		intensity[2] = 1;
+}
+
+int		ft_compute_lighting(t_vector point, t_obj obj, t_scene scene, int color)
 {
 	double		normal_len;
 	double		n_dot_l;
 	t_vector	normal;
 	t_vector	light_ray;
 	t_bulb		*bulb;
+	int			new_color;
+	double		intensity[3];
 
 	bulb = scene.bulbs;
+	intensity[0] = 0;
+	intensity[1] = 0;
+	intensity[2] = 0;
+	ft_add_light_intensity(intensity, scene.ambiant.color, scene.ambiant.intensity);
 	while (bulb != NULL)
 	{
 		if (obj.type == SPHERE)
@@ -115,15 +134,19 @@ double	ft_compute_lighting(t_vector point, t_obj obj, t_scene scene)
 		normal_len = ft_vector_length(normal);
 		normal = ft_multiply_vector_double(normal, 1.0 / normal_len);
 		light_ray = ft_substract_vectors(bulb->center, point);
-		n_dot_l = ft_dot_product(normal, light_ray);
+		n_dot_l = ft_dot_product(normal, light_ray) / (normal_len * ft_vector_length(light_ray));
 		if (n_dot_l > 0)
-			scene.ambiant.intensity += bulb->light.intensity * n_dot_l /
-				(normal_len * ft_vector_length(light_ray));
+		{
+			//scene.ambiant.intensity += bulb->light.intensity * n_dot_l;
+			ft_add_light_intensity(intensity, bulb->light.color, bulb->light.intensity * n_dot_l);
+		}
 		bulb = bulb->next;
 	}
-	if (scene.ambiant.intensity > 1)
-		scene.ambiant.intensity = 1;
-	return (scene.ambiant.intensity);
+	new_color = 0;
+	new_color += (int)(intensity[0] * ((color & 16711680) >> 16)) << 16;
+	new_color += (int)(intensity[1] * ((color & 65280) >> 8)) << 8;
+	new_color += (int)(intensity[2] * (color & 255));
+	return (new_color);
 }
 
 int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
@@ -222,9 +245,8 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 		cylinder = cylinder->next;
 	}
 	if (color == -1)
-		return (ft_multiply_color(0x00FFFFFF, scene.ambiant.intensity));
+		return (ft_multiply_color(scene.ambiant.color, scene.ambiant.intensity));
 	point = ft_add_vectors(origin, ft_multiply_vector_double(direction,
 				closest_inter));
-	return (ft_multiply_color(color,
-				ft_compute_lighting(point, obj, scene)));
+	return (ft_compute_lighting(point, obj, scene, color));
 }
