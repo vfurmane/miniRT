@@ -139,33 +139,45 @@ t_vector	ft_canvas_to_viewport_aa(t_pixel pixel, int viewport, t_plan canvas,
 t_vector	ft_canvas_to_viewport(t_pixel pixel, int viewport, t_plan canvas);
 t_pixel		ft_translate_pixel(t_pixel pixel, t_plan plan);
 
+int			ft_check_args_count(char **args, int expected, int line);
+
+int			ft_check_atoi(const char *str, const char *allowed, int line);
+int			ft_check_atof(const char *str, const char *allowed, int line);
+
+int			ft_check_parse_color(char *str, int line);
+
+int			ft_check_str_to_vector(const char *str, int norm, int line);
+
 int			ft_parse_color(const char *str);
 int			ft_color_average(int colors[16]);
 double		ft_multiply_color(int color, double intensity);
+
+int			ft_count_words(const char *str, char *sep);
+int			ft_strarrlen(char **arr);
 
 void		ft_free_split(char **strarr);
 void		ft_free_gnl(int fd);
 void		ft_free_scene(t_scene *scene);
 
-int			ft_handle_resolution(char **args, t_scene *scene);
-int			ft_handle_ambiant(char **args, t_scene *scene);
-int			ft_handle_light(char **args, t_scene *scene);
+int			ft_handle_resolution(char **args, t_scene *scene, int line);
+int			ft_handle_ambiant(char **args, t_scene *scene, int line);
+int			ft_handle_light(char **args, t_scene *scene, int line);
 
-int			ft_handle_sphere(char **args, t_scene *scene);
-int			ft_handle_plane(char **args, t_scene *scene);
-int			ft_handle_cylinder(char **args, t_scene *scene);
+int			ft_handle_sphere(char **args, t_scene *scene, int line);
+int			ft_handle_plane(char **args, t_scene *scene, int line);
+int			ft_handle_cylinder(char **args, t_scene *scene, int line);
 
 void		*ft_lstadd_front(void **lst, void *new);
 void		ft_free_lst(void *lst);
 
 void		my_mlx_put_pixel(t_data *data, t_pixel pixel, int pixel_size, t_scene scene);
 
-t_light		*ft_new_ambiant(double intensity, const char *color);
-t_bulb		*ft_new_light(const char *vector, double intensity, const char *color);
+t_light		*ft_new_ambiant(char **args, int line);
+t_bulb		*ft_new_light(char **args, int line);
 
-t_sphere	*ft_new_sphere(char *vector, double diameter, char *color);
-t_plane		*ft_new_plane(char *vector, char *direction, char *color);
-t_cylinder	*ft_new_cylinder(char **vector, double diameter, double height, char *color);
+t_sphere	*ft_new_sphere(char **args, int line);
+t_plane		*ft_new_plane(char **args, int line);
+t_cylinder	*ft_new_cylinder(char **args, int line);
 
 int			ft_parameters(int argc, char **argv, t_scene *scene);
 
@@ -178,6 +190,7 @@ char		**ft_split(const char *str, char *sep);
 char		*ft_strrchr(char *str, int chr);
 
 t_vector	ft_str_to_vector(const char *str);
+int			ft_step_to_number(const char *str, int i);
 
 t_vector	ft_add_vector_double(t_vector v1, double nbr);
 t_vector	ft_substract_vector_double(t_vector v1, double nbr);

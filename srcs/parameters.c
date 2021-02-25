@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:13:35 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/18 14:46:59 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/19 18:00:45 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ int	ft_parse_line(char *line, t_scene *scene)
 	if (args[0] != NULL && args[0][0] == '#')
 		ret = 0;
 	else if (ft_strcmp(args[0], "R") == 0)
-		ret = ft_handle_resolution(&args[1], scene);
+		ret = ft_handle_resolution(&args[1], scene, line_nbr);
 	else if (ft_strcmp(args[0], "A") == 0)
 	{
 		if (scene->ambiant == NULL)
-			ret = ft_handle_ambiant(&args[1], scene);
+			ret = ft_handle_ambiant(&args[1], scene, line_nbr);
 		else
 		{
 			printf("Error\nline %d: Ambiant light has already been set\n", line_nbr);
@@ -39,13 +39,13 @@ int	ft_parse_line(char *line, t_scene *scene)
 		}
 	}
 	else if (ft_strcmp(args[0], "l") == 0)
-		ret = ft_handle_light(&args[1], scene);
+		ret = ft_handle_light(&args[1], scene, line_nbr);
 	else if (ft_strcmp(args[0], "sp") == 0)
-		ret = ft_handle_sphere(&args[1], scene);
+		ret = ft_handle_sphere(&args[1], scene, line_nbr);
 	else if (ft_strcmp(args[0], "pl") == 0)
-		ret = ft_handle_plane(&args[1], scene);
+		ret = ft_handle_plane(&args[1], scene, line_nbr);
 	else if (ft_strcmp(args[0], "cy") == 0)
-		ret = ft_handle_cylinder(&args[1], scene);
+		ret = ft_handle_cylinder(&args[1], scene, line_nbr);
 	else if (args[0] != NULL)
 	{
 		printf("Error\nline %d: Unknown identifier '%s'\n", line_nbr, args[0]);

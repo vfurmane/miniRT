@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 12:04:57 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/18 14:46:15 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/02/28 18:25:25 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,6 @@ int			ft_strcmp(char *str1, char *str2)
 		i++;
 	}
 	return (0);
-}
-
-static int	ft_count_words(const char *str, char *sep)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (str[i])
-	{
-		while (ft_strchr(sep, str[i]) != NULL)
-			i++;
-		if (str[i])
-			count++;
-		else
-			break ;
-		while (str[i] && ft_strchr(sep, str[i]) == NULL)
-			i++;
-	}
-	return (count);
 }
 
 static char	*ft_strcdup(const char *str, char *sep)
@@ -86,7 +65,7 @@ char		**ft_split(const char *str, char *sep)
 		return (NULL);
 	while (str[i])
 	{
-		while (ft_strchr(sep, str[i]) != NULL)
+		while (str[i] && ft_strchr(sep, str[i]) != NULL)
 			i++;
 		if (str[i])
 			arr[j++] = ft_strcdup(&str[i], sep);
