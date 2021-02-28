@@ -6,7 +6,7 @@
 #    By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/28 15:38:44 by vfurmane          #+#    #+#              #
-#    Updated: 2021/02/28 13:09:55 by vfurmane         ###   ########.fr        #
+#    Updated: 2021/02/28 21:26:35 by vfurmane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,12 @@ $(NAME):	$(OBJS)
 
 bonus:		BONUS=-D MINI_RT_BONUS=1
 bonus:		all
+
+mlx:
+	@echo "\033[92mDownloading the Minilibx...\033[0m"
+	@git clone https://github.com/42Paris/minilibx-linux.git mlx_linux
+	@echo "\033[92mCompiling the Minilibx...\033[0m"
+	@cd mlx_linux && ./configure
 
 clean:
 			$(RM) $(OBJS)
