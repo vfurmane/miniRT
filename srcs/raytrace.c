@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/18 14:05:59 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/01 17:34:46 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 void	ft_intersect_ray_plane(t_vector origin, t_vector direction,
 		t_plane *plane, double t[2])
 {
-	t_vector	oc;
-	t_vector	center;
-
-	center = plane->center;
-	oc = ft_substract_vectors(origin, center);
 	t[0] = ft_dot_product(ft_substract_vectors(plane->center, origin), plane->direction) / ft_dot_product(plane->direction, direction);
 	t[1] = t[0];
 }
@@ -158,7 +153,6 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 	t_sphere	*sphere;
 	t_cylinder	*cylinder;
 	int			color;
-	t_vector	center;
 	t_obj		obj;
 
 	color = -1;
@@ -173,7 +167,6 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 		{
 			closest_inter = inter[0];
 			color = plane->color;
-			center = plane->center;
 			obj.type = PLANE;
 			obj.ptr = plane;
 		}
@@ -183,7 +176,6 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 		{
 			closest_inter = inter[1];
 			color = plane->color;
-			center = plane->center;
 			obj.type = PLANE;
 			obj.ptr = plane;
 		}
@@ -200,7 +192,6 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 		{
 			closest_inter = inter[0];
 			color = sphere->color;
-			center = sphere->center;
 			obj.type = SPHERE;
 			obj.ptr = sphere;
 		}
@@ -210,7 +201,6 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 		{
 			closest_inter = inter[1];
 			color = sphere->color;
-			center = sphere->center;
 			obj.type = SPHERE;
 			obj.ptr = sphere;
 		}
@@ -228,7 +218,6 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 		{
 			closest_inter = inter[0];
 			color = cylinder->color;
-			center = cylinder->center;
 			obj.type = CYLINDER;
 			obj.ptr = cylinder;
 		}
@@ -238,7 +227,6 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 		{
 			closest_inter = inter[1];
 			color = cylinder->color;
-			center = cylinder->center;
 			obj.type = CYLINDER;
 			obj.ptr = cylinder;
 		}

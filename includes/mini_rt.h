@@ -117,6 +117,9 @@ typedef struct	s_bulb
 
 typedef struct	s_scene
 {
+	void			*mlx;
+	void			*win;
+	t_data			img;
 	struct s_plan	plan;
 	double			inter_min;
 	double			inter_max;
@@ -157,7 +160,7 @@ int			ft_strarrlen(char **arr);
 
 void		ft_free_split(char **strarr);
 void		ft_free_gnl(int fd);
-void		ft_free_scene(t_scene *scene);
+void		ft_free_scene(t_scene **scene);
 
 int			ft_handle_resolution(char **args, t_scene *scene, int line);
 int			ft_handle_ambiant(char **args, t_scene *scene, int line);
@@ -169,6 +172,8 @@ int			ft_handle_cylinder(char **args, t_scene *scene, int line);
 
 void		*ft_lstadd_front(void **lst, void *new);
 void		ft_free_lst(void *lst);
+
+void		my_mlx_events(t_scene *scene);
 
 void		my_mlx_put_pixel(t_data *data, t_pixel pixel, int pixel_size, t_scene scene);
 
