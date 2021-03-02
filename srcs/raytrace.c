@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/01 17:34:46 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/02 12:24:58 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,97 +144,83 @@ int		ft_compute_lighting(t_vector point, t_obj obj, t_scene scene, int color)
 	return (new_color);
 }
 
+void	ft_intersect_ray(t_vector origin, t_vector direction, t_obj obj, double inter[2])
+{
+	if (obj.type == PLANE)
+		ft_intersect_ray_plane(origin, direction, obj.ptr, inter);
+	else if (obj.type == SPHERE)
+		ft_intersect_ray_sphere(origin, direction, obj.ptr, inter);
+	else if (obj.type == CYLINDER)
+		ft_intersect_ray_cylinder(origin, direction, obj.ptr, inter);
+}
+
+double	ft_closest_intersection(t_vector origin, t_vector direction, t_scene scene, t_obj *obj)
+{
+	double	inter[2];
+	double	closest_inter;
+	t_obj	obj_copy;
+	t_obj	closest_obj;
+
+	obj_copy = *obj;
+	closest_inter = -1;
+	while (obj_copy.ptr != NULL)
+	{
+		ft_intersect_ray(origin, direction, obj_copy, inter);
+		if (inter[0] >= scene.inter_min &&
+				(inter[0] <= scene.inter_max || scene.inter_max == -1) &&
+				(inter[0] < closest_inter || closest_inter == -1))
+		{
+			closest_inter = inter[0];
+			closest_obj = obj_copy;
+		}
+		if (inter[1] >= scene.inter_min &&
+				(inter[1] <= scene.inter_max || scene.inter_max == -1) &&
+				(inter[1] < closest_inter || closest_inter == -1))
+		{
+			closest_inter = inter[1];
+			closest_obj = obj_copy;
+		}
+		obj_copy.ptr = ((t_basic_obj*)obj_copy.ptr)->next;
+	}
+	obj->ptr = closest_obj.ptr;
+	return (closest_inter);
+}
+
+double	ft_closest_obj(double inter1, double inter2, t_obj *obj1, t_obj *obj2)
+{
+	if ((inter1 <= inter2 && inter1 != -1) || inter2 == -1)
+		return (inter1);
+	else if (inter2 != -1)
+	{
+		obj1->ptr = obj2->ptr;
+		obj1->type = obj2->type;
+		return (inter2);
+	}
+	return (-1);
+}
+
 int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 {
-	double		closest_inter;
-	double		inter[2];
+	double		closest_inter1;
+	double		closest_inter2;
+	t_obj		obj1;
+	t_obj		obj2;
 	t_vector	point;
-	t_plane		*plane;
-	t_sphere	*sphere;
-	t_cylinder	*cylinder;
-	int			color;
-	t_obj		obj;
 
-	color = -1;
-	closest_inter = -1;
-	plane = scene.planes;
-	while (plane != NULL)
-	{
-		ft_intersect_ray_plane(origin, direction, plane, inter);
-		if (inter[0] >= scene.inter_min &&
-				(inter[0] <= scene.inter_max || scene.inter_max == -1) &&
-				(inter[0] < closest_inter || closest_inter == -1))
-		{
-			closest_inter = inter[0];
-			color = plane->color;
-			obj.type = PLANE;
-			obj.ptr = plane;
-		}
-		if (inter[1] >= scene.inter_min &&
-				(inter[1] <= scene.inter_max || scene.inter_max == -1) &&
-				(inter[1] < closest_inter || closest_inter == -1))
-		{
-			closest_inter = inter[1];
-			color = plane->color;
-			obj.type = PLANE;
-			obj.ptr = plane;
-		}
-		plane = plane->next;
-	}
-
-	sphere = scene.spheres;
-	while (sphere != NULL)
-	{
-		ft_intersect_ray_sphere(origin, direction, sphere, inter);
-		if (inter[0] >= scene.inter_min &&
-				(inter[0] <= scene.inter_max || scene.inter_max == -1) &&
-				(inter[0] < closest_inter || closest_inter == -1))
-		{
-			closest_inter = inter[0];
-			color = sphere->color;
-			obj.type = SPHERE;
-			obj.ptr = sphere;
-		}
-		if (inter[1] >= scene.inter_min &&
-				(inter[1] <= scene.inter_max || scene.inter_max == -1) &&
-				(inter[1] < closest_inter || closest_inter == -1))
-		{
-			closest_inter = inter[1];
-			color = sphere->color;
-			obj.type = SPHERE;
-			obj.ptr = sphere;
-		}
-		sphere = sphere->next;
-	}
-
-	cylinder = scene.cylinders;
-	while (cylinder != NULL)
-	{
-		cylinder->direction = ft_normalize_vector(cylinder->direction);
-		ft_intersect_ray_cylinder(origin, direction, cylinder, inter);
-		if (inter[0] >= scene.inter_min &&
-				(inter[0] <= scene.inter_max || scene.inter_max == -1) &&
-				(inter[0] < closest_inter || closest_inter == -1))
-		{
-			closest_inter = inter[0];
-			color = cylinder->color;
-			obj.type = CYLINDER;
-			obj.ptr = cylinder;
-		}
-		if (inter[1] >= scene.inter_min &&
-				(inter[1] <= scene.inter_max || scene.inter_max == -1) &&
-				(inter[1] < closest_inter || closest_inter == -1))
-		{
-			closest_inter = inter[1];
-			color = cylinder->color;
-			obj.type = CYLINDER;
-			obj.ptr = cylinder;
-		}
-		cylinder = cylinder->next;
-	}
-	if (color == -1)
+	obj1.ptr = scene.planes;
+	obj1.type = PLANE;
+	closest_inter1 = ft_closest_intersection(origin, direction, scene, &obj1);
+	obj2.ptr = scene.spheres;
+	obj2.type = SPHERE;
+	closest_inter2 = ft_closest_intersection(origin, direction, scene, &obj2);
+	closest_inter1 = ft_closest_obj(closest_inter1, closest_inter2, &obj1, &obj2);
+	obj2.ptr = scene.cylinders;
+	obj2.type = CYLINDER;
+	closest_inter2 = ft_closest_intersection(origin, direction, scene, &obj2);
+	closest_inter1 = ft_closest_obj(closest_inter1, closest_inter2, &obj1, &obj2);
+	if (closest_inter1 == -1)
 		return (ft_multiply_color(scene.ambiant->color, scene.ambiant->intensity));
 	point = ft_add_vectors(origin, ft_multiply_vector_double(direction,
-				closest_inter));
-	return (ft_compute_lighting(point, obj, scene, color));
+				closest_inter1));
+	return (ft_compute_lighting(point, obj1, scene, ((t_basic_obj*)obj1.ptr)->color));
 }

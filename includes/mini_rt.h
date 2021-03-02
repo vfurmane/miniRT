@@ -41,6 +41,20 @@ typedef struct		s_next
 	struct s_next	*next;
 }					t_next;
 
+typedef struct	s_vector
+{
+	double	x;
+	double	y;
+	double	z;
+}				t_vector;
+
+typedef struct		s_basic_obj
+{
+	t_next			*next;
+	t_vector		center;
+	int				color;
+}					t_basic_obj;
+
 typedef enum		e_obj_type
 {
 	PLANE,
@@ -53,13 +67,6 @@ typedef struct		s_obj
 	t_obj_type	type;
 	void		*ptr;
 }					t_obj;
-
-typedef struct	s_vector
-{
-	double	x;
-	double	y;
-	double	z;
-}				t_vector;
 
 typedef struct	s_pixel
 {
@@ -80,26 +87,26 @@ typedef struct	s_plane
 {
 	struct s_plane	*next;
 	t_vector		center;
-	t_vector		direction;
 	int				color;
+	t_vector		direction;
 }				t_plane;
 
 typedef struct	s_sphere
 {
 	struct s_sphere	*next;
 	t_vector		center;
-	double			radius;
 	int				color;
+	double			radius;
 }				t_sphere;
 
 typedef struct	s_cylinder
 {
 	struct s_cylinder	*next;
 	t_vector			center;
+	int					color;
 	double				radius;
 	t_vector			direction;
 	double				height;
-	int					color;
 }				t_cylinder;
 
 typedef struct	s_light
