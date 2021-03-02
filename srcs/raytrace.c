@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/02 12:24:58 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/02 17:29:55 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,53 +97,6 @@ void	ft_add_light_intensity(double intensity[3], int color, double light_intensi
 		intensity[2] = 1;
 }
 
-int		ft_compute_lighting(t_vector point, t_obj obj, t_scene scene, int color)
-{
-	double		normal_len;
-	double		n_dot_l;
-	t_vector	normal;
-	t_vector	light_ray;
-	t_bulb		*bulb;
-	int			new_color;
-	double		intensity[3];
-
-	bulb = scene.bulbs;
-	intensity[0] = 0;
-	intensity[1] = 0;
-	intensity[2] = 0;
-	ft_add_light_intensity(intensity, scene.ambiant->color, scene.ambiant->intensity);
-	while (bulb != NULL)
-	{
-		if (obj.type == SPHERE)
-		{
-			normal = ft_substract_vectors(point, ((t_sphere*)obj.ptr)->center);
-		}
-		else if (obj.type == CYLINDER)
-		{
-			normal = ft_substract_vectors(point, ft_add_vectors(((t_cylinder*)obj.ptr)->center, ft_multiply_vector_double(((t_cylinder*)obj.ptr)->direction, ft_dot_product(ft_substract_vectors(point, ((t_cylinder*)obj.ptr)->center), ((t_cylinder*)obj.ptr)->direction))));
-		}
-		else if (obj.type == PLANE)
-		{
-			normal = ((t_plane*)obj.ptr)->direction;
-		}
-		normal_len = ft_vector_length(normal);
-		normal = ft_multiply_vector_double(normal, 1.0 / normal_len);
-		light_ray = ft_substract_vectors(bulb->center, point);
-		n_dot_l = ft_dot_product(normal, light_ray) / (normal_len * ft_vector_length(light_ray));
-		if (n_dot_l > 0)
-		{
-			//scene.ambiant.intensity += bulb->light.intensity * n_dot_l;
-			ft_add_light_intensity(intensity, bulb->light.color, bulb->light.intensity * n_dot_l);
-		}
-		bulb = bulb->next;
-	}
-	new_color = 0;
-	new_color += (int)(intensity[0] * ((color & 16711680) >> 16)) << 16;
-	new_color += (int)(intensity[1] * ((color & 65280) >> 8)) << 8;
-	new_color += (int)(intensity[2] * (color & 255));
-	return (new_color);
-}
-
 void	ft_intersect_ray(t_vector origin, t_vector direction, t_obj obj, double inter[2])
 {
 	if (obj.type == PLANE)
@@ -152,6 +105,19 @@ void	ft_intersect_ray(t_vector origin, t_vector direction, t_obj obj, double int
 		ft_intersect_ray_sphere(origin, direction, obj.ptr, inter);
 	else if (obj.type == CYLINDER)
 		ft_intersect_ray_cylinder(origin, direction, obj.ptr, inter);
+}
+
+double	ft_closest_obj(double inter1, double inter2, t_obj *obj1, t_obj *obj2)
+{
+	if ((inter1 <= inter2 && inter1 != -1) || inter2 == -1)
+		return (inter1);
+	else if (inter2 != -1)
+	{
+		obj1->ptr = obj2->ptr;
+		obj1->type = obj2->type;
+		return (inter2);
+	}
+	return (-1);
 }
 
 double	ft_closest_intersection(t_vector origin, t_vector direction, t_scene scene, t_obj *obj)
@@ -186,17 +152,78 @@ double	ft_closest_intersection(t_vector origin, t_vector direction, t_scene scen
 	return (closest_inter);
 }
 
-double	ft_closest_obj(double inter1, double inter2, t_obj *obj1, t_obj *obj2)
+void	*ft_is_in_shadow(t_vector point, t_scene scene, t_bulb *bulb)
 {
-	if ((inter1 <= inter2 && inter1 != -1) || inter2 == -1)
-		return (inter1);
-	else if (inter2 != -1)
+	double		closest_inter1;
+	double		closest_inter2;
+	t_obj		obj1;
+	t_obj		obj2;
+
+	scene.inter_min = 0.00000000001;
+	scene.inter_max = 1;
+	obj1.ptr = scene.planes;
+	obj1.type = PLANE;
+	closest_inter1 = ft_closest_intersection(point, ft_substract_vectors(bulb->center, point), scene, &obj1);
+	obj2.ptr = scene.spheres;
+	obj2.type = SPHERE;
+	closest_inter2 = ft_closest_intersection(point, ft_substract_vectors(bulb->center, point), scene, &obj2);
+	closest_inter1 = ft_closest_obj(closest_inter1, closest_inter2, &obj1, &obj2);
+	obj2.ptr = scene.cylinders;
+	obj2.type = CYLINDER;
+	closest_inter2 = ft_closest_intersection(point, ft_substract_vectors(bulb->center, point), scene, &obj2);
+	closest_inter1 = ft_closest_obj(closest_inter1, closest_inter2, &obj1, &obj2);
+	if (closest_inter1 == -1)
+		return (NULL);
+	return (obj1.ptr);
+}
+
+int		ft_compute_lighting(t_vector point, t_obj obj, t_scene scene, int color)
+{
+	double		normal_len;
+	double		n_dot_l;
+	t_vector	normal;
+	t_vector	light_ray;
+	t_bulb		*bulb;
+	int			new_color;
+	double		intensity[3];
+
+	bulb = scene.bulbs;
+	intensity[0] = 0;
+	intensity[1] = 0;
+	intensity[2] = 0; 
+	ft_add_light_intensity(intensity, scene.ambiant->color, scene.ambiant->intensity);
+	while (bulb != NULL)
 	{
-		obj1->ptr = obj2->ptr;
-		obj1->type = obj2->type;
-		return (inter2);
+		if (ft_is_in_shadow(point, scene, bulb) != NULL)
+		{
+			bulb = bulb->next;
+			continue ;
+		}
+		if (obj.type == SPHERE)
+		{
+			normal = ft_substract_vectors(point, ((t_sphere*)obj.ptr)->center);
+		}
+		else if (obj.type == CYLINDER)
+		{
+			normal = ft_substract_vectors(point, ft_add_vectors(((t_cylinder*)obj.ptr)->center, ft_multiply_vector_double(((t_cylinder*)obj.ptr)->direction, ft_dot_product(ft_substract_vectors(point, ((t_cylinder*)obj.ptr)->center), ((t_cylinder*)obj.ptr)->direction))));
+		}
+		else if (obj.type == PLANE)
+		{
+			normal = ((t_plane*)obj.ptr)->direction;
+		}
+		normal_len = ft_vector_length(normal);
+		normal = ft_multiply_vector_double(normal, 1.0 / normal_len);
+		light_ray = ft_substract_vectors(bulb->center, point);
+		n_dot_l = ft_dot_product(normal, light_ray) / (normal_len * ft_vector_length(light_ray));
+		if (n_dot_l > 0)
+			ft_add_light_intensity(intensity, bulb->light.color, bulb->light.intensity * n_dot_l);
+		bulb = bulb->next;
 	}
-	return (-1);
+	new_color = 0;
+	new_color += (int)(intensity[0] * ((color & 16711680) >> 16)) << 16;
+	new_color += (int)(intensity[1] * ((color & 65280) >> 8)) << 8;
+	new_color += (int)(intensity[2] * (color & 255));
+	return (new_color);
 }
 
 int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)

@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/01 19:12:56 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/02 18:08:25 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int			main(int argc, char **argv)
 	scene->inter_min = 1;
 	scene->inter_max = -1;
 	scene->plan.distance = 1;
-	scene->plan.viewport = 5;
+	scene->plan.viewport = 1;
 	scene->mlx = mlx_init();
 	origin.x = 0;
 	origin.y = 0;
