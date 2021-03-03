@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 11:38:14 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/28 19:44:02 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/03 09:33:09 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,27 @@ t_light		*ft_new_ambiant(char **args, int line)
 	return (light);
 }
 
+t_camera	*ft_new_camera(char **args, int line)
+{
+	t_camera	*camera;
+
+	camera = malloc(sizeof(*camera));
+	if (camera == NULL)
+		ft_fatal_error("Failed to create a new camera");
+	if (!ft_check_str_to_vector(args[0], 0, line) ||
+			!ft_check_str_to_vector(args[1], 1, line) ||
+			!ft_check_atoi(args[2], "", line))
+	{
+		free(camera);
+		return (NULL);
+	}
+	camera->center = ft_str_to_vector(args[0]);
+	camera->direction = ft_str_to_vector(args[1]);
+	camera->fov = ft_atoi(args[2]);
+	camera->next = NULL;
+	return (camera);
+}
+
 t_bulb		*ft_new_light(char **args, int line)
 {
 	t_bulb	*light;
@@ -45,7 +66,7 @@ t_bulb		*ft_new_light(char **args, int line)
 		return (NULL);
 	}
 	light->center = ft_str_to_vector(args[0]);
-	light->light.intensity = ft_atof(args[1]);;
+	light->light.intensity = ft_atof(args[1]);
 	light->light.color = ft_parse_color(args[2]);
 	light->next = NULL;
 	return (light);

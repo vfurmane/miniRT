@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 18:31:03 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/01 19:12:20 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/03 11:17:42 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	ft_free_scene(t_scene **scene)
 {
 	free((*scene)->ambiant);
 	(*scene)->ambiant = NULL;
+	ft_free_lst((*scene)->img);
+	ft_free_lst((*scene)->cameras);
 	ft_free_lst((*scene)->bulbs);
 	ft_free_lst((*scene)->spheres);
 	ft_free_lst((*scene)->planes);

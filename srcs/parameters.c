@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:13:35 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/19 18:00:45 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/03 10:06:54 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	ft_parse_line(char *line, t_scene *scene)
 			ret = -1;
 		}
 	}
+	else if (ft_strcmp(args[0], "c") == 0)
+		ret = ft_handle_camera(&args[1], scene, line_nbr);
 	else if (ft_strcmp(args[0], "l") == 0)
 		ret = ft_handle_light(&args[1], scene, line_nbr);
 	else if (ft_strcmp(args[0], "sp") == 0)
@@ -99,7 +101,9 @@ int	ft_parameters(int argc, char **argv, t_scene *scene)
 	}
 	i = 1;
 	scene->plan.width = 0;
+	scene->img = NULL;
 	scene->ambiant = NULL;
+	scene->cameras = NULL;
 	scene->bulbs = NULL;
 	scene->spheres = NULL;
 	scene->planes = NULL;
@@ -119,6 +123,11 @@ int	ft_parameters(int argc, char **argv, t_scene *scene)
 	if (scene->ambiant == NULL)
 	{
 		printf("Error\nAmbiant light never set\n");
+		return (-1);
+	}
+	if (scene->cameras == NULL)
+	{
+		printf("Error\n0 camera defined, at least 1 needed\n");
 		return (-1);
 	}
 	return (0);

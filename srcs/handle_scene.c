@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:47:22 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/02 17:57:32 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/03 09:31:23 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,19 @@ int	ft_handle_ambiant(char **args, t_scene *scene, int line)
 		printf("Error\nline %d: Light intensity must be in range [0.0,1.0]\n", line);
 		return (-1);
 	}
+	return (0);
+}
+
+int	ft_handle_camera(char **args, t_scene *scene, int line)
+{
+	void	*ret;
+
+	if (!ft_check_args_count(args, 3, line))
+		return (-1);
+	ret = ft_lstadd_front((void**)&scene->cameras,
+			(void*)ft_new_camera(&args[0], line));
+	if (ret == NULL)
+		return (-1);
 	return (0);
 }
 

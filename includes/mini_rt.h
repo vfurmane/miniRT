@@ -12,11 +12,13 @@
 
 #ifndef MINI_RT_H
 # define MINI_RT_H
+# define XK_LATIN1
 
 # include <stdio.h>
 # include <math.h>
 # include <fcntl.h>
 # include <errno.h>
+# include <X11/keysymdef.h>
 # include "mlx.h"
 # include "get_next_line.h"
 
@@ -28,13 +30,14 @@
 **	Structures
 */
 
-typedef struct	s_data {
-	void		*img;
-	char		*addr;
-	int			bits_per_pixel;
-	int			line_length;
-	int			endian;
-}				t_data;
+typedef struct		s_data {
+	struct s_data	*next;
+	void			*img;
+	char			*addr;
+	int				bits_per_pixel;
+	int				line_length;
+	int				endian;
+}					t_data;
 
 typedef struct		s_next
 {
@@ -83,6 +86,14 @@ typedef struct	s_plan
 	int	distance;
 }				t_plan;
 
+typedef struct	s_camera
+{
+	struct s_camera	*next;
+	t_vector		center;
+	t_vector		direction;
+	int				fov;
+}					t_camera;
+
 typedef struct	s_plane
 {
 	struct s_plane	*next;
@@ -126,11 +137,12 @@ typedef struct	s_scene
 {
 	void			*mlx;
 	void			*win;
-	t_data			img;
+	t_data			*img;
 	struct s_plan	plan;
 	double			inter_min;
 	double			inter_max;
 	t_light			*ambiant;
+	t_camera		*cameras;
 	t_bulb			*bulbs;
 	t_sphere		*spheres;
 	t_plane			*planes;
@@ -171,6 +183,7 @@ void		ft_free_scene(t_scene **scene);
 
 int			ft_handle_resolution(char **args, t_scene *scene, int line);
 int			ft_handle_ambiant(char **args, t_scene *scene, int line);
+int			ft_handle_camera(char **args, t_scene *scene, int line);
 int			ft_handle_light(char **args, t_scene *scene, int line);
 
 int			ft_handle_sphere(char **args, t_scene *scene, int line);
@@ -185,6 +198,7 @@ void		my_mlx_events(t_scene *scene);
 void		my_mlx_put_pixel(t_data *data, t_pixel pixel, int pixel_size, t_scene scene);
 
 t_light		*ft_new_ambiant(char **args, int line);
+t_camera	*ft_new_camera(char **args, int line);
 t_bulb		*ft_new_light(char **args, int line);
 
 t_sphere	*ft_new_sphere(char **args, int line);
