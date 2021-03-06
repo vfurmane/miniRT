@@ -158,7 +158,7 @@ double		ft_atof(const char *str);
 
 t_vector	ft_canvas_to_viewport_aa(t_pixel pixel, int viewport, t_plan canvas,
 				double *aa);
-t_vector	ft_canvas_to_viewport(t_pixel pixel, int viewport, t_plan canvas);
+t_vector	ft_canvas_to_viewport(t_pixel pixel, int viewport, t_plan canvas, t_vector cam_direction);
 t_pixel		ft_translate_pixel(t_pixel pixel, t_plan plan);
 
 int			ft_check_args_count(char **args, int expected, int line);
@@ -228,6 +228,7 @@ t_vector	ft_multiply_vectors(t_vector v1, t_vector v2);
 
 double		ft_dot_product(t_vector v1, t_vector v2);
 double		ft_vector_length(t_vector vector);
+t_vector	ft_cross_product(t_vector v1, t_vector v2);
 t_vector	ft_normalize_vector(t_vector vector);
 
 #endif
