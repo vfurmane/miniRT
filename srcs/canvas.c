@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 20:31:03 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/06 15:30:36 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/09 12:33:32 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_vector	ft_cam_to_world(t_vector direction, t_vector cam_direction)
 	t_vector	tmp;
 
 	forward = ft_normalize_vector(cam_direction);
-	if (forward.x == 0 && forward.y == 1 && forward.z == 0)
+	if (cam_direction.x == 0 && cam_direction.y == 1 && cam_direction.z == 0)
 	{
 		right.x = 1;
 		right.y = 0;
@@ -37,9 +37,6 @@ t_vector	ft_cam_to_world(t_vector direction, t_vector cam_direction)
 		tmp.z = 0;
 		right = ft_cross_product(tmp, forward);
 		up = ft_cross_product(forward, right);
-		right.y = -right.y;
-		right.z = -right.z;
-		up.z = -up.z;
 	}
 	direction_copy.x = right.x * direction.x + right.y * direction.y + right.z * direction.z;
 	direction_copy.y = up.x * direction.x + up.y * direction.y + up.z * direction.z;
@@ -47,7 +44,7 @@ t_vector	ft_cam_to_world(t_vector direction, t_vector cam_direction)
 	return (direction_copy);
 }
 
-t_vector	ft_canvas_to_viewport_aa(t_pixel pixel, int viewport, t_plan canvas,
+t_vector	ft_canvas_to_viewport_aa(t_pixel pixel, double viewport, t_plan canvas,
 		double *aa)
 {
 	double		d_viewport;
@@ -62,7 +59,7 @@ t_vector	ft_canvas_to_viewport_aa(t_pixel pixel, int viewport, t_plan canvas,
 	return (direction);
 }
 
-t_vector	ft_canvas_to_viewport(t_pixel pixel, int viewport, t_plan canvas, t_vector cam_direction)
+t_vector	ft_canvas_to_viewport(t_pixel pixel, double viewport, t_plan canvas, t_vector cam_direction)
 {
 	double		d_viewport;
 	double		d_width;

@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/06 11:42:45 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/09 12:30:44 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,15 @@ int			main(int argc, char **argv)
 	scene->inter_min = 1;
 	scene->inter_max = -1;
 	scene->plan.distance = 1;
-	scene->plan.viewport = 1;
 	scene->mlx = mlx_init();
-	pixel_size = 1;
+	pixel_size = 20;
 	camera = scene->cameras;
 	while (camera != NULL)
 	{
 		img = malloc(sizeof(*img));
 		if (img == NULL)
 			ft_fatal_error("Malloc");
+		scene->plan.viewport = tan((camera->fov * M_PI / 180) / 2);
 		origin = camera->center;
 		img->next = NULL;
 		img->img = mlx_new_image(scene->mlx, scene->plan.width, scene->plan.height);

@@ -26,6 +26,10 @@
 #  define MINI_RT_BONUS 0
 # endif
 
+# ifndef M_PI
+#  define M_PI 3.1415926535
+# endif
+
 /*
 **	Structures
 */
@@ -80,10 +84,10 @@ typedef struct	s_pixel
 
 typedef struct	s_plan
 {
-	int	width;
-	int	height;
-	int	viewport;
-	int	distance;
+	int		width;
+	int		height;
+	double	viewport;
+	double	distance;
 }				t_plan;
 
 typedef struct	s_camera
@@ -156,9 +160,9 @@ typedef struct	s_scene
 int			ft_atoi(const char *str);
 double		ft_atof(const char *str);
 
-t_vector	ft_canvas_to_viewport_aa(t_pixel pixel, int viewport, t_plan canvas,
+t_vector	ft_canvas_to_viewport_aa(t_pixel pixel, double viewport, t_plan canvas,
 				double *aa);
-t_vector	ft_canvas_to_viewport(t_pixel pixel, int viewport, t_plan canvas, t_vector cam_direction);
+t_vector	ft_canvas_to_viewport(t_pixel pixel, double viewport, t_plan canvas, t_vector cam_direction);
 t_pixel		ft_translate_pixel(t_pixel pixel, t_plan plan);
 
 int			ft_check_args_count(char **args, int expected, int line);

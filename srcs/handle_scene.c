@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:47:22 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/03 09:31:23 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/09 09:57:28 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,11 @@ int	ft_handle_camera(char **args, t_scene *scene, int line)
 			(void*)ft_new_camera(&args[0], line));
 	if (ret == NULL)
 		return (-1);
+	if (scene->cameras->fov < 0 || scene->cameras->fov > 180)
+	{
+		printf("Error\nline %d: Camera fov must be in range [0,180]\n", line);
+		return (-1);
+	}
 	return (0);
 }
 
