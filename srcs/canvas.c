@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 20:31:03 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/10 12:38:21 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/10 14:22:37 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_vector	ft_canvas_to_viewport(t_pixel pixel, double viewport, t_plan canvas, t_
 
 t_pixel		ft_translate_pixel(t_pixel pixel, t_plan plan)
 {
-	static t_pixel	new_pixel;
+	t_pixel	new_pixel;
 
 	new_pixel.x = pixel.x + plan.width / 2;
 	new_pixel.y = -pixel.y + plan.height / 2;
