@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 18:31:03 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/03 11:17:42 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/10 14:44:29 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	ft_free_gnl(int fd)
 
 void	ft_free_scene(t_scene **scene)
 {
+	free((*scene)->title);
 	free((*scene)->ambiant);
 	(*scene)->ambiant = NULL;
 	ft_free_lst((*scene)->img);

@@ -142,6 +142,7 @@ typedef struct	s_scene
 	void			*mlx;
 	void			*win;
 	t_data			*img;
+	char			*title;
 	struct s_plan	plan;
 	double			inter_min;
 	double			inter_max;
@@ -220,6 +221,7 @@ int			ft_trace_ray(t_vector origin, t_vector direction, t_scene scene);
 int			ft_strcmp(char *str1, char *str2);
 char		**ft_split(const char *str, char *sep);
 char		*ft_strrchr(char *str, int chr);
+char		*ft_strjoin(const char *str1, const char *str2);
 
 t_vector	ft_str_to_vector(const char *str);
 int			ft_step_to_number(const char *str, int i);

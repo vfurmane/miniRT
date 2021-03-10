@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 12:04:57 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/28 18:25:25 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/10 14:58:17 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,39 @@ char	*ft_strrchr(char *str, int chr)
 	if ((unsigned char)chr == '\0')
 		return (&str[i]);
 	return (ptr);
+}
+
+int		ft_strlen(const char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+char	*ft_strjoin(const char *str1, const char *str2)
+{
+	int		i;
+	int		len;
+	int		str1_len;
+	char	*new_str;
+
+	str1_len = ft_strlen(str1);
+	len = str1_len + ft_strlen(str2) + 1;
+	if (!(new_str = malloc(len * sizeof(*new_str))))
+		return (NULL);
+	i = 0;
+	while (i < str1_len)
+	{
+		new_str[i] = str1[i];
+		i++;
+	}
+	while (i < len)
+	{
+		new_str[i] = str2[i - str1_len];
+		i++;
+	}
+	return (new_str);
 }

@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:13:35 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/10 11:44:59 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/10 14:44:15 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int	ft_parameters(int argc, char **argv, t_scene *scene)
 	scene->mlx = NULL;
 	scene->win = NULL;
 	scene->img = NULL;
+	scene->title = NULL;
 	scene->plan.width = 0;
 	scene->ambiant = NULL;
 	scene->cameras = NULL;

@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/10 11:45:08 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/10 14:59:40 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,12 @@ int			main(int argc, char **argv)
 		ft_free_scene(&scene);
 		return (1);
 	}
+	scene->title = ft_strjoin("miniRT - ", argv[1]);
 	scene->inter_min = 1;
 	scene->inter_max = -1;
 	scene->plan.distance = 1;
 	scene->mlx = mlx_init();
-	pixel_size = 15;
+	pixel_size = 1;
 	camera = scene->cameras;
 	while (camera != NULL)
 	{
@@ -111,7 +112,7 @@ int			main(int argc, char **argv)
 	while (img->next != NULL)
 		img = img->next;
 	img->next = scene->img;
-	scene->win = mlx_new_window(scene->mlx, scene->plan.width, scene->plan.height, "miniRT");
+	scene->win = mlx_new_window(scene->mlx, scene->plan.width, scene->plan.height, scene->title);
 	mlx_put_image_to_window(scene->mlx, scene->win, scene->img->img, 0, 0);
 	my_mlx_events(scene);
 	mlx_loop(scene->mlx);
