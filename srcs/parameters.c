@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:13:35 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/03 10:06:54 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/10 11:44:59 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,20 +94,22 @@ int	ft_parameters(int argc, char **argv, t_scene *scene)
 	int		i;
 	char	*file;
 
-	if (argc != 2)
-	{
-		printf("Error\nExpected 1 parameter, %d given\n", argc - 1);
-		return (-1);
-	}
-	i = 1;
-	scene->plan.width = 0;
+	scene->mlx = NULL;
+	scene->win = NULL;
 	scene->img = NULL;
+	scene->plan.width = 0;
 	scene->ambiant = NULL;
 	scene->cameras = NULL;
 	scene->bulbs = NULL;
 	scene->spheres = NULL;
 	scene->planes = NULL;
 	scene->cylinders = NULL;
+	if (argc != 2)
+	{
+		printf("Error\nExpected 1 parameter, %d given\n", argc - 1);
+		return (-1);
+	}
+	i = 1;
 	while (i < argc)
 	{
 		file = argv[i];
