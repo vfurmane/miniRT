@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/09 12:30:44 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/10 10:32:32 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int			main(int argc, char **argv)
 	scene->inter_max = -1;
 	scene->plan.distance = 1;
 	scene->mlx = mlx_init();
-	pixel_size = 20;
+	pixel_size = 15;
 	camera = scene->cameras;
 	while (camera != NULL)
 	{
@@ -95,7 +95,7 @@ int			main(int argc, char **argv)
 				pixel.color = ft_color_average(colors);
 #else
 				direction = ft_canvas_to_viewport(pixel, scene->plan.viewport,
-						scene->plan, camera->direction);
+						scene->plan, camera);
 				pixel.color = ft_trace_ray(origin, direction, *scene);
 #endif
 				my_mlx_put_pixel(img, ft_translate_pixel(pixel, scene->plan),

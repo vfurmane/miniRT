@@ -162,7 +162,7 @@ double		ft_atof(const char *str);
 
 t_vector	ft_canvas_to_viewport_aa(t_pixel pixel, double viewport, t_plan canvas,
 				double *aa);
-t_vector	ft_canvas_to_viewport(t_pixel pixel, double viewport, t_plan canvas, t_vector cam_direction);
+t_vector	ft_canvas_to_viewport(t_pixel pixel, double viewport, t_plan canvas, t_camera *camera);
 t_pixel		ft_translate_pixel(t_pixel pixel, t_plan plan);
 
 int			ft_check_args_count(char **args, int expected, int line);
@@ -196,6 +196,8 @@ int			ft_handle_cylinder(char **args, t_scene *scene, int line);
 
 void		*ft_lstadd_front(void **lst, void *new);
 void		ft_free_lst(void *lst);
+
+void		ft_invert_camera_matrix(t_vector *right, t_vector *up, t_vector *forward);
 
 void		my_mlx_events(t_scene *scene);
 

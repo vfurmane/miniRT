@@ -6,13 +6,13 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 20:31:03 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/09 12:33:32 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/10 10:31:38 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-t_vector	ft_cam_to_world(t_vector direction, t_vector cam_direction)
+t_vector	ft_cam_to_world(t_vector direction, t_vector cam_center, t_vector cam_direction)
 {
 	t_vector	direction_copy;
 	t_vector	forward;
@@ -20,8 +20,9 @@ t_vector	ft_cam_to_world(t_vector direction, t_vector cam_direction)
 	t_vector	up;
 	t_vector	tmp;
 
+	(void)cam_center; /* ===== DELETE ===== */
 	forward = ft_normalize_vector(cam_direction);
-	if (cam_direction.x == 0 && cam_direction.y == 1 && cam_direction.z == 0)
+	if (forward.x == 0 && forward.y > 0 && forward.z == 0)
 	{
 		right.x = 1;
 		right.y = 0;
@@ -38,6 +39,7 @@ t_vector	ft_cam_to_world(t_vector direction, t_vector cam_direction)
 		right = ft_cross_product(tmp, forward);
 		up = ft_cross_product(forward, right);
 	}
+	ft_invert_camera_matrix(&right, &up, &forward);
 	direction_copy.x = right.x * direction.x + right.y * direction.y + right.z * direction.z;
 	direction_copy.y = up.x * direction.x + up.y * direction.y + up.z * direction.z;
 	direction_copy.z = forward.x * direction.x + forward.y * direction.y + forward.z * direction.z;
@@ -59,7 +61,7 @@ t_vector	ft_canvas_to_viewport_aa(t_pixel pixel, double viewport, t_plan canvas,
 	return (direction);
 }
 
-t_vector	ft_canvas_to_viewport(t_pixel pixel, double viewport, t_plan canvas, t_vector cam_direction)
+t_vector	ft_canvas_to_viewport(t_pixel pixel, double viewport, t_plan canvas, t_camera *camera)
 {
 	double		d_viewport;
 	double		d_width;
@@ -70,7 +72,7 @@ t_vector	ft_canvas_to_viewport(t_pixel pixel, double viewport, t_plan canvas, t_
 	direction.x = pixel.x * d_viewport / d_width;
 	direction.y = pixel.y * d_viewport / d_width;
 	direction.z = (double)canvas.distance;
-	direction = ft_cam_to_world(direction, cam_direction);
+	direction = ft_cam_to_world(direction, camera->center, camera->direction);
 	return (direction);
 }
 
