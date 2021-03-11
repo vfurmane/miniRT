@@ -6,16 +6,33 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/11 10:02:52 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/11 14:45:08 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
+int		ft_calculate_intersections(double k[3], double t[2])
+{
+	double	discriminant;
+
+	discriminant = k[1] * k[1] - (4 * k[0] * k[2]);
+	if (discriminant < 0)
+	{
+		t[0] = -1;
+		t[1] = -1;
+		return (0);
+	}
+	t[0] = (-k[1] - sqrt(discriminant)) / (2 * k[0]);
+	t[1] = (-k[1] + sqrt(discriminant)) / (2 * k[0]);
+	return (1);
+}
+
 void	ft_intersect_ray_plane(t_vector origin, t_vector direction,
 		t_plane *plane, double t[2])
 {
-	t[0] = ft_dot_product(ft_substract_vectors(plane->center, origin), plane->direction) / ft_dot_product(plane->direction, direction);
+	t[0] = ft_dot_product(ft_substract_vectors(plane->center, origin),
+			plane->direction) / ft_dot_product(plane->direction, direction);
 	t[1] = t[0];
 }
 
@@ -23,7 +40,6 @@ void	ft_intersect_ray_sphere(t_vector origin, t_vector direction,
 		t_sphere *sphere, double t[2])
 {
 	double		radius;
-	double		discriminant;
 	double		k[3];
 	t_vector	oc;
 	t_vector	center;
@@ -34,24 +50,28 @@ void	ft_intersect_ray_sphere(t_vector origin, t_vector direction,
 	k[0] = ft_dot_product(direction, direction);
 	k[1] = 2 * ft_dot_product(oc, direction);
 	k[2] = ft_dot_product(oc, oc) - radius * radius;
-	discriminant = k[1] * k[1] - (4 * k[0] * k[2]);
-	if (discriminant < 0)
-	{
-		t[0] = -1;
-		t[1] = -1;
-	}
-	else
-	{
-		t[0] = (-k[1] + sqrt(discriminant)) / (2 * k[0]);
-		t[1] = (-k[1] - sqrt(discriminant)) / (2 * k[0]);
-	}
+	if (ft_calculate_intersections(k, t))
+		return ;
+}
+
+int		ft_check_cylinder_cap(double inter, t_vector direction,
+		t_cylinder *cylinder, t_vector origin)
+{
+	return (ft_dot_product(cylinder->direction,
+			ft_substract_vectors(ft_add_vectors(origin,
+			ft_multiply_vector_double(direction, inter)),
+			cylinder->center)) >= 0 &&
+			ft_dot_product(ft_substract_vectors(ft_add_vectors(origin,
+			ft_multiply_vector_double(direction, inter)),
+			ft_add_vectors(cylinder->center,
+			ft_multiply_vector_double(cylinder->direction, cylinder->height))),
+			cylinder->direction) <= 0);
 }
 
 void	ft_intersect_ray_cylinder(t_vector origin, t_vector direction,
 		t_cylinder *cylinder, double t[2])
 {
 	double		radius;
-	double		discriminant;
 	double		k[3];
 	t_vector	oc;
 	t_vector	center;
@@ -59,45 +79,49 @@ void	ft_intersect_ray_cylinder(t_vector origin, t_vector direction,
 	center = cylinder->center;
 	radius = cylinder->radius;
 	oc = ft_substract_vectors(origin, center);
-	k[0] = ft_dot_product(direction, direction) - pow(ft_dot_product(direction, cylinder->direction), 2);
-	k[1] = 2 * ((ft_dot_product(direction, oc)) - ft_dot_product(direction, cylinder->direction) * ft_dot_product(oc, cylinder->direction));
-	k[2] = ft_dot_product(oc, oc) - pow(ft_dot_product(oc, cylinder->direction), 2) - radius * radius;
-	discriminant = k[1] * k[1] - (4 * k[0] * k[2]);
-	if (discriminant < 0)
-	{
-		t[0] = -1;
-		t[1] = -1;
-	}
+	k[0] = ft_dot_product(direction, direction) -
+		pow(ft_dot_product(direction, cylinder->direction), 2);
+	k[1] = 2 * ((ft_dot_product(direction, oc)) -
+			ft_dot_product(direction, cylinder->direction) *
+			ft_dot_product(oc, cylinder->direction));
+	k[2] = ft_dot_product(oc, oc) -
+		pow(ft_dot_product(oc, cylinder->direction), 2) - radius * radius;
+	if (!ft_calculate_intersections(k, t))
+		return ;
+	if (ft_check_cylinder_cap(t[0], direction, cylinder, origin))
+		t[1] = t[0];
+	if (ft_check_cylinder_cap(t[1], direction, cylinder, origin))
+		t[0] = t[1];
 	else
+		t[0] = -1;
+	if (t[0] == -1)
+		t[1] = -1;
+}
+
+void	ft_add_light_intensity(double intensity[3], int color,
+		double light_intensity)
+{
+	int	i;
+	int	mask;
+	int	color_mask;
+	
+	i = 0;
+	while (i < 3)
 	{
-		t[0] = (-k[1] - sqrt(discriminant)) / (2 * k[0]);
-		t[1] = (-k[1] + sqrt(discriminant)) / (2 * k[0]);
-		if (ft_dot_product(cylinder->direction, ft_substract_vectors(ft_add_vectors(origin, ft_multiply_vector_double(direction, t[0])), cylinder->center)) >= 0 && ft_dot_product(ft_substract_vectors(ft_add_vectors(origin, ft_multiply_vector_double(direction, t[0])), ft_add_vectors(cylinder->center, ft_multiply_vector_double(cylinder->direction, cylinder->height))), cylinder->direction) <= 0)
-			t[1] = t[0];
-		else if (ft_dot_product(cylinder->direction, ft_substract_vectors(ft_add_vectors(origin, ft_multiply_vector_double(direction, t[1])), cylinder->center)) >= 0 && ft_dot_product(ft_substract_vectors(ft_add_vectors(origin, ft_multiply_vector_double(direction, t[1])), ft_add_vectors(cylinder->center, ft_multiply_vector_double(cylinder->direction, cylinder->height))), cylinder->direction) <= 0)
-			t[0] = t[1];
-		else
-		{
-			t[0] = -1;
-			t[1] = -1;
-		}
+		mask = 16 - 8 * i;
+		color_mask = (255 << mask);
+		intensity[i] +=
+			((double)((color & color_mask) >> mask) / 255) *
+			((double)((color & color_mask) >> mask) / 255) *
+			light_intensity;
+		if (intensity[i] > 1)
+			intensity[i] = 1;
+		i++;
 	}
 }
 
-void	ft_add_light_intensity(double intensity[3], int color, double light_intensity)
-{
-	intensity[0] += ((double)((color & 16711680) >> 16) / 255) * ((double)((color & 16711680) >> 16) / 255) * light_intensity;
-	if (intensity[0] > 1)
-		intensity[0] = 1;
-	intensity[1] += ((double)((color & 65280) >> 8) / 255) * ((double)((color & 65280) >> 8) / 255) * light_intensity;
-	if (intensity[1] > 1)
-		intensity[1] = 1;
-	intensity[2] += ((double)(color & 255) / 255) * ((double)(color & 255) / 255) * light_intensity;
-	if (intensity[2] > 1)
-		intensity[2] = 1;
-}
-
-void	ft_intersect_ray(t_vector origin, t_vector direction, t_obj obj, double inter[2])
+void	ft_intersect_ray(t_vector origin, t_vector direction, t_obj obj,
+		double inter[2])
 {
 	if (obj.type == PLANE)
 		ft_intersect_ray_plane(origin, direction, obj.ptr, inter);
@@ -120,7 +144,8 @@ double	ft_closest_obj(double inter1, double inter2, t_obj *obj1, t_obj *obj2)
 	return (-1);
 }
 
-double	ft_closest_intersection(t_vector origin, t_vector direction, t_scene scene, t_obj *obj)
+double	ft_closest_intersection(t_vector origin, t_vector direction,
+		t_scene scene, t_obj *obj)
 {
 	double	inter[2];
 	double	closest_inter;
@@ -152,29 +177,32 @@ double	ft_closest_intersection(t_vector origin, t_vector direction, t_scene scen
 	return (closest_inter);
 }
 
-void	*ft_is_in_shadow(t_vector point, t_scene scene, t_bulb *bulb)
+int		ft_is_in_shadow(t_vector point, t_scene scene, t_bulb *bulb)
 {
-	double		closest_inter1;
-	double		closest_inter2;
-	t_obj		obj1;
-	t_obj		obj2;
+	double		closest_inter;
+	t_obj		obj;
 
 	scene.inter_min = 0.00000000001;
 	scene.inter_max = 1;
-	obj1.ptr = scene.planes;
-	obj1.type = PLANE;
-	closest_inter1 = ft_closest_intersection(point, ft_substract_vectors(bulb->center, point), scene, &obj1);
-	obj2.ptr = scene.spheres;
-	obj2.type = SPHERE;
-	closest_inter2 = ft_closest_intersection(point, ft_substract_vectors(bulb->center, point), scene, &obj2);
-	closest_inter1 = ft_closest_obj(closest_inter1, closest_inter2, &obj1, &obj2);
-	obj2.ptr = scene.cylinders;
-	obj2.type = CYLINDER;
-	closest_inter2 = ft_closest_intersection(point, ft_substract_vectors(bulb->center, point), scene, &obj2);
-	closest_inter1 = ft_closest_obj(closest_inter1, closest_inter2, &obj1, &obj2);
-	if (closest_inter1 == -1)
-		return (NULL);
-	return (obj1.ptr);
+	obj.ptr = scene.planes;
+	obj.type = PLANE;
+	closest_inter = ft_closest_intersection(point,
+			ft_substract_vectors(bulb->center, point), scene, &obj);
+	if (closest_inter != -1)
+		return (1);
+	obj.ptr = scene.spheres;
+	obj.type = SPHERE;
+	closest_inter = ft_closest_intersection(point,
+			ft_substract_vectors(bulb->center, point), scene, &obj);
+	if (closest_inter != -1)
+		return (1);
+	obj.ptr = scene.cylinders;
+	obj.type = CYLINDER;
+	closest_inter = ft_closest_intersection(point,
+			ft_substract_vectors(bulb->center, point), scene, &obj);
+	if (closest_inter != -1)
+		return (1);
+	return (0);
 }
 
 int		ft_compute_lighting(t_vector point, t_obj obj, t_scene scene, int color)
@@ -191,10 +219,11 @@ int		ft_compute_lighting(t_vector point, t_obj obj, t_scene scene, int color)
 	intensity[0] = 0;
 	intensity[1] = 0;
 	intensity[2] = 0; 
-	ft_add_light_intensity(intensity, scene.ambiant->color, scene.ambiant->intensity);
+	ft_add_light_intensity(intensity, scene.ambiant->color,
+			scene.ambiant->intensity);
 	while (bulb != NULL)
 	{
-		if (ft_is_in_shadow(point, scene, bulb) != NULL)
+		if (ft_is_in_shadow(point, scene, bulb))
 		{
 			bulb = bulb->next;
 			continue ;
@@ -205,7 +234,12 @@ int		ft_compute_lighting(t_vector point, t_obj obj, t_scene scene, int color)
 		}
 		else if (obj.type == CYLINDER)
 		{
-			normal = ft_substract_vectors(point, ft_add_vectors(((t_cylinder*)obj.ptr)->center, ft_multiply_vector_double(((t_cylinder*)obj.ptr)->direction, ft_dot_product(ft_substract_vectors(point, ((t_cylinder*)obj.ptr)->center), ((t_cylinder*)obj.ptr)->direction))));
+			normal = ft_substract_vectors(point,
+					ft_add_vectors(((t_cylinder*)obj.ptr)->center,
+					ft_multiply_vector_double(((t_cylinder*)obj.ptr)->direction,
+					ft_dot_product(ft_substract_vectors(point,
+					((t_cylinder*)obj.ptr)->center),
+					((t_cylinder*)obj.ptr)->direction))));
 		}
 		else if (obj.type == PLANE)
 		{
@@ -214,9 +248,11 @@ int		ft_compute_lighting(t_vector point, t_obj obj, t_scene scene, int color)
 		normal_len = ft_vector_length(normal);
 		normal = ft_multiply_vector_double(normal, 1.0 / normal_len);
 		light_ray = ft_substract_vectors(bulb->center, point);
-		n_dot_l = ft_dot_product(normal, light_ray) / (normal_len * ft_vector_length(light_ray));
+		n_dot_l = ft_dot_product(normal, light_ray) /
+			(normal_len * ft_vector_length(light_ray));
 		if (n_dot_l > 0)
-			ft_add_light_intensity(intensity, bulb->light.color, bulb->light.intensity * n_dot_l);
+			ft_add_light_intensity(intensity, bulb->light.color,
+					bulb->light.intensity * n_dot_l);
 		bulb = bulb->next;
 	}
 	new_color = 0;
