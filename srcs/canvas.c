@@ -6,44 +6,47 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 20:31:03 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/10 14:22:37 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/11 09:36:56 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-t_vector	ft_cam_to_world(t_vector direction, t_vector cam_center, t_vector cam_direction)
+void	ft_calculate_camera_rotation(t_camera *camera)
 {
-	t_vector	direction_copy;
-	t_vector	forward;
-	t_vector	right;
-	t_vector	up;
 	t_vector	tmp;
 
-	(void)cam_center; /* ===== DELETE ===== */
-	forward = ft_normalize_vector(cam_direction);
-	if (forward.x == 0 && forward.y > 0 && forward.z == 0)
+	camera->forward = ft_normalize_vector(camera->direction);
+	if (camera->forward.x == 0 && camera->forward.y != 0 && camera->forward.z == 0)
 	{
-		right.x = 1;
-		right.y = 0;
-		right.z = 0;
-		up.x = 0;
-		up.y = 0;
-		up.z = -1;
+		camera->right.x = 1 - 2 * (camera->forward.y < 0);
+		camera->right.y = 0;
+		camera->right.z = 0;
+		camera->up.x = 0;
+		camera->up.y = 0;
+		camera->up.z = -1 + 2 * (camera->forward.y < 0);
 	}
 	else
 	{
 		tmp.x = 0;
 		tmp.y = 1;
 		tmp.z = 0;
-		right = ft_cross_product(tmp, forward);
-		up = ft_cross_product(forward, right);
+		camera->right = ft_cross_product(tmp, camera->forward);
+		camera->up = ft_cross_product(camera->forward, camera->right);
 	}
-	ft_invert_camera_matrix(&right, &up, &forward);
-	direction_copy.x = right.x * direction.x + right.y * direction.y + right.z * direction.z;
-	direction_copy.y = up.x * direction.x + up.y * direction.y + up.z * direction.z;
-	direction_copy.z = forward.x * direction.x + forward.y * direction.y + forward.z * direction.z;
-	return (direction_copy);
+	ft_invert_camera_matrix(&camera->right, &camera->up, &camera->forward);
+}
+
+void	ft_cam_to_world(t_vector *direction, t_camera *camera)
+{
+	t_vector	direction_copy;
+
+	direction_copy.x = camera->right.x * direction->x + camera->right.y * direction->y + camera->right.z * direction->z;
+	direction_copy.y = camera->up.x * direction->x + camera->up.y * direction->y + camera->up.z * direction->z;
+	direction_copy.z = camera->forward.x * direction->x + camera->forward.y * direction->y + camera->forward.z * direction->z;
+	direction->x = direction_copy.x;
+	direction->y = direction_copy.y;
+	direction->z = direction_copy.z;
 }
 
 t_vector	ft_canvas_to_viewport_aa(t_pixel pixel, double viewport, t_plan canvas,
@@ -72,7 +75,7 @@ t_vector	ft_canvas_to_viewport(t_pixel pixel, double viewport, t_plan canvas, t_
 	direction.x = pixel.x * d_viewport / d_width;
 	direction.y = pixel.y * d_viewport / d_width;
 	direction.z = (double)canvas.distance;
-	direction = ft_cam_to_world(direction, camera->center, camera->direction);
+	ft_cam_to_world(&direction, camera);
 	return (direction);
 }
 

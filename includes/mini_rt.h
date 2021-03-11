@@ -95,6 +95,9 @@ typedef struct	s_camera
 	struct s_camera	*next;
 	t_vector		center;
 	t_vector		direction;
+	t_vector		right;
+	t_vector		up;
+	t_vector		forward;
 	int				fov;
 }					t_camera;
 
@@ -161,6 +164,7 @@ typedef struct	s_scene
 int			ft_atoi(const char *str);
 double		ft_atof(const char *str);
 
+void		ft_calculate_camera_rotation(t_camera *camera);
 t_vector	ft_canvas_to_viewport_aa(t_pixel pixel, double viewport, t_plan canvas,
 				double *aa);
 t_vector	ft_canvas_to_viewport(t_pixel pixel, double viewport, t_plan canvas, t_camera *camera);
