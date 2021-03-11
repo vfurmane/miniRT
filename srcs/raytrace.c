@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/02 17:29:55 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/11 10:02:52 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,7 +246,7 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 	closest_inter2 = ft_closest_intersection(origin, direction, scene, &obj2);
 	closest_inter1 = ft_closest_obj(closest_inter1, closest_inter2, &obj1, &obj2);
 	if (closest_inter1 == -1)
-		return (ft_multiply_color(scene.ambiant->color, scene.ambiant->intensity));
+		return (scene.background_color);
 	point = ft_add_vectors(origin, ft_multiply_vector_double(direction,
 				closest_inter1));
 	return (ft_compute_lighting(point, obj1, scene, ((t_basic_obj*)obj1.ptr)->color));

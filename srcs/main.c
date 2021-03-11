@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/11 09:34:46 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/11 10:04:48 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int			main(int argc, char **argv)
 	scene->mlx = mlx_init();
 	pixel_size = 20;
 	camera = scene->cameras;
+	scene->background_color = ft_multiply_color(scene->ambiant->color, scene->ambiant->intensity);
 	while (camera != NULL)
 	{
 		img = malloc(sizeof(*img));

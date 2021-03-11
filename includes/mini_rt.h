@@ -149,6 +149,7 @@ typedef struct	s_scene
 	struct s_plan	plan;
 	double			inter_min;
 	double			inter_max;
+	int				background_color;
 	t_light			*ambiant;
 	t_camera		*cameras;
 	t_bulb			*bulbs;
