@@ -6,7 +6,7 @@
 #    By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/28 15:38:44 by vfurmane          #+#    #+#              #
-#    Updated: 2021/03/10 10:31:52 by vfurmane         ###   ########.fr        #
+#    Updated: 2021/03/11 14:46:59 by vfurmane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,13 +16,14 @@ INCL		= $(addprefix -I, includes)
 NAME		= miniRT
 CC			= clang
 BONUS		= 
-CFLAGS		= -Wall -Wextra -Werror -g3 -ggdb $(BONUS) -fsanitize=address
+CFLAGS		= -Wall -Wextra -Werror -g3 -ggdb $(BONUS)
 LIBS		= -L mlx_linux -lmlx_Linux -I mlx_linux -lXext -lX11 -lm -lz
 RM			= rm -f
 
 %.o:		%.c
 			$(CC) $(CFLAGS) -c $< $(INCL) -o $@
 
+all:		CFLAGS += -fsanitize=address
 all:		$(NAME)
 
 $(NAME):	$(OBJS)
@@ -36,6 +37,8 @@ mlx:
 	@git clone https://github.com/42Paris/minilibx-linux.git mlx_linux
 	@echo "\033[92mCompiling the Minilibx...\033[0m"
 	@cd mlx_linux && ./configure
+
+nosanitize: fclean $(NAME)
 
 clean:
 			$(RM) $(OBJS)
