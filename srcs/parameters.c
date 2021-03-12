@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:13:35 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/10 14:44:15 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/12 19:43:51 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ int	ft_parse_scene(char *file, t_scene *scene)
 
 int	ft_parameters(int argc, char **argv, t_scene *scene)
 {
-	int		i;
 	char	*file;
 
 	scene->mlx = NULL;
@@ -105,24 +104,19 @@ int	ft_parameters(int argc, char **argv, t_scene *scene)
 	scene->spheres = NULL;
 	scene->planes = NULL;
 	scene->cylinders = NULL;
-	if (argc != 2)
+	if (argc < 2 || argc > 3)
 	{
-		printf("Error\nExpected 1 parameter, %d given\n", argc - 1);
+		printf("Error\nUsage: %s scene [--save]\n", argv[0]);
 		return (-1);
 	}
-	i = 1;
-	while (i < argc)
+	file = argv[1];
+	if (ft_strcmp(ft_strrchr(file, '.'), ".rt") != 0)
 	{
-		file = argv[i];
-		if (ft_strcmp(ft_strrchr(file, '.'), ".rt") != 0)
-		{
-			printf("Error\nFile extension is not .rt\n");
-			return (-1);
-		}
-		if (ft_parse_scene(file, scene) == -1)
-			return (-1);
-		i++;
+		printf("Error\nFile extension is not .rt\n");
+		return (-1);
 	}
+	if (ft_parse_scene(file, scene) == -1)
+		return (-1);
 	if (scene->ambiant == NULL)
 	{
 		printf("Error\nAmbiant light never set\n");

@@ -165,6 +165,9 @@ typedef struct	s_scene
 int			ft_atoi(const char *str);
 double		ft_atof(const char *str);
 
+int			ft_initialize_bmp(t_scene *scene, int fd);
+void		ft_add_pixel_to_bmp(int fd, int color, int end_of_line);
+
 void		ft_calculate_camera_rotation(t_camera *camera);
 t_vector	ft_canvas_to_viewport_aa(t_pixel pixel, double viewport, t_plan canvas,
 				double *aa);
@@ -204,6 +207,8 @@ void		*ft_lstadd_front(void **lst, void *new);
 void		ft_free_lst(void *lst);
 
 void		ft_invert_camera_matrix(t_vector *right, t_vector *up, t_vector *forward);
+
+void		*ft_memcpy(void *dest, const void *src, size_t len);
 
 void		my_mlx_events(t_scene *scene);
 

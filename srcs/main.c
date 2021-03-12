@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/11 10:04:48 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/13 14:10:06 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ int			main(int argc, char **argv)
 	t_data		*img;
 	int			pixel_size;
 	int			loading;
+	int			fd;
+	int			end_of_line;
+	char		*file;
 	t_camera	*camera;
 #if MINI_RT_BONUS == 1
 	int			i;
@@ -57,11 +60,22 @@ int			main(int argc, char **argv)
 	scene->inter_max = -1;
 	scene->plan.distance = 1;
 	scene->mlx = mlx_init();
-	pixel_size = 20;
+	pixel_size = 1;
 	camera = scene->cameras;
 	scene->background_color = ft_multiply_color(scene->ambiant->color, scene->ambiant->intensity);
+	fd = -1;
+	end_of_line = 4 - (scene->plan.width * 3) % 4;
 	while (camera != NULL)
 	{
+		if (ft_strcmp("--save", argv[2]) == 0)
+		{
+			file = ft_strjoin(argv[1], ".bmp");
+			fd = open(file, O_WRONLY | O_CREAT, 0777);
+			if (fd == -1)
+				ft_fatal_error("Open");
+			ft_initialize_bmp(scene, fd);
+			free(file);
+		}
 		img = malloc(sizeof(*img));
 		if (img == NULL)
 			ft_fatal_error("Malloc");
@@ -74,11 +88,11 @@ int			main(int argc, char **argv)
 				&img->endian);
 		(void)loading; /* GCC doesn't like that one, find a better way to declare it, maybe not in bonus */
 		loading = 10;
-		pixel.x = -scene->plan.width / 2;
-		while (pixel.x <= scene->plan.width / 2)
+		pixel.y = -scene->plan.height / 2;
+		while (pixel.y <= scene->plan.height / 2 - (scene->plan.height % 2 == 0))
 		{
-			pixel.y = -scene->plan.height / 2 + 1;
-			while (pixel.y <= scene->plan.height / 2)
+			pixel.x = -scene->plan.width / 2;
+			while (pixel.x <= scene->plan.width / 2 - (scene->plan.height % 2 == 0))
 			{
 #if MINI_RT_BONUS == 1
 				if (((pixel.x + scene->plan.width / 2) * scene->plan.height + pixel.y) / (scene->plan.width * scene->plan.height) * 100 >= loading)
@@ -101,23 +115,30 @@ int			main(int argc, char **argv)
 						scene->plan, camera);
 				pixel.color = ft_trace_ray(origin, direction, *scene);
 #endif
-				my_mlx_put_pixel(img, ft_translate_pixel(pixel, scene->plan),
-						pixel_size, *scene);
-				pixel.y += pixel_size;
+				if (fd == -1)
+					my_mlx_put_pixel(img, ft_translate_pixel(pixel, scene->plan),
+							pixel_size, *scene);
+				else
+					ft_add_pixel_to_bmp(fd, pixel.color, (pixel.x == scene->plan.width / 2) * end_of_line);
+				pixel.x += pixel_size;
 			}
-			pixel.x += pixel_size;
+			pixel.y += pixel_size;
 		}
 		ft_lstadd_front((void**)(&scene->img), (void*)(img));
 		camera = camera->next;
+		close(fd);
 	}
-	img = scene->img;
-	while (img->next != NULL)
-		img = img->next;
-	img->next = scene->img;
-	scene->win = mlx_new_window(scene->mlx, scene->plan.width, scene->plan.height, scene->title);
-	mlx_put_image_to_window(scene->mlx, scene->win, scene->img->img, 0, 0);
-	my_mlx_events(scene);
-	mlx_loop(scene->mlx);
+	if (fd == -1)
+	{
+		img = scene->img;
+		while (img->next != NULL)
+			img = img->next;
+		img->next = scene->img;
+		scene->win = mlx_new_window(scene->mlx, scene->plan.width, scene->plan.height, scene->title);
+		mlx_put_image_to_window(scene->mlx, scene->win, scene->img->img, 0, 0);
+		my_mlx_events(scene);
+		mlx_loop(scene->mlx);
+	}
 	img = scene->img;
 	camera = scene->cameras;
 	while (camera != NULL)
@@ -128,7 +149,8 @@ int			main(int argc, char **argv)
 			img	= img->next;
 	}
 	img->next = NULL;
-	mlx_destroy_window(scene->mlx, scene->win);
+	if (fd == -1)
+		mlx_destroy_window(scene->mlx, scene->win);
 	mlx_destroy_display(scene->mlx);
 	ft_free_scene(&scene);
 	return (0);
