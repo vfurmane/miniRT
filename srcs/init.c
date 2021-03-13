@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 18:32:28 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/13 20:52:30 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/13 21:38:20 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,18 @@ int		ft_initialize_bmp_file(t_scene *scene, t_buffer *buffer, char *scene_file, 
 	free(scene_file);
 	free(file);
 	return (fd);
+}
+
+t_data	*ft_initialize_mlx_img(t_scene *scene)
+{
+	t_data	*img;
+
+	img = malloc(sizeof(*img));
+	if (img == NULL)
+		ft_fatal_error("Malloc");
+	img->next = NULL;
+	img->img = mlx_new_image(scene->mlx, scene->plan.width, scene->plan.height);
+	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length,
+			&img->endian);
+	return (img);
 }

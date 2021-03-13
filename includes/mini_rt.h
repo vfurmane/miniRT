@@ -214,6 +214,7 @@ int			ft_handle_cylinder(char **args, t_scene *scene, int line);
 
 t_scene		*ft_initialize_scene(t_scene **scene, int argc, char **argv);
 int			ft_initialize_bmp_file(t_scene *scene, t_buffer *buffer, char *scene_file, int camerano);
+t_data		*ft_initialize_mlx_img(t_scene *scene);
 
 void		*ft_lstadd_front(void **lst, void *new);
 void		ft_free_lst(void *lst);

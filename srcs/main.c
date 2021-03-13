@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/13 21:00:46 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/13 21:39:23 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int			main(int argc, char **argv)
 {
 	t_pixel		pixel;
-	t_vector	origin; /* ===== DELETE ===== */
 	t_vector	direction;
 	t_scene		*scene;
 	t_data		*img;
@@ -59,16 +58,9 @@ int			main(int argc, char **argv)
 	{
 		if (ft_strcmp("--save", argv[2]) == 0)
 			fd = ft_initialize_bmp_file(scene, &buffer, argv[1], camerano--);
-		img = malloc(sizeof(*img));
-		if (img == NULL)
-			ft_fatal_error("Malloc");
+		img = ft_initialize_mlx_img(scene);
 		scene->plan.viewport = tan((camera->fov * M_PI / 180) / 2);
-		origin = camera->center;
 		ft_calculate_camera_rotation(camera);
-		img->next = NULL;
-		img->img = mlx_new_image(scene->mlx, scene->plan.width, scene->plan.height);
-		img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length,
-				&img->endian);
 		(void)loading; /* GCC doesn't like that one, find a better way to declare it, maybe not in bonus */
 		loading = 10;
 		pixel.y = -scene->plan.height / 2;
@@ -89,14 +81,14 @@ int			main(int argc, char **argv)
 				{
 					direction = ft_canvas_to_viewport_aa(pixel, scene->plan.viewport,
 							scene->plan, &aa[i]);
-					colors[i] = ft_trace_ray(origin, direction, *scene);
+					colors[i] = ft_trace_ray(camera->center, direction, *scene);
 					i++;
 				}
 				pixel.color = ft_color_average(colors);
 #else
 				direction = ft_canvas_to_viewport(pixel, scene->plan.viewport,
 						scene->plan, camera);
-				pixel.color = ft_trace_ray(origin, direction, *scene);
+				pixel.color = ft_trace_ray(camera->center, direction, *scene);
 #endif
 				if (fd == -1)
 					my_mlx_put_pixel(img, ft_translate_pixel(pixel, scene->plan),
