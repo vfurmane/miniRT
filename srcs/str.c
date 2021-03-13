@@ -6,13 +6,13 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 12:04:57 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/13 20:44:34 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/13 21:14:20 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-int			ft_strcmp(char *str1, char *str2)
+int			ft_strcmp(const char *str1, const char *str2)
 {
 	size_t	i;
 
@@ -78,7 +78,7 @@ char		**ft_split(const char *str, char *sep)
 	return (arr);
 }
 
-char	*ft_strrchr(char *str, int chr)
+char	*ft_strrchr(const char *str, int chr)
 {
 	int		i;
 	char	*ptr;
@@ -88,11 +88,11 @@ char	*ft_strrchr(char *str, int chr)
 	while (str[i])
 	{
 		if (str[i] == (unsigned char)chr)
-			ptr = &str[i];
+			ptr = (char*)&str[i];
 		i++;
 	}
 	if ((unsigned char)chr == '\0')
-		return (&str[i]);
+		return ((char*)&str[i]);
 	return (ptr);
 }
 
@@ -131,7 +131,7 @@ char	*ft_strjoin(const char *str1, const char *str2)
 	return (new_str);
 }
 
-char	*ft_strcrdup(char *str, int chr)
+char	*ft_strcrdup(const char *str, int chr)
 {
 	int		str_len;
 	char	*new_str;

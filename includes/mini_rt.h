@@ -241,11 +241,11 @@ int			ft_fatal_error(const char *str);
 
 int			ft_trace_ray(t_vector origin, t_vector direction, t_scene scene);
 
-int			ft_strcmp(char *str1, char *str2);
+int			ft_strcmp(const char *str1, const char *str2);
 char		**ft_split(const char *str, char *sep);
-char		*ft_strrchr(char *str, int chr);
+char		*ft_strrchr(const char *str, int chr);
 char		*ft_strjoin(const char *str1, const char *str2);
-char		*ft_strcrdup(char *str, int chr);
+char		*ft_strcrdup(const char *str, int chr);
 
 t_vector	ft_str_to_vector(const char *str);
 int			ft_step_to_number(const char *str, int i);
