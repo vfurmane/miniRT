@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/13 15:06:23 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/13 15:39:33 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,8 +132,11 @@ int			main(int argc, char **argv)
 		ft_lstadd_front((void**)(&scene->img), (void*)(img));
 		camera = camera->next;
 		write(fd, buffer.str, 3 * scene->plan.width * scene->plan.height);
-		free(buffer.str);
-		close(fd);
+		if (fd != -1)
+		{
+			free(buffer.str);
+			close(fd);
+		}
 	}
 	if (fd == -1)
 	{

@@ -13,6 +13,7 @@
 #ifndef MINI_RT_H
 # define MINI_RT_H
 # define XK_LATIN1
+# define XK_MISCELLANY
 
 # include <stdio.h>
 # include <math.h>

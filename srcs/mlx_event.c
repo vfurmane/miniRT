@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 10:03:13 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/03 11:06:37 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/13 15:38:30 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int		ft_handle_key(int code, t_scene *scene)
 		scene->img = scene->img->next;
 		mlx_put_image_to_window(scene->mlx, scene->win, scene->img->img, 0, 0);
 	}
+	else if (code == XK_Escape)
+		ft_close_window(scene);
 	return (0);
 }
 
