@@ -140,6 +140,12 @@ typedef struct	s_bulb
 	t_light			light;
 }				t_bulb;
 
+typedef struct	s_buffer
+{
+	int			i;
+	char		*str;
+}				t_buffer;
+
 typedef struct	s_scene
 {
 	void			*mlx;
@@ -166,7 +172,7 @@ int			ft_atoi(const char *str);
 double		ft_atof(const char *str);
 
 int			ft_initialize_bmp(t_scene *scene, int fd);
-void		ft_add_pixel_to_bmp(int fd, int color, int end_of_line);
+void		ft_add_pixel_to_bmp(t_buffer *buffer, int color, int end_of_line);
 
 void		ft_calculate_camera_rotation(t_camera *camera);
 t_vector	ft_canvas_to_viewport_aa(t_pixel pixel, double viewport, t_plan canvas,

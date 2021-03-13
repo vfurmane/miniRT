@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/13 14:10:06 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/13 15:06:23 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int			main(int argc, char **argv)
 	int			fd;
 	int			end_of_line;
 	char		*file;
+	t_buffer	buffer;
 	t_camera	*camera;
 #if MINI_RT_BONUS == 1
 	int			i;
@@ -74,6 +75,10 @@ int			main(int argc, char **argv)
 			if (fd == -1)
 				ft_fatal_error("Open");
 			ft_initialize_bmp(scene, fd);
+			buffer.i = 0;
+			buffer.str = malloc(3 * scene->plan.width * scene->plan.height);
+			if (buffer.str == NULL)
+				return (1);
 			free(file);
 		}
 		img = malloc(sizeof(*img));
@@ -119,13 +124,15 @@ int			main(int argc, char **argv)
 					my_mlx_put_pixel(img, ft_translate_pixel(pixel, scene->plan),
 							pixel_size, *scene);
 				else
-					ft_add_pixel_to_bmp(fd, pixel.color, (pixel.x == scene->plan.width / 2) * end_of_line);
+					ft_add_pixel_to_bmp(&buffer, pixel.color, (pixel.x == scene->plan.width / 2) * end_of_line);
 				pixel.x += pixel_size;
 			}
 			pixel.y += pixel_size;
 		}
 		ft_lstadd_front((void**)(&scene->img), (void*)(img));
 		camera = camera->next;
+		write(fd, buffer.str, 3 * scene->plan.width * scene->plan.height);
+		free(buffer.str);
 		close(fd);
 	}
 	if (fd == -1)

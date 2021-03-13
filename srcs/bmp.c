@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 14:05:40 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/13 12:56:16 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/13 14:39:12 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,13 @@ int		ft_initialize_bmp(t_scene *scene, int fd)
 	return (0);
 }
 
-void	ft_add_pixel_to_bmp(int fd, int color, int end_of_line)
+void	ft_add_pixel_to_bmp(t_buffer *buffer, int color, int end_of_line)
 {
-	write(fd, (char*)&color, 3);
+	ft_memcpy(&buffer->str[buffer->i], (char*)&color, 3);
+	buffer->i += 3;
 	if (end_of_line > 0)
-		write(fd, "\0\0\0\0\0\0\0\0", end_of_line);
+	{
+		ft_memcpy(&buffer->str[buffer->i], "\0\0\0\0", end_of_line);
+		buffer->i += end_of_line;
+	}
 }
