@@ -173,7 +173,7 @@ typedef struct	s_scene
 int			ft_atoi(const char *str);
 double		ft_atof(const char *str);
 
-int			ft_initialize_bmp(t_scene *scene, int fd);
+int			ft_set_bmp_header(t_scene *scene, int fd);
 void		ft_add_pixel_to_bmp(t_buffer *buffer, int color, int end_of_line);
 
 void		ft_calculate_camera_rotation(t_camera *camera);
@@ -212,6 +212,7 @@ int			ft_handle_plane(char **args, t_scene *scene, int line);
 int			ft_handle_cylinder(char **args, t_scene *scene, int line);
 
 t_scene		*ft_initialize_scene(t_scene **scene, int argc, char **argv);
+int			ft_initialize_bmp_file(t_scene *scene, t_buffer *buffer, char *scene_file);
 
 void		*ft_lstadd_front(void **lst, void *new);
 void		ft_free_lst(void *lst);

@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 18:32:28 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/13 18:35:55 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/13 18:56:50 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,22 @@ t_scene	*ft_initialize_scene(t_scene **scene, int argc, char **argv)
 	(*scene)->mlx = mlx_init();
 	(*scene)->background_color = ft_multiply_color((*scene)->ambiant->color, (*scene)->ambiant->intensity);
 	return (*scene);
+}
+
+int		ft_initialize_bmp_file(t_scene *scene, t_buffer *buffer, char *scene_file)
+{
+	int		fd;
+	char	*file;
+
+	file = ft_strjoin(scene_file, ".bmp");
+	fd = open(file, O_WRONLY | O_CREAT, 0644);
+	if (fd == -1)
+		ft_fatal_error("Open"); /* ===== DELETE ===== */
+	ft_set_bmp_header(scene, fd);
+	buffer->i = 0;
+	buffer->str = malloc(3 * scene->plan.width * scene->plan.height);
+	if (buffer->str == NULL)
+		return (-1);
+	free(file);
+	return (fd);
 }

@@ -6,13 +6,13 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 14:05:40 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/13 14:39:12 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/13 18:54:59 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-int		ft_initialize_bmp(t_scene *scene, int fd)
+int		ft_set_bmp_header(t_scene *scene, int fd)
 {
 	char	*header;
 
