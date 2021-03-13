@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 11:38:14 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/03 09:33:09 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/13 18:30:01 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_camera	*ft_new_camera(char **args, int line)
 	camera->center = ft_str_to_vector(args[0]);
 	camera->direction = ft_str_to_vector(args[1]);
 	camera->fov = ft_atoi(args[2]);
+	camera->pixel_size = 1;
 	camera->next = NULL;
 	return (camera);
 }

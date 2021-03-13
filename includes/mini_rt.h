@@ -100,6 +100,7 @@ typedef struct	s_camera
 	t_vector		up;
 	t_vector		forward;
 	int				fov;
+	int				pixel_size;
 }					t_camera;
 
 typedef struct	s_plane
