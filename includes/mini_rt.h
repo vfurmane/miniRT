@@ -211,6 +211,8 @@ int			ft_handle_sphere(char **args, t_scene *scene, int line);
 int			ft_handle_plane(char **args, t_scene *scene, int line);
 int			ft_handle_cylinder(char **args, t_scene *scene, int line);
 
+t_scene		*ft_initialize_scene(t_scene **scene, int argc, char **argv);
+
 void		*ft_lstadd_front(void **lst, void *new);
 void		ft_free_lst(void *lst);
 

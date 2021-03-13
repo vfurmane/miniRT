@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/13 18:29:09 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/13 18:36:15 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,11 @@ int			main(int argc, char **argv)
 	int			colors[16];
 #endif
 
-	scene = malloc(sizeof(*scene)); /* free this one if error */
-	if (scene == NULL)
+	if (ft_initialize_scene(&scene, argc, argv) == NULL)
 		return (1);
-	if (ft_parameters(argc, argv, scene) == -1)
-	{
-		ft_free_scene(&scene);
-		return (1);
-	}
-	scene->title = ft_strjoin("miniRT - ", argv[1]);
-	scene->inter_min = 1;
-	scene->inter_max = -1;
-	scene->plan.distance = 1;
-	scene->mlx = mlx_init();
-	camera = scene->cameras;
-	scene->background_color = ft_multiply_color(scene->ambiant->color, scene->ambiant->intensity);
 	fd = -1;
 	end_of_line = 4 - (scene->plan.width * 3) % 4;
+	camera = scene->cameras;
 	while (camera != NULL)
 	{
 		if (ft_strcmp("--save", argv[2]) == 0)
