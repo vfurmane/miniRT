@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/13 18:57:15 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/13 21:00:46 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int			main(int argc, char **argv)
 	int			loading;
 	int			fd;
 	int			end_of_line;
+	int			camerano;
 	t_buffer	buffer;
 	t_camera	*camera;
 #if MINI_RT_BONUS == 1
@@ -51,10 +52,13 @@ int			main(int argc, char **argv)
 	fd = -1;
 	end_of_line = 4 - (scene->plan.width * 3) % 4;
 	camera = scene->cameras;
+	camerano = -1;
+	if (camera->next != NULL)
+		camerano = ft_lstsize(camera) - 1;
 	while (camera != NULL)
 	{
 		if (ft_strcmp("--save", argv[2]) == 0)
-			fd = ft_initialize_bmp_file(scene, &buffer, argv[1]);
+			fd = ft_initialize_bmp_file(scene, &buffer, argv[1], camerano--);
 		img = malloc(sizeof(*img));
 		if (img == NULL)
 			ft_fatal_error("Malloc");

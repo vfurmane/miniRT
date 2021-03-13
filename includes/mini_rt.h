@@ -172,6 +172,7 @@ typedef struct	s_scene
 
 int			ft_atoi(const char *str);
 double		ft_atof(const char *str);
+char		*ft_itoa(int nbr);
 
 int			ft_set_bmp_header(t_scene *scene, int fd);
 void		ft_add_pixel_to_bmp(t_buffer *buffer, int color, int end_of_line);
@@ -212,10 +213,11 @@ int			ft_handle_plane(char **args, t_scene *scene, int line);
 int			ft_handle_cylinder(char **args, t_scene *scene, int line);
 
 t_scene		*ft_initialize_scene(t_scene **scene, int argc, char **argv);
-int			ft_initialize_bmp_file(t_scene *scene, t_buffer *buffer, char *scene_file);
+int			ft_initialize_bmp_file(t_scene *scene, t_buffer *buffer, char *scene_file, int camerano);
 
 void		*ft_lstadd_front(void **lst, void *new);
 void		ft_free_lst(void *lst);
+int			ft_lstsize(void *lst);
 
 void		ft_invert_camera_matrix(t_vector *right, t_vector *up, t_vector *forward);
 
@@ -243,6 +245,7 @@ int			ft_strcmp(char *str1, char *str2);
 char		**ft_split(const char *str, char *sep);
 char		*ft_strrchr(char *str, int chr);
 char		*ft_strjoin(const char *str1, const char *str2);
+char		*ft_strcrdup(char *str, int chr);
 
 t_vector	ft_str_to_vector(const char *str);
 int			ft_step_to_number(const char *str, int i);

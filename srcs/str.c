@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 12:04:57 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/10 14:58:17 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/13 20:44:34 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,20 @@ char	*ft_strjoin(const char *str1, const char *str2)
 		new_str[i] = str2[i - str1_len];
 		i++;
 	}
+	return (new_str);
+}
+
+char	*ft_strcrdup(char *str, int chr)
+{
+	int		str_len;
+	char	*new_str;
+	char	*last_chr;
+
+	last_chr = ft_strrchr(str, chr);
+	str_len = last_chr - str;
+	if (!(new_str = malloc(sizeof(*new_str) * (str_len + 1))))
+		return (NULL);
+	new_str = ft_memcpy(new_str, str, sizeof(*new_str) * str_len);
+	new_str[str_len] = '\0';
 	return (new_str);
 }

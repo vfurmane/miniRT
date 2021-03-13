@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 12:01:14 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/18 14:28:03 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/13 20:57:11 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,16 @@ void	ft_free_lst(void *lst)
 		free(lst);
 		lst = ptr;
 	}
+}
+
+int		ft_lstsize(void *lst)
+{
+	int	len;
+
+	if (lst == NULL)
+		return (0);
+	len = 1;
+	while ((lst = ((t_next*)lst)->next))
+		len++;
+	return (len);
 }

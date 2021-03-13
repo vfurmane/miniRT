@@ -1,5 +1,5 @@
 miniRT
 *.o
-*.rt.bmp
+.scenes/*.bmp
 .*.swp
 mlx_linux

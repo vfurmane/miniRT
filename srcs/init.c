@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 18:32:28 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/13 18:56:50 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/13 20:52:30 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,31 @@ t_scene	*ft_initialize_scene(t_scene **scene, int argc, char **argv)
 	return (*scene);
 }
 
-int		ft_initialize_bmp_file(t_scene *scene, t_buffer *buffer, char *scene_file)
+char	*ft_append_camerano_to_scene_name(char *scene_file, int camerano)
+{
+	char	*str;
+	char	*str_camerano;
+
+	str = ft_strjoin(scene_file, "-cam");
+	str_camerano = ft_itoa(camerano);
+	scene_file = ft_strjoin(str, str_camerano);
+	free(str);
+	free(str_camerano);
+	str = ft_strjoin(scene_file, ".bmp");
+	free(scene_file);
+	return (str);
+}
+
+int		ft_initialize_bmp_file(t_scene *scene, t_buffer *buffer, char *scene_file, int camerano)
 {
 	int		fd;
 	char	*file;
 
-	file = ft_strjoin(scene_file, ".bmp");
+	scene_file = ft_strcrdup(scene_file, '.');
+	if (camerano >= 0)
+		file = ft_append_camerano_to_scene_name(scene_file, camerano);
+	else
+		file = ft_strjoin(scene_file, ".bmp");
 	fd = open(file, O_WRONLY | O_CREAT, 0644);
 	if (fd == -1)
 		ft_fatal_error("Open"); /* ===== DELETE ===== */
@@ -45,6 +64,7 @@ int		ft_initialize_bmp_file(t_scene *scene, t_buffer *buffer, char *scene_file)
 	buffer->str = malloc(3 * scene->plan.width * scene->plan.height);
 	if (buffer->str == NULL)
 		return (-1);
+	free(scene_file);
 	free(file);
 	return (fd);
 }
