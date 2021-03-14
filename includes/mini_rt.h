@@ -180,7 +180,7 @@ char		*ft_itoa(int nbr);
 int			ft_set_bmp_header(t_scene *scene, int fd);
 void		ft_add_pixel_to_bmp(t_buffer *buffer, int color, int end_of_line);
 
-void		ft_calculate_camera_rotation(t_camera *camera);
+void		ft_calculate_camera_rotation_and_fov(t_scene *scene, t_camera *camera);
 t_vector	ft_canvas_to_viewport(t_pixel *pixel, t_plan *canvas, t_camera *camera, int	i);
 t_pixel		ft_translate_pixel(t_pixel pixel, t_plan plan);
 
@@ -244,6 +244,8 @@ int			ft_fatal_error(const char *str);
 int			ft_trace_ray(t_vector origin, t_vector direction, t_scene scene);
 double		*ft_initialize_anti_aliasing_matrix(int level);
 int			ft_render_scene(t_scene *scene, t_camera *camera, t_buffer *buffer, t_data *img);
+
+int			ft_proceed_all_cameras(t_scene *scene, t_buffer *buffer, char **argv);
 
 int			ft_strcmp(const char *str1, const char *str2);
 char		**ft_split(const char *str, char *sep);

@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/14 17:24:27 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/14 19:47:54 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,35 +16,13 @@ int			main(int argc, char **argv)
 {
 	t_scene		*scene;
 	t_data		*img;
-	int			camerano;
 	t_buffer	buffer;
 	t_camera	*camera;
 
 	if (ft_initialize_scene(&scene, argc, argv) == NULL)
 		return (1);
 	buffer.fd = -1;
-	camera = scene->cameras;
-	camerano = -1;
-	if (camera->next != NULL)
-		camerano = ft_lstsize(camera) - 1;
-	while (camera != NULL)
-	{
-		if (ft_strcmp("--save", argv[2]) == 0)
-			buffer.fd = ft_initialize_bmp_file(scene, &buffer, argv[1], camerano--);
-		img = ft_initialize_mlx_img(scene);
-		scene->plan.viewport = tan((camera->fov * M_PI / 180) / 2);
-		ft_calculate_camera_rotation(camera);
-		if (ft_render_scene(scene, camera, &buffer, img) == 0)
-			ft_fatal_error("Render scene"); /* ===== DELETE ===== */
-		ft_lstadd_front((void**)(&scene->img), (void*)(img));
-		camera = camera->next;
-		if (buffer.fd != -1)
-		{
-			write(buffer.fd, buffer.str, 3 * scene->plan.width * scene->plan.height);
-			free(buffer.str);
-			close(buffer.fd);
-		}
-	}
+	ft_proceed_all_cameras(scene, &buffer, argv);
 	if (buffer.fd == -1)
 	{
 		img = scene->img;

@@ -6,13 +6,13 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 20:31:03 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/14 16:40:07 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/14 19:49:20 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-void	ft_calculate_camera_rotation(t_camera *camera)
+void	ft_calculate_camera_rotation_and_fov(t_scene *scene, t_camera *camera)
 {
 	t_vector	tmp;
 
@@ -35,6 +35,7 @@ void	ft_calculate_camera_rotation(t_camera *camera)
 		camera->up = ft_cross_product(camera->forward, camera->right);
 	}
 	ft_invert_camera_matrix(&camera->right, &camera->up, &camera->forward);
+	scene->plan.viewport = tan((camera->fov * M_PI / 180) / 2);
 }
 
 void	ft_cam_to_world(t_vector *direction, t_camera *camera)
