@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/14 09:52:07 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/14 13:10:09 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int			main(int argc, char **argv)
 		img = ft_initialize_mlx_img(scene);
 		scene->plan.viewport = tan((camera->fov * M_PI / 180) / 2);
 		ft_calculate_camera_rotation(camera);
-		ft_render_scene(scene, camera, &buffer, img);
+		if (ft_render_scene(scene, camera, &buffer, img) == 0)
+			ft_fatal_error("Render scene"); /* ===== DELETE ===== */
 		ft_lstadd_front((void**)(&scene->img), (void*)(img));
 		camera = camera->next;
 		write(buffer.fd, buffer.str, 3 * scene->plan.width * scene->plan.height);

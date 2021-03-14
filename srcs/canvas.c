@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 20:31:03 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/11 09:36:56 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/14 16:40:07 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,32 +49,13 @@ void	ft_cam_to_world(t_vector *direction, t_camera *camera)
 	direction->z = direction_copy.z;
 }
 
-t_vector	ft_canvas_to_viewport_aa(t_pixel pixel, double viewport, t_plan canvas,
-		double *aa)
+t_vector	ft_canvas_to_viewport(t_pixel *pixel, t_plan *canvas, t_camera *camera, int	i)
 {
-	double		d_viewport;
-	double		d_width;
 	t_vector	direction;
 
-	d_viewport = (double)viewport;
-	d_width = (double)canvas.width;
-	direction.x = (pixel.x + aa[0]) * d_viewport / d_width;
-	direction.y = (pixel.y + aa[1]) * d_viewport / d_width;
-	direction.z = (double)canvas.distance;
-	return (direction);
-}
-
-t_vector	ft_canvas_to_viewport(t_pixel pixel, double viewport, t_plan canvas, t_camera *camera)
-{
-	double		d_viewport;
-	double		d_width;
-	t_vector	direction;
-
-	d_viewport = (double)viewport;
-	d_width = (double)canvas.width;
-	direction.x = pixel.x * d_viewport / d_width;
-	direction.y = pixel.y * d_viewport / d_width;
-	direction.z = (double)canvas.distance;
+	direction.x = (pixel->x + camera->anti_aliasing_matrix[i]) * canvas->viewport / canvas->width;
+	direction.y = (pixel->y + camera->anti_aliasing_matrix[i + 1]) * canvas->viewport / canvas->width;
+	direction.z = (double)canvas->distance;
 	ft_cam_to_world(&direction, camera);
 	return (direction);
 }

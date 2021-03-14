@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/14 09:52:44 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/14 16:42:32 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,30 +288,61 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 	return (ft_compute_lighting(point, obj1, scene, ((t_basic_obj*)obj1.ptr)->color));
 }
 
-void	ft_render_scene(t_scene *scene, t_camera *camera, t_buffer *buffer, t_data *img)
+double	*ft_initialize_anti_aliasing_matrix(int level)
+{
+	int		i;
+	int		matrix_len;
+	double	*matrix;
+	double	raysize;
+
+	matrix_len = level * level * 2;
+	matrix = malloc(sizeof(*matrix) * matrix_len);
+	if (matrix == NULL)
+		return (NULL);
+	raysize = 1.0 / level;
+	i = 0;
+	while (i < matrix_len / 2)
+	{
+		matrix[i * 2] = -0.5 + (raysize / 2) + (raysize * (i % level));
+		matrix[i * 2 + 1] = 0.5 - (raysize / 2) + (raysize * (i % level));
+		i++;
+	}
+	return (matrix);
+}
+
+int	ft_get_pixel_color(t_scene *scene, t_camera *camera, t_pixel *pixel)
 {
 	int			i;
-	int			colors[16];
+	int			*colors;
+	t_vector	direction;
+
+	pixel->color = -1;
+	colors = malloc(sizeof(*colors) * camera->anti_aliasing_level * camera->anti_aliasing_level);
+	if (colors == NULL)
+		return (pixel->color);
+	if (MINI_RT_BONUS)
+	{
+		i = 0;
+		while (i < camera->anti_aliasing_level * camera->anti_aliasing_level)
+		{
+			direction = ft_canvas_to_viewport(pixel, &scene->plan, camera, i);
+			colors[i] = ft_trace_ray(camera->center, direction, *scene);
+			i++;
+		}
+		pixel->color = ft_color_average(colors);
+	}
+	else
+	{
+		direction = ft_canvas_to_viewport(pixel, &scene->plan, camera, 0);
+		pixel->color = ft_trace_ray(camera->center, direction, *scene);
+	}
+	return (pixel->color);
+}
+
+int		ft_render_scene(t_scene *scene, t_camera *camera, t_buffer *buffer, t_data *img)
+{
 	int			end_of_line;
 	t_pixel		pixel;
-	t_vector	direction;
-	double		aa[32] = {	-0.375,	0.375,
-							-0.125,	0.375,
-							0.125,	0.375,
-							0.375,	0.375,
-							-0.375,	0.125,
-							-0.125,	0.125,
-							0.125,	0.125,
-							0.375,	0.125,
-							-0.375,	-0.125,
-							-0.125,	-0.125,
-							0.125,	-0.125,
-							0.375,	-0.125,
-							-0.375,	-0.375,
-							-0.125,	-0.375,
-							0.125,	-0.375,
-							0.375,	-0.375
-	};
 
 	end_of_line = 4 - (scene->plan.width * 3) % 4;
 	pixel.y = -scene->plan.height / 2;
@@ -320,25 +351,8 @@ void	ft_render_scene(t_scene *scene, t_camera *camera, t_buffer *buffer, t_data 
 		pixel.x = -scene->plan.width / 2;
 		while (pixel.x <= scene->plan.width / 2 - (scene->plan.height % 2 == 0))
 		{
-			if (MINI_RT_BONUS)
-			{
-				pixel.color = 0;
-				i = 0;
-				while (i < 16)
-				{
-					direction = ft_canvas_to_viewport_aa(pixel, scene->plan.viewport,
-							scene->plan, &aa[i]);
-					colors[i] = ft_trace_ray(camera->center, direction, *scene);
-					i++;
-				}
-				pixel.color = ft_color_average(colors);
-			}
-			else
-			{
-				direction = ft_canvas_to_viewport(pixel, scene->plan.viewport,
-						scene->plan, camera);
-				pixel.color = ft_trace_ray(camera->center, direction, *scene);
-			}
+			if (ft_get_pixel_color(scene, camera, &pixel) == -1)
+				return (0);
 			if (buffer->fd == -1)
 				my_mlx_put_pixel(img, ft_translate_pixel(pixel, scene->plan),
 						camera->pixel_size, *scene);
@@ -348,4 +362,6 @@ void	ft_render_scene(t_scene *scene, t_camera *camera, t_buffer *buffer, t_data 
 		}
 		pixel.y += camera->pixel_size;
 	}
+	free(camera->anti_aliasing_matrix);
+	return (1);
 }
