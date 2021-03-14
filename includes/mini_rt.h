@@ -144,6 +144,7 @@ typedef struct	s_bulb
 
 typedef struct	s_buffer
 {
+	int			fd;
 	int			i;
 	char		*str;
 }				t_buffer;
@@ -241,6 +242,7 @@ int			ft_parameters(int argc, char **argv, t_scene *scene);
 int			ft_fatal_error(const char *str);
 
 int			ft_trace_ray(t_vector origin, t_vector direction, t_scene scene);
+void		ft_render_scene(t_scene *scene, t_camera *camera, t_buffer *buffer, t_data *img);
 
 int			ft_strcmp(const char *str1, const char *str2);
 char		**ft_split(const char *str, char *sep);
