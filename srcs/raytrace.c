@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/14 16:42:32 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/15 13:19:46 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -336,6 +336,7 @@ int	ft_get_pixel_color(t_scene *scene, t_camera *camera, t_pixel *pixel)
 		direction = ft_canvas_to_viewport(pixel, &scene->plan, camera, 0);
 		pixel->color = ft_trace_ray(camera->center, direction, *scene);
 	}
+	free(colors);
 	return (pixel->color);
 }
 
