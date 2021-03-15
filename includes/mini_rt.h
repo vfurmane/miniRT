@@ -201,6 +201,7 @@ int			ft_strarrlen(char **arr);
 
 void		ft_free_split(char **strarr);
 void		ft_free_gnl(int fd);
+void		ft_free_mlx(void *mlx, void *win, t_data *img, t_camera *camera);
 void		ft_free_scene(t_scene **scene);
 
 int			ft_handle_resolution(char **args, t_scene *scene, int line);
@@ -245,6 +246,7 @@ double		*ft_initialize_anti_aliasing_matrix(int level);
 int			ft_render_scene(t_scene *scene, t_camera *camera, t_buffer *buffer, t_data *img);
 
 int			ft_proceed_all_cameras(t_scene *scene, t_buffer *buffer, char **argv);
+void		ft_proceed_window(t_scene *scene);
 
 int			ft_strcmp(const char *str1, const char *str2);
 char		**ft_split(const char *str, char *sep);

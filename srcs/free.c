@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 18:31:03 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/10 14:44:29 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/15 17:06:21 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,21 @@ void	ft_free_gnl(int fd)
 		free(line);
 	}
 	free(line);
+}
+
+void	ft_free_mlx(void *mlx, void *win, t_data *img, t_camera *camera)
+{
+	while (camera != NULL)
+	{
+		mlx_destroy_image(mlx, img->img);
+		camera = camera->next;
+		if (camera != NULL)
+			img	= img->next;
+	}
+	img->next = NULL;
+	if (win != NULL)
+		mlx_destroy_window(mlx, win);
+	mlx_destroy_display(mlx);
 }
 
 void	ft_free_scene(t_scene **scene)

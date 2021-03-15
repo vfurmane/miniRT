@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 19:37:32 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/14 19:49:51 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/15 17:46:19 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,18 @@ int	ft_proceed_all_cameras(t_scene *scene, t_buffer *buffer, char **argv)
 		}
 	}
 	return (1);
+}
+
+void	ft_proceed_window(t_scene *scene)
+{
+	t_data	*img;
+
+	img = scene->img;
+	while (img->next != NULL)
+		img = img->next;
+	img->next = scene->img;
+	scene->win = mlx_new_window(scene->mlx, scene->plan.width, scene->plan.height, scene->title);
+	mlx_put_image_to_window(scene->mlx, scene->win, scene->img->img, 0, 0);
+	my_mlx_events(scene);
+	mlx_loop(scene->mlx);
 }
