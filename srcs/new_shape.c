@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 10:22:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/28 19:44:59 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/16 15:41:20 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ t_sphere	*ft_new_sphere(char **args, int line)
 
 	sphere = malloc(sizeof(*sphere));
 	if (sphere == NULL)
+	{
 		ft_fatal_error("Failed to create a new sphere");
+		return (NULL);
+	}
 	if (!ft_check_str_to_vector(args[0], 0, line) ||
 			!ft_check_atof(args[1], "", line) ||
 			!ft_check_parse_color(args[2], line))
@@ -39,7 +42,10 @@ t_plane		*ft_new_plane(char **args, int line)
 
 	plane = malloc(sizeof(*plane));
 	if (plane == NULL)
+	{
 		ft_fatal_error("Failed to create a new plane");
+		return (NULL);
+	}
 	if (!ft_check_str_to_vector(args[0], 0, line) ||
 			!ft_check_str_to_vector(args[1], 1, line) ||
 			!ft_check_parse_color(args[2], line))
@@ -60,7 +66,10 @@ t_cylinder	*ft_new_cylinder(char **args, int line)
 
 	cylinder = malloc(sizeof(*cylinder));
 	if (cylinder == NULL)
+	{
 		ft_fatal_error("Failed to create a new cylinder");
+		return (NULL);
+	}
 	if (!ft_check_str_to_vector(args[0], 0, line) ||
 			!ft_check_str_to_vector(args[1], 1, line) ||
 			!ft_check_atof(args[2], "", line) ||

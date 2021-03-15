@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 12:10:45 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/08 19:12:04 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/16 11:23:06 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ char	*ft_trimc(const char *str)
 
 	if (str[0] == '\0')
 	{
-		if ((new_content = malloc(sizeof(*new_content))) == NULL)
+		new_content = malloc(sizeof(*new_content));
+		if (new_content == NULL)
 			return (NULL);
 		new_content[0] = '\0';
 		return (new_content);
@@ -29,7 +30,8 @@ char	*ft_trimc(const char *str)
 	str_len = 0;
 	while (str[str_len])
 		str_len++;
-	if ((new_content = malloc((str_len + 1) * sizeof(*new_content))) == NULL)
+	new_content = malloc((str_len + 1) * sizeof(*new_content));
+	if (new_content == NULL)
 		return (NULL);
 	i = -1;
 	while (str[++i])
@@ -57,7 +59,10 @@ char	*ft_splitc(char **str)
 	new_str[i] = '\0';
 	new_content = &(*str)[i];
 	if ((new_content = ft_trimc(new_content)) == NULL)
+	{
+		free(new_str);
 		return (NULL);
+	}
 	free(*str);
 	*str = new_content;
 	return (new_str);

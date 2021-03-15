@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:13:35 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/12 19:43:51 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/17 09:27:02 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ int	ft_parse_line(char *line, t_scene *scene)
 	args = ft_split(line, "\t\v\f\r ");
 	free(line);
 	if (args == NULL)
-		return (ft_fatal_error("Failed to parse the file"));
+	{
+		ft_fatal_error("Cannot parse the file's line");
+		return (-1);
+	}
 	if (args[0] != NULL && args[0][0] == '#')
 		ret = 0;
 	else if (ft_strcmp(args[0], "R") == 0)
@@ -65,16 +68,13 @@ int	ft_parse_scene(char *file, t_scene *scene)
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-	{
-		ft_fatal_error("Failed to open the file");
 		return (-1);
-	}
 	ret = get_next_line(fd, &line);
 	while (ret != 0)
 	{
 		if (ret == -1)
 		{
-			ft_fatal_error("Failed to read the file");
+			ft_fatal_error("Could not read the file");
 			return (-1);
 		}
 		if (ft_parse_line(line, scene) == -1)
@@ -96,7 +96,6 @@ int	ft_parameters(int argc, char **argv, t_scene *scene)
 	scene->mlx = NULL;
 	scene->win = NULL;
 	scene->img = NULL;
-	scene->title = NULL;
 	scene->plan.width = 0;
 	scene->ambiant = NULL;
 	scene->cameras = NULL;

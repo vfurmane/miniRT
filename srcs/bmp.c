@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 14:05:40 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/13 18:54:59 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/16 09:40:31 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		ft_set_bmp_header(t_scene *scene, int fd)
 
 	header = malloc(55 * sizeof(*header));
 	if (header == NULL)
-		return (-1);
+		return (ft_fatal_error("Cannot allocate memory for the BMP file's header") * 0);
 	header[54] = '\0';
 	ft_memcpy(&header[0], "BM\0\0\0\0\0\0\0\0\1\0\0\0(\0\0\0\1\0\0\0\1\0\0\0\1\0\1\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 54);
 	ft_memcpy(&header[18], (char*)&scene->plan.width, 4);
@@ -28,7 +28,7 @@ int		ft_set_bmp_header(t_scene *scene, int fd)
 	header[28] = 24;
 	write(fd, header, 54);
 	free(header);
-	return (0);
+	return (1);
 }
 
 void	ft_add_pixel_to_bmp(t_buffer *buffer, int color, int end_of_line)

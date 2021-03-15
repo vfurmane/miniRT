@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 12:04:57 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/13 21:14:20 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/17 09:18:05 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,22 @@ static char	*ft_strcdup(const char *str, char *sep)
 	return (new_str);
 }
 
+static char	**ft_check_split(const char *str, char *sep, char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+		i++;
+	if (i == ft_count_words(str, sep))
+		return (arr);
+	i = 0;
+	while (arr[i])
+		free(arr[i++]);
+	free(arr);
+	return (NULL);
+}
+
 char		**ft_split(const char *str, char *sep)
 {
 	int		i;
@@ -75,6 +91,7 @@ char		**ft_split(const char *str, char *sep)
 			i++;
 	}
 	arr[j] = NULL;
+	arr = ft_check_split(str, sep, arr);
 	return (arr);
 }
 

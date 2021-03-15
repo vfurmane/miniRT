@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/15 17:46:51 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/16 15:33:58 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,16 @@ int			main(int argc, char **argv)
 	if (ft_initialize_scene(&scene, argc, argv) == NULL)
 		return (1);
 	buffer.fd = -1;
-	ft_proceed_all_cameras(scene, &buffer, argv);
-	if (buffer.fd == -1)
+	if (!ft_proceed_all_cameras(scene, &buffer, argv))
+	{
+		ft_free_scene(&scene);
+		return (1);
+	}
+	if (scene->mlx != NULL)
+	{
 		ft_proceed_window(scene);
-	ft_free_mlx(scene->mlx, scene->win, scene->img, scene->cameras);
+		ft_free_mlx(scene->mlx, scene->win, scene->img, scene->cameras);
+	}
 	ft_free_scene(&scene);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 18:31:03 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/15 17:06:21 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/16 11:49:57 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,26 @@ void	ft_free_mlx(void *mlx, void *win, t_data *img, t_camera *camera)
 	mlx_destroy_display(mlx);
 }
 
+void	ft_free_cameras(t_camera *camera)
+{
+	t_camera	*tmp;
+
+	while (camera != NULL)
+	{
+		free(camera->anti_aliasing_matrix);
+		tmp = camera->next;
+		free(camera);
+		camera = tmp;
+	}
+}
+
 void	ft_free_scene(t_scene **scene)
 {
 	free((*scene)->title);
 	free((*scene)->ambiant);
 	(*scene)->ambiant = NULL;
 	ft_free_lst((*scene)->img);
-	ft_free_lst((*scene)->cameras);
+	ft_free_cameras((*scene)->cameras);
 	ft_free_lst((*scene)->bulbs);
 	ft_free_lst((*scene)->spheres);
 	ft_free_lst((*scene)->planes);

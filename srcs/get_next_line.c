@@ -6,21 +6,27 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 12:09:01 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/08 21:44:14 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/16 10:03:06 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "mini_rt.h"
 #include "get_next_line.h"
 
-static t_list	*ft_lstadd_front(t_list **lst, int fd)
+static t_list	*ft_lstadd_front_fd(t_list **lst, int fd)
 {
 	t_list	*new;
 
-	if ((new = malloc(sizeof(*new))) == NULL)
+	new = malloc(sizeof(*new));
+	if (new == NULL)
 		return (NULL);
 	new->fd = fd;
-	if ((new->content = malloc(sizeof(*(new->content)))) == NULL)
+	new->content = malloc(sizeof(*(new->content)));
+	if (new->content == NULL)
+	{
+		free(new);
 		return (NULL);
+	}
 	new->content[0] = '\0';
 	new->next = *lst;
 	*lst = new;
@@ -53,8 +59,12 @@ static char		*ft_strdupcat(char *dest, char *src)
 	while (src[i++])
 		src_size++;
 	i = -1;
-	if (!(res = malloc(sizeof(*res) * (dest_start + src_size + 1))))
+	res = malloc(sizeof(*res) * (dest_start + src_size + 1));
+	if (res == NULL)
+	{
+		free(dest);
 		return (NULL);
+	}
 	while (dest[++i])
 		res[i] = dest[i];
 	i = -1;
@@ -71,7 +81,8 @@ static int		ft_read(int fd, t_list *elm)
 	int		result;
 	char	*buffer;
 
-	if ((buffer = malloc((BUFFER_SIZE + 1) * sizeof(*buffer))) == NULL)
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(*buffer));
+	if (buffer == NULL)
 		return (-1);
 	result = 1;
 	if ((ret = read(fd, buffer, BUFFER_SIZE)))
@@ -80,10 +91,19 @@ static int		ft_read(int fd, t_list *elm)
 			return (-1);
 		buffer[ret] = '\0';
 		elm->content = ft_strdupcat(elm->content, buffer);
+		free(buffer);
+		if (elm->content == NULL)
+		{
+			free(elm->content);
+			free(elm);
+			return (-1);
+		}
 	}
 	else
+	{
 		result = 0;
-	free(buffer);
+		free(buffer);
+	}
 	return (result);
 }
 
@@ -97,7 +117,7 @@ int				get_next_line(int fd, char **line)
 	if (fd < 0 || line == NULL || BUFFER_SIZE <= 0 || read(fd, NULL, 0) == -1)
 		return (-1);
 	if ((elm = ft_get_fd_in_list(line_list, fd)) == NULL)
-		if ((elm = ft_lstadd_front(&line_list, fd)) == NULL)
+		if ((elm = ft_lstadd_front_fd(&line_list, fd)) == NULL)
 			return (-1);
 	line_read = 0;
 	result = 1;

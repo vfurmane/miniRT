@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/15 13:19:46 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/16 15:13:09 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -354,7 +354,7 @@ int		ft_render_scene(t_scene *scene, t_camera *camera, t_buffer *buffer, t_data 
 		{
 			if (ft_get_pixel_color(scene, camera, &pixel) == -1)
 				return (0);
-			if (buffer->fd == -1)
+			if (scene->mlx != NULL)
 				my_mlx_put_pixel(img, ft_translate_pixel(pixel, scene->plan),
 						camera->pixel_size, *scene);
 			else
@@ -363,6 +363,5 @@ int		ft_render_scene(t_scene *scene, t_camera *camera, t_buffer *buffer, t_data 
 		}
 		pixel.y += camera->pixel_size;
 	}
-	free(camera->anti_aliasing_matrix);
 	return (1);
 }
