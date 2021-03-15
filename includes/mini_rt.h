@@ -18,6 +18,7 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <X11/keysym.h>
+# include <X11/X.h>
 # include "mlx.h"
 # include "get_next_line.h"
 

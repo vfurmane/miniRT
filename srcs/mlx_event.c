@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 10:03:13 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/13 15:47:27 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/15 13:32:45 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,6 @@ void	my_mlx_events(t_scene *scene)
 {
 	mlx_loop_hook(scene->mlx, ft_loop_hook, scene);
 	mlx_key_hook(scene->win, ft_handle_key, scene);
-	mlx_hook(scene->win, 15, 1L << 16, ft_put_scene_back, scene);
-	mlx_hook(scene->win, 33, 1L << 17, ft_close_window, scene);
+	mlx_hook(scene->win, VisibilityNotify, VisibilityChangeMask, ft_put_scene_back, scene);
+	mlx_hook(scene->win, ClientMessage, StructureNotifyMask, ft_close_window, scene);
 }
