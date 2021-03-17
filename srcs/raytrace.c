@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/16 15:13:09 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/17 14:19:06 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,31 @@ void	ft_intersect_ray_cylinder(t_vector origin, t_vector direction,
 		t[1] = -1;
 }
 
+void	ft_intersect_ray_square(t_vector origin, t_vector direction,
+		t_square *square, double t[2])
+{
+	t_vector	ct;
+	t_vector	right;
+	t_vector	down;
+	double		p1;
+	double		p2;
+
+	ft_intersect_ray_plane(origin, direction, (t_plane*)square, t);
+	ct = ft_substract_vectors(ft_multiply_vector_double(direction, t[0]), square->center);
+	right.x = square->width;
+	right.y = 0;
+	right.z = 0;
+	down.x = 0;
+	down.y = square->width;
+	down.z = 0;
+	p1 = ft_dot_product(ft_add_vectors(origin, ct), right) / square->width;
+	p2 = ft_dot_product(ft_add_vectors(origin, ct), down) / square->width;
+	if ((p1 < square->width / 2.0 && p1 > -square->width / 2.0) && (p2 < square->width / 2.0 && p2 > -square->width / 2.0))
+		return ;
+	t[0] = -1;
+	t[1] = -1;
+}
+
 void	ft_add_light_intensity(double intensity[3], int color,
 		double light_intensity)
 {
@@ -127,6 +152,8 @@ void	ft_intersect_ray(t_vector origin, t_vector direction, t_obj obj,
 		ft_intersect_ray_plane(origin, direction, obj.ptr, inter);
 	else if (obj.type == SPHERE)
 		ft_intersect_ray_sphere(origin, direction, obj.ptr, inter);
+	else if (obj.type == SQUARE)
+		ft_intersect_ray_square(origin, direction, obj.ptr, inter);
 	else if (obj.type == CYLINDER)
 		ft_intersect_ray_cylinder(origin, direction, obj.ptr, inter);
 }
@@ -241,7 +268,7 @@ int		ft_compute_lighting(t_vector point, t_obj obj, t_scene scene, int color)
 					((t_cylinder*)obj.ptr)->center),
 					((t_cylinder*)obj.ptr)->direction))));
 		}
-		else if (obj.type == PLANE)
+		else if (obj.type == PLANE || obj.type == SQUARE)
 		{
 			normal = ((t_plane*)obj.ptr)->direction;
 		}
@@ -273,6 +300,10 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 	obj1.ptr = scene.planes;
 	obj1.type = PLANE;
 	closest_inter1 = ft_closest_intersection(origin, direction, scene, &obj1);
+	obj2.ptr = scene.squares;
+	obj2.type = SQUARE;
+	closest_inter2 = ft_closest_intersection(origin, direction, scene, &obj2);
+	closest_inter1 = ft_closest_obj(closest_inter1, closest_inter2, &obj1, &obj2);
 	obj2.ptr = scene.spheres;
 	obj2.type = SPHERE;
 	closest_inter2 = ft_closest_intersection(origin, direction, scene, &obj2);

@@ -65,6 +65,7 @@ typedef struct		s_basic_obj
 typedef enum		e_obj_type
 {
 	PLANE,
+	SQUARE,
 	SPHERE,
 	CYLINDER
 }					t_obj_type;
@@ -111,6 +112,15 @@ typedef struct	s_plane
 	int				color;
 	t_vector		direction;
 }				t_plane;
+
+typedef struct	s_square
+{
+	struct s_sqaure	*next;
+	t_vector		center;
+	int				color;
+	t_vector		direction;
+	double			width;
+}				t_square;
 
 typedef struct	s_sphere
 {
@@ -165,6 +175,7 @@ typedef struct	s_scene
 	t_bulb			*bulbs;
 	t_sphere		*spheres;
 	t_plane			*planes;
+	t_square		*squares;
 	t_cylinder		*cylinders;
 }				t_scene;
 
@@ -211,6 +222,7 @@ int			ft_handle_light(char **args, t_scene *scene, int line);
 
 int			ft_handle_sphere(char **args, t_scene *scene, int line);
 int			ft_handle_plane(char **args, t_scene *scene, int line);
+int			ft_handle_square(char **args, t_scene *scene, int line);
 int			ft_handle_cylinder(char **args, t_scene *scene, int line);
 
 t_scene		*ft_initialize_scene(t_scene **scene, int argc, char **argv);
@@ -235,6 +247,7 @@ t_bulb		*ft_new_light(char **args, int line);
 
 t_sphere	*ft_new_sphere(char **args, int line);
 t_plane		*ft_new_plane(char **args, int line);
+t_square	*ft_new_square(char **args, int line);
 t_cylinder	*ft_new_cylinder(char **args, int line);
 
 int			ft_parameters(int argc, char **argv, t_scene *scene);

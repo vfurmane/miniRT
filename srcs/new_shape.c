@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 10:22:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/16 15:41:20 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/17 10:39:24 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,32 @@ t_plane		*ft_new_plane(char **args, int line)
 	plane->direction = ft_str_to_vector(args[1]);
 	plane->color = ft_parse_color(args[2]);
 	return (plane);
+}
+
+t_square	*ft_new_square(char **args, int line)
+{
+	t_square	*square;
+
+	square = malloc(sizeof(*square));
+	if (square == NULL)
+	{
+		ft_fatal_error("Failed to create a new square");
+		return (NULL);
+	}
+	if (!ft_check_str_to_vector(args[0], 0, line) ||
+			!ft_check_str_to_vector(args[1], 1, line) ||
+			!ft_check_atof(args[2], "", line) ||
+			!ft_check_parse_color(args[3], line))
+	{
+		free(square);
+		return (NULL);
+	}
+	square->next = NULL;
+	square->center = ft_str_to_vector(args[0]);
+	square->direction = ft_str_to_vector(args[1]);
+	square->width = ft_atof(args[2]);
+	square->color = ft_parse_color(args[3]);
+	return (square);
 }
 
 t_cylinder	*ft_new_cylinder(char **args, int line)

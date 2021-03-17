@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 10:18:02 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/28 19:27:09 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/17 10:35:45 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,19 @@ int	ft_handle_plane(char **args, t_scene *scene, int line)
 		return (-1);
 	ret = ft_lstadd_front((void**)&scene->planes,
 			(void*)ft_new_plane(&args[0], line));
+	if (ret == NULL)
+		return (-1);
+	return (0);
+}
+
+int	ft_handle_square(char **args, t_scene *scene, int line)
+{
+	void	*ret;
+
+	if (!ft_check_args_count(args, 4, line))
+		return (-1);
+	ret = ft_lstadd_front((void**)&scene->squares,
+			(void*)ft_new_square(&args[0], line));
 	if (ret == NULL)
 		return (-1);
 	return (0);
