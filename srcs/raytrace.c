@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/17 14:19:06 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/17 15:28:30 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,9 @@ void	ft_intersect_ray_cylinder(t_vector origin, t_vector direction,
 	center = cylinder->center;
 	radius = cylinder->radius;
 	oc = ft_substract_vectors(origin, center);
+	cylinder->direction = ft_normalize_vector(cylinder->direction);
 	k[0] = ft_dot_product(direction, direction) -
-		pow(ft_dot_product(direction, cylinder->direction), 2);
+		pow(ft_dot_product(direction, cylinder->direction), 2); /* ===== DELETE ===== */
 	k[1] = 2 * ((ft_dot_product(direction, oc)) -
 			ft_dot_product(direction, cylinder->direction) *
 			ft_dot_product(oc, cylinder->direction));
