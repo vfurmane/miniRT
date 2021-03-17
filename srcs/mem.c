@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 19:39:39 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/12 19:40:07 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/17 15:48:57 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,17 @@ void	*ft_memcpy(void *dest, const void *src, size_t len)
 		}
 	}
 	return (dest);
+}
+
+void	*ft_memset(void *str, int chr, size_t len)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < len)
+	{
+		((char*)str)[i] = chr;
+		i++;
+	}
+	return (str);
 }

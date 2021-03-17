@@ -236,6 +236,7 @@ int			ft_lstsize(void *lst);
 void		ft_invert_camera_matrix(t_vector *right, t_vector *up, t_vector *forward);
 
 void		*ft_memcpy(void *dest, const void *src, size_t len);
+void		*ft_memset(void *str, int chr, size_t len);
 
 void		my_mlx_events(t_scene *scene);
 
