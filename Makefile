@@ -6,7 +6,7 @@
 #    By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/28 15:38:44 by vfurmane          #+#    #+#              #
-#    Updated: 2021/03/14 19:39:28 by vfurmane         ###   ########.fr        #
+#    Updated: 2021/03/17 12:38:27 by vfurmane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ mlx:
 	@echo "\033[92mCompiling the Minilibx...\033[0m"
 	@cd mlx_linux && ./configure
 
-nosanitize: fclean $(NAME)
+nosanitize: $(NAME)
 
 clean:
 			$(RM) $(OBJS)
