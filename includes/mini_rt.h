@@ -237,6 +237,7 @@ int			ft_parameters(int argc, char **argv, t_scene *scene);
 
 int			ft_fatal_error(const char *str);
 
+int			ft_calculate_intersections(double k[3], double t[2]);
 int			ft_trace_ray(t_vector origin, t_vector direction, t_scene scene);
 double		*ft_initialize_anti_aliasing_matrix(int level);
 int			ft_render_scene(t_scene *scene, t_camera *camera, t_buffer *buffer, t_data *img);
@@ -259,5 +260,18 @@ double		ft_dot_product(t_vector v1, t_vector v2);
 double		ft_vector_length(t_vector vector);
 t_vector	ft_cross_product(t_vector v1, t_vector v2);
 t_vector	ft_normalize_vector(t_vector vector);
+
+/*
+**	Functions	PRIMITIVES
+*/
+
+void		ft_intersect_ray_cylinder(t_vector origin, t_vector direction,
+				t_cylinder *cylinder, double t[2]);
+void		ft_intersect_ray_plane(t_vector origin, t_vector direction,
+				t_plane *plane, double t[2]);
+void		ft_intersect_ray_sphere(t_vector origin, t_vector direction,
+				t_sphere *sphere, double t[2]);
+void		ft_intersect_ray_square(t_vector origin, t_vector direction,
+				t_square *square, double t[2]);
 
 #endif

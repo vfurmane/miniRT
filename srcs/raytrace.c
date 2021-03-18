@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/17 15:28:30 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/18 12:26:19 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,102 +26,6 @@ int		ft_calculate_intersections(double k[3], double t[2])
 	t[0] = (-k[1] - sqrt(discriminant)) / (2 * k[0]);
 	t[1] = (-k[1] + sqrt(discriminant)) / (2 * k[0]);
 	return (1);
-}
-
-void	ft_intersect_ray_plane(t_vector origin, t_vector direction,
-		t_plane *plane, double t[2])
-{
-	t[0] = ft_dot_product(ft_substract_vectors(plane->center, origin),
-			plane->direction) / ft_dot_product(plane->direction, direction);
-	t[1] = t[0];
-}
-
-void	ft_intersect_ray_sphere(t_vector origin, t_vector direction,
-		t_sphere *sphere, double t[2])
-{
-	double		radius;
-	double		k[3];
-	t_vector	oc;
-	t_vector	center;
-
-	center = sphere->center;
-	radius = sphere->radius;
-	oc = ft_substract_vectors(origin, center);
-	k[0] = ft_dot_product(direction, direction);
-	k[1] = 2 * ft_dot_product(oc, direction);
-	k[2] = ft_dot_product(oc, oc) - radius * radius;
-	if (ft_calculate_intersections(k, t))
-		return ;
-}
-
-int		ft_check_cylinder_cap(double inter, t_vector direction,
-		t_cylinder *cylinder, t_vector origin)
-{
-	return (ft_dot_product(cylinder->direction,
-			ft_substract_vectors(ft_add_vectors(origin,
-			ft_multiply_vector_double(direction, inter)),
-			cylinder->center)) >= 0 &&
-			ft_dot_product(ft_substract_vectors(ft_add_vectors(origin,
-			ft_multiply_vector_double(direction, inter)),
-			ft_add_vectors(cylinder->center,
-			ft_multiply_vector_double(cylinder->direction, cylinder->height))),
-			cylinder->direction) <= 0);
-}
-
-void	ft_intersect_ray_cylinder(t_vector origin, t_vector direction,
-		t_cylinder *cylinder, double t[2])
-{
-	double		radius;
-	double		k[3];
-	t_vector	oc;
-	t_vector	center;
-	
-	center = cylinder->center;
-	radius = cylinder->radius;
-	oc = ft_substract_vectors(origin, center);
-	cylinder->direction = ft_normalize_vector(cylinder->direction);
-	k[0] = ft_dot_product(direction, direction) -
-		pow(ft_dot_product(direction, cylinder->direction), 2); /* ===== DELETE ===== */
-	k[1] = 2 * ((ft_dot_product(direction, oc)) -
-			ft_dot_product(direction, cylinder->direction) *
-			ft_dot_product(oc, cylinder->direction));
-	k[2] = ft_dot_product(oc, oc) -
-		pow(ft_dot_product(oc, cylinder->direction), 2) - radius * radius;
-	if (!ft_calculate_intersections(k, t))
-		return ;
-	if (ft_check_cylinder_cap(t[0], direction, cylinder, origin))
-		t[1] = t[0];
-	if (ft_check_cylinder_cap(t[1], direction, cylinder, origin))
-		t[0] = t[1];
-	else
-		t[0] = -1;
-	if (t[0] == -1)
-		t[1] = -1;
-}
-
-void	ft_intersect_ray_square(t_vector origin, t_vector direction,
-		t_square *square, double t[2])
-{
-	t_vector	ct;
-	t_vector	right;
-	t_vector	down;
-	double		p1;
-	double		p2;
-
-	ft_intersect_ray_plane(origin, direction, (t_plane*)square, t);
-	ct = ft_substract_vectors(ft_multiply_vector_double(direction, t[0]), square->center);
-	right.x = square->width;
-	right.y = 0;
-	right.z = 0;
-	down.x = 0;
-	down.y = square->width;
-	down.z = 0;
-	p1 = ft_dot_product(ft_add_vectors(origin, ct), right) / square->width;
-	p2 = ft_dot_product(ft_add_vectors(origin, ct), down) / square->width;
-	if ((p1 < square->width / 2.0 && p1 > -square->width / 2.0) && (p2 < square->width / 2.0 && p2 > -square->width / 2.0))
-		return ;
-	t[0] = -1;
-	t[1] = -1;
 }
 
 void	ft_add_light_intensity(double intensity[3], int color,
