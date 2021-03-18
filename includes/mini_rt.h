@@ -21,6 +21,7 @@
 # include <X11/X.h>
 # include "mlx.h"
 # include "get_next_line.h"
+# include "mini_rt_utils.h"
 
 # ifndef MINI_RT_BONUS
 #  define MINI_RT_BONUS 0
@@ -42,11 +43,6 @@ typedef struct		s_data {
 	int				line_length;
 	int				endian;
 }					t_data;
-
-typedef struct		s_next
-{
-	struct s_next	*next;
-}					t_next;
 
 typedef struct	s_vector
 {
@@ -183,10 +179,6 @@ typedef struct	s_scene
 **	Functions
 */
 
-int			ft_atoi(const char *str);
-double		ft_atof(const char *str);
-char		*ft_itoa(int nbr);
-
 int			ft_set_bmp_header(t_scene *scene, int fd);
 void		ft_add_pixel_to_bmp(t_buffer *buffer, int color, int end_of_line);
 
@@ -207,9 +199,6 @@ int			ft_parse_color(const char *str);
 int			ft_color_average(int colors[16]);
 double		ft_multiply_color(int color, double intensity);
 
-int			ft_count_words(const char *str, char *sep);
-int			ft_strarrlen(char **arr);
-
 void		ft_free_split(char **strarr);
 void		ft_free_gnl(int fd);
 void		ft_free_mlx(void *mlx, void *win, t_data *img, t_camera *camera);
@@ -229,14 +218,7 @@ t_scene		*ft_initialize_scene(t_scene **scene, int argc, char **argv);
 int			ft_initialize_bmp_file(t_scene *scene, t_buffer *buffer, char *scene_file, int camerano);
 t_data		*ft_initialize_mlx_img(t_scene *scene);
 
-void		*ft_lstadd_front(void **lst, void *new);
-void		ft_free_lst(void *lst);
-int			ft_lstsize(void *lst);
-
 void		ft_invert_camera_matrix(t_vector *right, t_vector *up, t_vector *forward);
-
-void		*ft_memcpy(void *dest, const void *src, size_t len);
-void		*ft_memset(void *str, int chr, size_t len);
 
 void		my_mlx_events(t_scene *scene);
 
@@ -261,12 +243,6 @@ int			ft_render_scene(t_scene *scene, t_camera *camera, t_buffer *buffer, t_data
 
 int			ft_proceed_all_cameras(t_scene *scene, t_buffer *buffer, char **argv);
 void		ft_proceed_window(t_scene *scene);
-
-int			ft_strcmp(const char *str1, const char *str2);
-char		**ft_split(const char *str, char *sep);
-char		*ft_strrchr(const char *str, int chr);
-char		*ft_strjoin(const char *str1, const char *str2);
-char		*ft_strcrdup(const char *str, int chr);
 
 t_vector	ft_str_to_vector(const char *str);
 int			ft_step_to_number(const char *str, int i);

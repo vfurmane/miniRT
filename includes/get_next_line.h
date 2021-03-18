@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:26:33 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/05 12:54:57 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/18 11:24:17 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+#include "mini_rt.h"
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE	256

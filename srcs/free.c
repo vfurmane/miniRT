@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 18:31:03 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/17 10:39:49 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/18 10:57:41 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,13 @@ void	ft_free_scene(t_scene **scene)
 	free((*scene)->title);
 	free((*scene)->ambiant);
 	(*scene)->ambiant = NULL;
-	ft_free_lst((*scene)->img);
+	ft_lstfree((*scene)->img);
 	ft_free_cameras((*scene)->cameras);
-	ft_free_lst((*scene)->bulbs);
-	ft_free_lst((*scene)->spheres);
-	ft_free_lst((*scene)->planes);
-	ft_free_lst((*scene)->squares);
-	ft_free_lst((*scene)->cylinders);
+	ft_lstfree((*scene)->bulbs);
+	ft_lstfree((*scene)->spheres);
+	ft_lstfree((*scene)->planes);
+	ft_lstfree((*scene)->squares);
+	ft_lstfree((*scene)->cylinders);
 	free((*scene)->mlx);
 	free(*scene);
 	*scene = NULL;

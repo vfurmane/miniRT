@@ -1,51 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mem.c                                              :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/12 19:39:39 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/17 15:48:57 by vfurmane         ###   ########.fr       */
+/*   Created: 2021/03/18 09:50:12 by vfurmane          #+#    #+#             */
+/*   Updated: 2021/03/18 09:56:22 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mini_rt.h"
+#include "mini_rt_utils.h"
 
-void	*ft_memcpy(void *dest, const void *src, size_t len)
+char	*ft_strjoin(const char *str1, const char *str2)
 {
-	int	i;
+	int		i;
+	int		len;
+	int		str1_len;
+	char	*new_str;
 
-	if (dest > src)
-	{
-		i = (int)len - 1;
-		while (i >= 0)
-		{
-			((char*)dest)[i] = ((char*)src)[i];
-			i--;
-		}
-	}
-	else
-	{
-		i = 0;
-		while (i < (int)len)
-		{
-			((char*)dest)[i] = ((char*)src)[i];
-			i++;
-		}
-	}
-	return (dest);
-}
-
-void	*ft_memset(void *str, int chr, size_t len)
-{
-	size_t	i;
-
+	str1_len = ft_strlen(str1);
+	len = str1_len + ft_strlen(str2) + 1;
+	if (!(new_str = malloc(len * sizeof(*new_str))))
+		return (NULL);
 	i = 0;
-	while (i < len)
+	while (i < str1_len)
 	{
-		((char*)str)[i] = chr;
+		new_str[i] = str1[i];
 		i++;
 	}
-	return (str);
+	while (i < len)
+	{
+		new_str[i] = str2[i - str1_len];
+		i++;
+	}
+	return (new_str);
 }
