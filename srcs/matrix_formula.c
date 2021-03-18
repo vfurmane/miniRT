@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 10:22:23 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/10 10:30:28 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/18 14:22:33 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,26 @@ void	ft_invert_camera_matrix(t_vector *right, t_vector *up, t_vector *forward)
 	tmp = forward->y;
 	forward->y = up->z;
 	up->z = tmp;
+}
+
+double	*ft_initialize_anti_aliasing_matrix(int level)
+{
+	int		i;
+	int		matrix_len;
+	double	*matrix;
+	double	raysize;
+
+	matrix_len = level * level * 2;
+	matrix = malloc(sizeof(*matrix) * matrix_len);
+	if (matrix == NULL)
+		return (NULL);
+	raysize = 1.0 / level;
+	i = 0;
+	while (i < matrix_len / 2)
+	{
+		matrix[i * 2] = -0.5 + (raysize / 2) + (raysize * (i % level));
+		matrix[i * 2 + 1] = 0.5 - (raysize / 2) + (raysize * (i % level));
+		i++;
+	}
+	return (matrix);
 }

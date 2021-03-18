@@ -60,15 +60,16 @@ typedef struct		s_basic_obj
 
 typedef enum		e_obj_type
 {
+	SPHERE,
 	PLANE,
 	SQUARE,
-	SPHERE,
 	CYLINDER
 }					t_obj_type;
 
 typedef struct		s_obj
 {
 	t_obj_type	type;
+	double		inter;
 	void		*ptr;
 }					t_obj;
 
@@ -170,8 +171,8 @@ typedef struct	s_scene
 	t_camera		*cameras;
 	t_bulb			*bulbs;
 	t_sphere		*spheres;
-	t_plane			*planes;
 	t_square		*squares;
+	t_plane			*planes;
 	t_cylinder		*cylinders;
 }				t_scene;
 
@@ -223,6 +224,7 @@ int			ft_is_in_shadow(t_vector point, t_scene scene, t_bulb *bulb);
 int			ft_compute_lighting(t_vector point, t_obj obj, t_scene scene, int color);
 
 void		ft_invert_camera_matrix(t_vector *right, t_vector *up, t_vector *forward);
+double		*ft_initialize_anti_aliasing_matrix(int level);
 
 void		my_mlx_events(t_scene *scene);
 
@@ -245,7 +247,6 @@ double		ft_closest_intersection(t_vector origin, t_vector direction, t_scene sce
 int			ft_calculate_intersections(double k[3], double t[2]);
 int			ft_trace_ray(t_vector origin, t_vector direction, t_scene scene);
 double		*ft_initialize_anti_aliasing_matrix(int level);
-int			ft_render_scene(t_scene *scene, t_camera *camera, t_buffer *buffer, t_data *img);
 
 int			ft_proceed_all_cameras(t_scene *scene, t_buffer *buffer, char **argv);
 void		ft_proceed_window(t_scene *scene);
