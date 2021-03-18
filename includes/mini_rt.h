@@ -218,6 +218,10 @@ t_scene		*ft_initialize_scene(t_scene **scene, int argc, char **argv);
 int			ft_initialize_bmp_file(t_scene *scene, t_buffer *buffer, char *scene_file, int camerano);
 t_data		*ft_initialize_mlx_img(t_scene *scene);
 
+void		ft_add_light_intensity(double intensity[3], int color, double light_intensity);
+int			ft_is_in_shadow(t_vector point, t_scene scene, t_bulb *bulb);
+int			ft_compute_lighting(t_vector point, t_obj obj, t_scene scene, int color);
+
 void		ft_invert_camera_matrix(t_vector *right, t_vector *up, t_vector *forward);
 
 void		my_mlx_events(t_scene *scene);
@@ -237,6 +241,7 @@ int			ft_parameters(int argc, char **argv, t_scene *scene);
 
 int			ft_fatal_error(const char *str);
 
+double		ft_closest_intersection(t_vector origin, t_vector direction, t_scene scene, t_obj *obj);
 int			ft_calculate_intersections(double k[3], double t[2]);
 int			ft_trace_ray(t_vector origin, t_vector direction, t_scene scene);
 double		*ft_initialize_anti_aliasing_matrix(int level);
