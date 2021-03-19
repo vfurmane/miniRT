@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 11:38:14 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/19 19:01:13 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/19 20:18:27 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ t_camera		*ft_new_camera(char **args, int line)
 	camera->center = ft_str_to_vector(args[0]);
 	camera->direction = ft_str_to_vector(args[1]);
 	camera->fov = ft_atoi(args[2]);
+	camera->angle = 0;
 	camera->pixel_size = 1;
 	camera->anti_aliasing_level = 1 * !!MINI_RT_BONUS + 1 * !MINI_RT_BONUS;
 	camera->anti_aliasing_matrix = ft_initialize_anti_aliasing_matrix(

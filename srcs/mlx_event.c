@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 10:03:13 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/19 20:13:13 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/19 21:16:47 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,44 @@ int		ft_put_scene_back(t_scene *scene)
 
 void	ft_move_camera(t_scene *scene, int key)
 {
-	t_vector	direction;
+	t_camera	*camera;
+	t_vector	center;
 
-	direction.x = 0 + 0.2 * (key == XK_Right) - 0.2 * (key == XK_Left);
-	direction.y = 0;
-	direction.z = 0 + 0.2 * (key == XK_Up) - 0.2 * (key == XK_Down);
+	camera = scene->current_camera;
+	ft_invert_camera_matrix(&camera->right, &camera->up, &camera->forward);
+	center = scene->current_camera->center;
+	if (key == XK_Up)
+		center = ft_add_vectors(center, ft_multiply_vector_double(camera->forward, 0.2));
+	else if (key == XK_Down)
+		center = ft_substract_vectors(center, ft_multiply_vector_double(camera->forward, 0.2));
+	else if (key == XK_Right)
+		center = ft_add_vectors(center, ft_multiply_vector_double(camera->right, 0.2));
+	else if (key == XK_Left)
+		center = ft_substract_vectors(center, ft_multiply_vector_double(camera->right, 0.2));
+	ft_invert_camera_matrix(&camera->right, &camera->up, &camera->forward);
 	scene->current_camera->pixel_size = scene->plan.width * scene->plan.height /
 		138240;
 	if (scene->current_camera->pixel_size == 0)
 		scene->current_camera->pixel_size = 1;
-	scene->current_camera->center = ft_add_vectors(scene->current_camera->center, direction);
+	scene->current_camera->center = center;
+	ft_render_scene(scene, scene->current_camera, NULL, scene->img);
+	ft_put_scene_back(scene);
+}
+
+void	ft_rotate_camera(t_scene *scene, int key)
+{
+	t_vector	direction;
+
+	scene->current_camera->angle += 2 * (key == XK_v) - 2 * (key == XK_x);
+	direction.x = sin(scene->current_camera->angle * M_PI / 180);
+	direction.y = scene->current_camera->direction.y;
+	direction.z = cos(scene->current_camera->angle * M_PI / 180);
+	scene->current_camera->pixel_size = scene->plan.width * scene->plan.height /
+		138240;
+	if (scene->current_camera->pixel_size == 0)
+		scene->current_camera->pixel_size = 1;
+	scene->current_camera->direction = direction;
+	ft_calculate_camera_rotation_and_fov(scene, scene->current_camera);
 	ft_render_scene(scene, scene->current_camera, NULL, scene->img);
 	ft_put_scene_back(scene);
 }
@@ -70,6 +98,8 @@ int		ft_handle_key(int code, t_scene *scene)
 		ft_move_camera(scene, code);
 	else if (MINI_RT_BONUS && code == XK_r)
 		ft_refresh_camera(scene, 1);
+	else if (MINI_RT_BONUS && (code == XK_x || code == XK_v))
+		ft_rotate_camera(scene, code);
 	return (0);
 }
 

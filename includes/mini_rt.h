@@ -103,6 +103,7 @@ typedef struct	s_camera
 	t_vector		up;
 	t_vector		forward;
 	int				fov;
+	int				angle;
 	int				pixel_size;
 	int				anti_aliasing_level;
 	double			*anti_aliasing_matrix;
