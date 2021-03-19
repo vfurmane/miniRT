@@ -141,6 +141,7 @@ typedef struct	s_cylinder
 	double				radius;
 	t_vector			direction;
 	double				height;
+	t_vector			top;
 }				t_cylinder;
 
 typedef struct	s_light
@@ -279,10 +280,14 @@ t_vector	ft_normalize_vector(t_vector vector);
 
 void		ft_intersect_ray_cylinder(t_ray *ray,
 				t_cylinder *cylinder, double t[2]);
+void		ft_precalculate_cylinder(t_cylinder *cylinder);
+
 void		ft_intersect_ray_plane(t_ray *ray,
 				t_plane *plane, double t[2]);
+
 void		ft_intersect_ray_sphere(t_ray *ray,
 				t_sphere *sphere, double t[2]);
+
 void		ft_intersect_ray_square(t_ray *ray,
 				t_square *square, double t[2]);
 

@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 10:22:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/17 10:39:24 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/19 17:33:40 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,10 @@ t_cylinder	*ft_new_cylinder(char **args, int line)
 	}
 	cylinder->next = NULL;
 	cylinder->center = ft_str_to_vector(args[0]);
-	cylinder->direction = ft_str_to_vector(args[1]);
+	cylinder->direction = ft_normalize_vector(ft_str_to_vector(args[1]));
 	cylinder->radius = ft_atof(args[2]) / 2.0;
 	cylinder->height = ft_atof(args[3]);
 	cylinder->color = ft_parse_color(args[4]);
+	ft_precalculate_cylinder(cylinder);
 	return (cylinder);
 }

@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 12:08:18 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/19 10:10:16 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/19 17:34:12 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,10 @@ static int		ft_check_cylinder_cap(double inter, t_cylinder *cylinder,
 			ft_substract_vectors(ft_add_vectors(ray->origin,
 			ft_multiply_vector_double(ray->direction, inter)),
 			cylinder->center)) >= 0 &&
-			ft_dot_product(ft_substract_vectors(ft_add_vectors(ray->origin,
+			ft_dot_product(cylinder->direction,
+			ft_substract_vectors(ft_add_vectors(ray->origin,
 			ft_multiply_vector_double(ray->direction, inter)),
-			ft_add_vectors(cylinder->center,
-			ft_multiply_vector_double(cylinder->direction, cylinder->height))),
-			cylinder->direction) <= 0);
+			cylinder->top)) <= 0);
 }
 
 void			ft_intersect_ray_cylinder(t_ray *ray,
@@ -55,4 +54,10 @@ void			ft_intersect_ray_cylinder(t_ray *ray,
 		t[0] = -1;
 	if (t[0] == -1)
 		t[1] = -1;
+}
+
+void			ft_precalculate_cylinder(t_cylinder *cylinder)
+{
+	cylinder->top = ft_add_vectors(cylinder->center,
+			ft_multiply_vector_double(cylinder->direction, cylinder->height));
 }
