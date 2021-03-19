@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 12:42:28 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/18 12:43:15 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/19 10:02:13 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,27 +36,27 @@ void	ft_add_light_intensity(double intensity[3], int color,
 
 int		ft_is_in_shadow(t_vector point, t_scene scene, t_bulb *bulb)
 {
+	t_ray		light_ray;
 	double		closest_inter;
 	t_obj		obj;
 
 	scene.inter_min = 0.00000000001;
 	scene.inter_max = 1;
+	light_ray.origin = point;
+	light_ray.direction = ft_substract_vectors(bulb->center, point);
 	obj.ptr = scene.planes;
 	obj.type = PLANE;
-	closest_inter = ft_closest_intersection(point,
-			ft_substract_vectors(bulb->center, point), scene, &obj);
+	closest_inter = ft_closest_intersection(&light_ray, scene, &obj);
 	if (closest_inter != -1)
 		return (1);
 	obj.ptr = scene.spheres;
 	obj.type = SPHERE;
-	closest_inter = ft_closest_intersection(point,
-			ft_substract_vectors(bulb->center, point), scene, &obj);
+	closest_inter = ft_closest_intersection(&light_ray, scene, &obj);
 	if (closest_inter != -1)
 		return (1);
 	obj.ptr = scene.cylinders;
 	obj.type = CYLINDER;
-	closest_inter = ft_closest_intersection(point,
-			ft_substract_vectors(bulb->center, point), scene, &obj);
+	closest_inter = ft_closest_intersection(&light_ray, scene, &obj);
 	if (closest_inter != -1)
 		return (1);
 	return (0);

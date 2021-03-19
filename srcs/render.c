@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 19:37:32 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/18 14:21:52 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/19 10:07:36 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,28 @@ int	ft_get_pixel_color(t_scene *scene, t_camera *camera, t_pixel *pixel)
 {
 	int			i;
 	int			*colors;
-	t_vector	direction;
+	t_ray		ray;
 
-	pixel->color = -1;
 	colors = malloc(sizeof(*colors) * camera->anti_aliasing_level * camera->anti_aliasing_level);
 	if (colors == NULL)
 		return (pixel->color);
+	pixel->color = -1;
+	ray.origin = camera->center;
 	if (MINI_RT_BONUS)
 	{
 		i = 0;
 		while (i < camera->anti_aliasing_level * camera->anti_aliasing_level)
 		{
-			direction = ft_canvas_to_viewport(pixel, &scene->plan, camera, i);
-			colors[i] = ft_trace_ray(camera->center, direction, *scene);
+			ray.direction = ft_canvas_to_viewport(pixel, &scene->plan, camera, i);
+			colors[i] = ft_trace_ray(&ray, *scene);
 			i++;
 		}
 		pixel->color = ft_color_average(colors);
 	}
 	else
 	{
-		direction = ft_canvas_to_viewport(pixel, &scene->plan, camera, 0);
-		pixel->color = ft_trace_ray(camera->center, direction, *scene);
+		ray.direction = ft_canvas_to_viewport(pixel, &scene->plan, camera, 0);
+		pixel->color = ft_trace_ray(&ray, *scene);
 	}
 	free(colors);
 	return (pixel->color);

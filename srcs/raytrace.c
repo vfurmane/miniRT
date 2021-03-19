@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/18 20:57:09 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/19 10:06:00 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,16 @@ int		ft_calculate_intersections(double k[3], double t[2])
 	return (1);
 }
 
-void	ft_intersect_ray(t_vector origin, t_vector direction, t_obj obj,
-		double inter[2])
+void	ft_intersect_ray(t_ray *ray, t_obj obj, double inter[2])
 {
 	if (obj.type == PLANE)
-		ft_intersect_ray_plane(origin, direction, obj.ptr, inter);
+		ft_intersect_ray_plane(ray, obj.ptr, inter);
 	else if (obj.type == SPHERE)
-		ft_intersect_ray_sphere(origin, direction, obj.ptr, inter);
+		ft_intersect_ray_sphere(ray, obj.ptr, inter);
 	else if (obj.type == SQUARE)
-		ft_intersect_ray_square(origin, direction, obj.ptr, inter);
+		ft_intersect_ray_square(ray, obj.ptr, inter);
 	else if (obj.type == CYLINDER)
-		ft_intersect_ray_cylinder(origin, direction, obj.ptr, inter);
+		ft_intersect_ray_cylinder(ray, obj.ptr, inter);
 }
 
 double	ft_closest_obj(t_obj *obj1, t_obj *obj2)
@@ -54,7 +53,7 @@ double	ft_closest_obj(t_obj *obj1, t_obj *obj2)
 	return (-1);
 }
 
-double	ft_closest_intersection(t_vector origin, t_vector direction,
+double	ft_closest_intersection(t_ray *ray,
 		t_scene scene, t_obj *obj)
 {
 	double	inter[2];
@@ -66,7 +65,7 @@ double	ft_closest_intersection(t_vector origin, t_vector direction,
 	closest_inter = -1;
 	while (obj_copy.ptr != NULL)
 	{
-		ft_intersect_ray(origin, direction, obj_copy, inter);
+		ft_intersect_ray(ray, obj_copy, inter);
 		if (inter[0] >= scene.inter_min &&
 				(inter[0] <= scene.inter_max || scene.inter_max == -1) &&
 				(inter[0] < closest_inter || closest_inter == -1))
@@ -87,7 +86,7 @@ double	ft_closest_intersection(t_vector origin, t_vector direction,
 	return (closest_inter);
 }
 
-int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
+int		ft_trace_ray(t_ray *ray, t_scene scene)
 {
 	int			i;
 	void		*objects[4];
@@ -105,13 +104,13 @@ int		ft_trace_ray(t_vector origin, t_vector direction, t_scene scene)
 	{
 		obj2.ptr = objects[i];
 		obj2.type = i++;
-		obj2.inter = ft_closest_intersection(origin, direction, scene, &obj2);
+		obj2.inter = ft_closest_intersection(ray, scene, &obj2);
 		obj1.inter = ft_closest_obj(&obj1, &obj2);
 	}
 	if (obj1.inter == -1)
 		return (scene.background_color);
-	point = ft_add_vectors(origin, ft_multiply_vector_double(direction,
-				obj1.inter));
+	point = ft_add_vectors(ray->origin,
+			ft_multiply_vector_double(ray->direction, obj1.inter));
 	return (ft_compute_lighting(point, obj1, scene,
 				((t_basic_obj*)obj1.ptr)->color));
 }

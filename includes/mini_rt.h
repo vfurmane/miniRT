@@ -51,6 +51,12 @@ typedef struct	s_vector
 	double	z;
 }				t_vector;
 
+typedef struct	s_ray
+{
+	t_vector	origin;
+	t_vector	direction;
+}				t_ray;
+
 typedef struct		s_basic_obj
 {
 	t_next			*next;
@@ -243,9 +249,9 @@ int			ft_parameters(int argc, char **argv, t_scene *scene);
 
 int			ft_fatal_error(const char *str);
 
-double		ft_closest_intersection(t_vector origin, t_vector direction, t_scene scene, t_obj *obj);
+double		ft_closest_intersection(t_ray *ray, t_scene scene, t_obj *obj);
 int			ft_calculate_intersections(double k[3], double t[2]);
-int			ft_trace_ray(t_vector origin, t_vector direction, t_scene scene);
+int			ft_trace_ray(t_ray *ray, t_scene scene);
 double		*ft_initialize_anti_aliasing_matrix(int level);
 
 int			ft_proceed_all_cameras(t_scene *scene, t_buffer *buffer, char **argv);
@@ -271,13 +277,13 @@ t_vector	ft_normalize_vector(t_vector vector);
 **	Functions	PRIMITIVES
 */
 
-void		ft_intersect_ray_cylinder(t_vector origin, t_vector direction,
+void		ft_intersect_ray_cylinder(t_ray *ray,
 				t_cylinder *cylinder, double t[2]);
-void		ft_intersect_ray_plane(t_vector origin, t_vector direction,
+void		ft_intersect_ray_plane(t_ray *ray,
 				t_plane *plane, double t[2]);
-void		ft_intersect_ray_sphere(t_vector origin, t_vector direction,
+void		ft_intersect_ray_sphere(t_ray *ray,
 				t_sphere *sphere, double t[2]);
-void		ft_intersect_ray_square(t_vector origin, t_vector direction,
+void		ft_intersect_ray_square(t_ray *ray,
 				t_square *square, double t[2]);
 
 #endif
