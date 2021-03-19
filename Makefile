@@ -6,7 +6,7 @@
 #    By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/28 15:38:44 by vfurmane          #+#    #+#              #
-#    Updated: 2021/03/18 12:45:10 by vfurmane         ###   ########.fr        #
+#    Updated: 2021/03/19 17:53:58 by vfurmane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ $(NAME):	$(OBJS)
 			$(CC) $(CFLAGS) $^ $(LIBS) -o $(NAME)
 
 bonus:		BONUS=-D MINI_RT_BONUS=1
-bonus:		all
+bonus:		$(NAME)
 
 mlx:
 	@echo "\033[92mDownloading the Minilibx...\033[0m"

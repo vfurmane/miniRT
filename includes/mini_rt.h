@@ -176,6 +176,7 @@ typedef struct	s_scene
 	int				background_color;
 	t_light			*ambiant;
 	t_camera		*cameras;
+	t_camera		*current_camera;
 	t_bulb			*bulbs;
 	t_sphere		*spheres;
 	t_square		*squares;
@@ -204,7 +205,7 @@ int			ft_check_parse_color(char *str, int line);
 int			ft_check_str_to_vector(const char *str, int norm, int line);
 
 int			ft_parse_color(const char *str);
-int			ft_color_average(int colors[16]);
+int			ft_color_average(int *colors, int size);
 double		ft_multiply_color(int color, double intensity);
 
 void		ft_free_split(char **strarr);
@@ -255,6 +256,8 @@ int			ft_calculate_intersections(double k[3], double t[2]);
 int			ft_trace_ray(t_ray *ray, t_scene scene);
 double		*ft_initialize_anti_aliasing_matrix(int level);
 
+int			ft_render_scene(t_scene *scene, t_camera *camera, t_buffer *buffer,
+				t_data *img);
 int			ft_proceed_all_cameras(t_scene *scene, t_buffer *buffer, char **argv);
 void		ft_proceed_window(t_scene *scene);
 
