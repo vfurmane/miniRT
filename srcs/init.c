@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 18:32:28 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/17 11:25:50 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/19 09:08:35 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ t_scene	*ft_initialize_scene(t_scene **scene, int argc, char **argv)
 	(*scene)->inter_max = -1;
 	(*scene)->plan.distance = 1;
 	if (argv[2] == NULL || ft_strcmp("--save", argv[2]) != 0)
+	{
 		(*scene)->mlx = mlx_init();
+		mlx_do_key_autorepeaton((*scene)->mlx);
+	}
 	(*scene)->background_color = ft_multiply_color((*scene)->ambiant->color, (*scene)->ambiant->intensity);
 	return (*scene);
 }
