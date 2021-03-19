@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 18:32:28 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/19 09:08:35 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/19 15:17:13 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ t_scene	*ft_initialize_scene(t_scene **scene, int argc, char **argv)
 		(*scene)->mlx = mlx_init();
 		mlx_do_key_autorepeaton((*scene)->mlx);
 	}
-	(*scene)->background_color = ft_multiply_color((*scene)->ambiant->color, (*scene)->ambiant->intensity);
+	(*scene)->background_color = ft_multiply_color((*scene)->ambiant->color,
+			(*scene)->ambiant->intensity);
 	return (*scene);
 }
 
@@ -77,7 +78,8 @@ char	*ft_append_camerano_to_scene_name(char *scene_file, int camerano)
 	return (str);
 }
 
-int		ft_initialize_bmp_file(t_scene *scene, t_buffer *buffer, char *scene_file, int camerano)
+int		ft_initialize_bmp_file(t_scene *scene, t_buffer *buffer,
+		char *scene_file, int camerano)
 {
 	int		fd;
 	char	*file;
@@ -115,7 +117,7 @@ t_data	*ft_initialize_mlx_img(t_scene *scene)
 	}
 	img->next = NULL;
 	img->img = mlx_new_image(scene->mlx, scene->plan.width, scene->plan.height);
-	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length,
-			&img->endian);
+	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
+			&img->line_length, &img->endian);
 	return (img);
 }

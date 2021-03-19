@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 18:31:03 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/18 10:57:41 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/19 11:46:57 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_free_mlx(void *mlx, void *win, t_data *img, t_camera *camera)
 		mlx_destroy_image(mlx, img->img);
 		camera = camera->next;
 		if (camera != NULL)
-			img	= img->next;
+			img = img->next;
 	}
 	img->next = NULL;
 	if (win != NULL)

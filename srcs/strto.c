@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 10:58:26 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/10 14:23:52 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/19 15:18:23 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_vector	ft_str_to_vector(const char *str)
 {
-	int				i;
+	int			i;
 	t_vector	vector;
 
 	i = 0;

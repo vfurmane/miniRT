@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:47:22 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/09 09:57:28 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/19 15:37:00 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ int	ft_handle_ambiant(char **args, t_scene *scene, int line)
 {
 	void	*ret;
 
+	if (scene->ambiant != NULL)
+	{
+		printf("Error\nline %d: Ambiant light has already been set\n",
+				line);
+		return (-1);
+	}
 	if (!ft_check_args_count(args, 2, line))
 		return (-1);
 	ret = ft_new_ambiant(&args[0], line);
@@ -47,7 +53,8 @@ int	ft_handle_ambiant(char **args, t_scene *scene, int line)
 	scene->ambiant = ret;
 	if (scene->ambiant->intensity < 0 || scene->ambiant->intensity > 1)
 	{
-		printf("Error\nline %d: Light intensity must be in range [0.0,1.0]\n", line);
+		printf("Error\nline %d: Light intensity must be in range [0.0,1.0]\n",
+				line);
 		return (-1);
 	}
 	return (0);

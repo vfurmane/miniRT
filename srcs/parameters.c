@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:13:35 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/17 11:39:56 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/19 13:18:51 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,7 @@ int	ft_parse_line(char *line, t_scene *scene)
 	else if (ft_strcmp(args[0], "R") == 0)
 		ret = ft_handle_resolution(&args[1], scene, line_nbr);
 	else if (ft_strcmp(args[0], "A") == 0)
-	{
-		if (scene->ambiant == NULL)
-			ret = ft_handle_ambiant(&args[1], scene, line_nbr);
-		else
-		{
-			printf("Error\nline %d: Ambiant light has already been set\n", line_nbr);
-			ret = -1;
-		}
-	}
+		ret = ft_handle_ambiant(&args[1], scene, line_nbr);
 	else if (ft_strcmp(args[0], "c") == 0)
 		ret = ft_handle_camera(&args[1], scene, line_nbr);
 	else if (ft_strcmp(args[0], "l") == 0)

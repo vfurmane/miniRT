@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:15:53 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/10 14:24:35 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/19 15:18:40 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_vector	ft_cross_product(t_vector v1, t_vector v2)
 
 t_vector	ft_normalize_vector(t_vector vector)
 {
-	double			len;
+	double		len;
 	t_vector	new_vector;
 
 	len = ft_vector_length(vector);

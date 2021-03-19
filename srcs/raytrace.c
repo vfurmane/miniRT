@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/19 11:10:01 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/19 15:04:02 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int		ft_trace_ray(t_ray *ray, t_scene scene)
 	t_obj		obj1;
 	t_obj		obj2;
 	t_vector	point;
-	
+
 	objects[0] = scene.spheres;
 	objects[1] = scene.planes;
 	objects[2] = scene.squares;

@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 18:30:18 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/27 21:33:32 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/19 11:29:44 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	ft_check_parse_color(char *str, int line)
 			str++;
 		if (*str == ',' && i < 2)
 			str++;
-		else if ((*str == '\0' && i < 2) || *str != '\0' || (*str != '\0' && i == 2))
+		else if ((*str == '\0' && i < 2) || *str != '\0' ||
+				(*str != '\0' && i == 2))
 		{
 			printf("Error\nline %d: Color format must be xxx,xxx,xxx\n", line);
 			return (0);

@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 14:05:40 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/17 15:48:20 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/19 11:28:06 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		ft_set_bmp_header(t_scene *scene, int fd)
 
 	header = malloc(55 * sizeof(*header));
 	if (header == NULL)
-		return (ft_fatal_error("Cannot allocate memory for the BMP file's header") * 0);
+		return (ft_fatal_error("Cannot allocate the BMP file's header") * 0);
 	ft_memset(header, '\0', 54);
 	ft_memcpy(&header[0], "BM", 2);
 	header[10] = 54;

@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 12:42:28 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/19 10:02:13 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/19 15:18:11 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_add_light_intensity(double intensity[3], int color,
 	int	i;
 	int	mask;
 	int	color_mask;
-	
+
 	i = 0;
 	while (i < 3)
 	{
@@ -75,7 +75,7 @@ int		ft_compute_lighting(t_vector point, t_obj obj, t_scene scene, int color)
 	bulb = scene.bulbs;
 	intensity[0] = 0;
 	intensity[1] = 0;
-	intensity[2] = 0; 
+	intensity[2] = 0;
 	ft_add_light_intensity(intensity, scene.ambiant->color,
 			scene.ambiant->intensity);
 	while (bulb != NULL)

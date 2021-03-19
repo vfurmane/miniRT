@@ -6,13 +6,14 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 10:22:23 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/18 14:22:33 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/19 11:47:31 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-void	ft_invert_camera_matrix(t_vector *right, t_vector *up, t_vector *forward)
+void	ft_invert_camera_matrix(t_vector *right, t_vector *up,
+		t_vector *forward)
 {
 	double	tmp;
 

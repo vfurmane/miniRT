@@ -6,13 +6,13 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 11:38:14 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/16 15:40:49 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/19 11:52:49 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-t_light		*ft_new_ambiant(char **args, int line)
+t_light			*ft_new_ambiant(char **args, int line)
 {
 	t_light	*light;
 
@@ -33,7 +33,7 @@ t_light		*ft_new_ambiant(char **args, int line)
 	return (light);
 }
 
-t_camera	*ft_new_camera(char **args, int line)
+static t_camera	*ft_check_new_camera(char **args, int line)
 {
 	t_camera	*camera;
 
@@ -50,12 +50,21 @@ t_camera	*ft_new_camera(char **args, int line)
 		free(camera);
 		return (NULL);
 	}
+	return (camera);
+}
+
+t_camera		*ft_new_camera(char **args, int line)
+{
+	t_camera	*camera;
+
+	camera = ft_check_new_camera(args, line);
 	camera->center = ft_str_to_vector(args[0]);
 	camera->direction = ft_str_to_vector(args[1]);
 	camera->fov = ft_atoi(args[2]);
 	camera->pixel_size = 1;
 	camera->anti_aliasing_level = 4 * !!MINI_RT_BONUS + 1 * !MINI_RT_BONUS;
-	camera->anti_aliasing_matrix = ft_initialize_anti_aliasing_matrix(camera->anti_aliasing_level);
+	camera->anti_aliasing_matrix = ft_initialize_anti_aliasing_matrix(
+			camera->anti_aliasing_level);
 	if (camera->anti_aliasing_matrix == NULL)
 	{
 		free(camera);
@@ -65,7 +74,7 @@ t_camera	*ft_new_camera(char **args, int line)
 	return (camera);
 }
 
-t_bulb		*ft_new_light(char **args, int line)
+t_bulb			*ft_new_light(char **args, int line)
 {
 	t_bulb	*light;
 
