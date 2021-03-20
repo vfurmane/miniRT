@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 10:22:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/19 17:33:40 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/20 09:37:28 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_plane		*ft_new_plane(char **args, int line)
 	}
 	plane->next = NULL;
 	plane->center = ft_str_to_vector(args[0]);
-	plane->direction = ft_str_to_vector(args[1]);
+	plane->direction = ft_normalize_vector(ft_str_to_vector(args[1]));
 	plane->color = ft_parse_color(args[2]);
 	return (plane);
 }
@@ -80,7 +80,7 @@ t_square	*ft_new_square(char **args, int line)
 	}
 	square->next = NULL;
 	square->center = ft_str_to_vector(args[0]);
-	square->direction = ft_str_to_vector(args[1]);
+	square->direction = ft_normalize_vector(ft_str_to_vector(args[1]));
 	square->width = ft_atof(args[2]);
 	square->color = ft_parse_color(args[3]);
 	return (square);

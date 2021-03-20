@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 20:31:03 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/19 11:48:31 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/20 09:37:59 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void		ft_calculate_camera_rotation_and_fov(t_scene *scene,
 {
 	t_vector	tmp;
 
-	camera->forward = ft_normalize_vector(camera->direction);
+	camera->forward = camera->direction;
 	if (camera->forward.x == 0 && camera->forward.y != 0
 			&& camera->forward.z == 0)
 	{
