@@ -20,6 +20,7 @@
 # include <X11/keysym.h>
 # include <X11/X.h>
 # include "mlx.h"
+# include "primitives.h"
 # include "get_next_line.h"
 # include "mini_rt_utils.h"
 
@@ -47,13 +48,6 @@ typedef struct		s_mlx_data {
 	int					line_length;
 	int					endian;
 }					t_mlx_data;
-
-typedef struct	s_vector
-{
-	double	x;
-	double	y;
-	double	z;
-}				t_vector;
 
 typedef struct	s_ray
 {
@@ -113,54 +107,6 @@ typedef struct	s_camera
 	int				anti_aliasing_level;
 	double			*anti_aliasing_matrix;
 }					t_camera;
-
-typedef struct	s_plane
-{
-	struct s_plane	*next;
-	t_vector		center;
-	int				color;
-	t_vector		direction;
-}				t_plane;
-
-typedef struct	s_square
-{
-	struct s_square	*next;
-	t_vector		center;
-	int				color;
-	t_vector		direction;
-	double			width;
-}				t_square;
-
-typedef struct	s_triangle
-{
-	struct s_triangle	*next;
-	t_vector			point1;
-	int					color;
-	t_vector			point2;
-	t_vector			point3;
-	t_vector			edge1;
-	t_vector			edge2;
-	t_vector			normal;
-}				t_triangle;
-
-typedef struct	s_sphere
-{
-	struct s_sphere	*next;
-	t_vector		center;
-	int				color;
-	double			radius;
-}				t_sphere;
-
-typedef struct	s_cylinder
-{
-	struct s_cylinder	*next;
-	t_vector			center;
-	int					color;
-	double				radius;
-	t_vector			direction;
-	double				height;
-	t_vector			top;
-}				t_cylinder;
 
 typedef struct	s_light
 {
