@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 18:31:03 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/20 11:36:01 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/20 12:40:20 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_free_gnl(int fd)
 	free(line);
 }
 
-void	ft_free_mlx(void *mlx, void *win, t_data *img, t_camera *camera)
+void	ft_free_mlx(void *mlx, void *win, t_mlx_data *img, t_camera *camera)
 {
 	while (camera != NULL)
 	{

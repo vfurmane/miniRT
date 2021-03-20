@@ -39,14 +39,14 @@
 **	Structures
 */
 
-typedef struct		s_data {
-	struct s_data	*next;
-	void			*img;
-	char			*addr;
-	int				bits_per_pixel;
-	int				line_length;
-	int				endian;
-}					t_data;
+typedef struct		s_mlx_data {
+	struct s_mlx_data	*next;
+	void				*img;
+	char				*addr;
+	int					bits_per_pixel;
+	int					line_length;
+	int					endian;
+}					t_mlx_data;
 
 typedef struct	s_vector
 {
@@ -186,7 +186,7 @@ typedef struct	s_scene
 {
 	void			*mlx;
 	void			*win;
-	t_data			*img;
+	t_mlx_data			*img;
 	char			*title;
 	struct s_plan	plan;
 	double			inter_min;
@@ -229,7 +229,7 @@ double		ft_multiply_color(int color, double intensity);
 
 void		ft_free_split(char **strarr);
 void		ft_free_gnl(int fd);
-void		ft_free_mlx(void *mlx, void *win, t_data *img, t_camera *camera);
+void		ft_free_mlx(void *mlx, void *win, t_mlx_data *img, t_camera *camera);
 void		ft_free_scene(t_scene **scene);
 
 int			ft_handle_resolution(char **args, t_scene *scene, int line);
@@ -245,7 +245,7 @@ int			ft_handle_triangle(char **args, t_scene *scene, int line);
 
 t_scene		*ft_initialize_scene(t_scene **scene, int argc, char **argv);
 int			ft_initialize_bmp_file(t_scene *scene, t_buffer *buffer, char *scene_file, int camerano);
-t_data		*ft_initialize_mlx_img(t_scene *scene);
+t_mlx_data		*ft_initialize_mlx_img(t_scene *scene);
 
 void		ft_add_light_intensity(double intensity[3], int color, double light_intensity);
 int			ft_is_in_shadow(t_vector point, t_scene scene, t_bulb *bulb);
@@ -256,7 +256,7 @@ double		*ft_initialize_anti_aliasing_matrix(int level);
 
 void		my_mlx_events(t_scene *scene);
 
-void		my_mlx_put_pixel(t_data *data, t_pixel pixel, int pixel_size, t_scene scene);
+void		my_mlx_put_pixel(t_mlx_data *data, t_pixel pixel, int pixel_size, t_scene scene);
 
 t_light		*ft_new_ambiant(char **args, int line);
 t_camera	*ft_new_camera(char **args, int line);
@@ -278,7 +278,7 @@ int			ft_trace_ray(t_ray *ray, t_scene scene);
 double		*ft_initialize_anti_aliasing_matrix(int level);
 
 int			ft_render_scene(t_scene *scene, t_camera *camera, t_buffer *buffer,
-				t_data *img);
+				t_mlx_data *img);
 int			ft_proceed_all_cameras(t_scene *scene, t_buffer *buffer, char **argv);
 void		ft_proceed_window(t_scene *scene);
 

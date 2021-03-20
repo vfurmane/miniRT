@@ -6,13 +6,13 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:03:24 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/02/08 20:34:51 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/20 12:40:36 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-void	my_mlx_put_pixel(t_data *data, t_pixel pixel, int pixel_size,
+void	my_mlx_put_pixel(t_mlx_data *data, t_pixel pixel, int pixel_size,
 		t_scene scene)
 {
 	int		i;

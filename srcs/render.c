@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 19:37:32 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/19 19:13:24 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/20 12:40:41 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int		ft_get_pixel_color(t_scene *scene, t_camera *camera, t_pixel *pixel)
 }
 
 int		ft_render_scene(t_scene *scene, t_camera *camera, t_buffer *buffer,
-		t_data *img)
+		t_mlx_data *img)
 {
 	int			end_of_line;
 	t_pixel		pixel;
@@ -86,7 +86,7 @@ int		ft_render_scene(t_scene *scene, t_camera *camera, t_buffer *buffer,
 int		ft_proceed_all_cameras(t_scene *scene, t_buffer *buffer, char **argv)
 {
 	int			camerano;
-	t_data		*img;
+	t_mlx_data		*img;
 	t_camera	*camera;
 
 	camerano = -1;
@@ -129,7 +129,7 @@ int		ft_proceed_all_cameras(t_scene *scene, t_buffer *buffer, char **argv)
 
 void	ft_proceed_window(t_scene *scene)
 {
-	t_data	*img;
+	t_mlx_data	*img;
 
 	img = scene->img;
 	while (img->next != NULL)
