@@ -6,27 +6,11 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/20 11:25:28 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/21 19:29:04 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
-
-int		ft_calculate_intersections(double k[3], double t[2])
-{
-	double	discriminant;
-
-	discriminant = k[1] * k[1] - (4 * k[0] * k[2]);
-	if (discriminant < 0)
-	{
-		t[0] = -1;
-		t[1] = -1;
-		return (0);
-	}
-	t[0] = (-k[1] - sqrt(discriminant)) / (2 * k[0]);
-	t[1] = (-k[1] + sqrt(discriminant)) / (2 * k[0]);
-	return (1);
-}
 
 void	ft_intersect_ray(t_ray *ray, t_obj obj, double inter[2])
 {
@@ -97,7 +81,6 @@ double	ft_closest_intersection(t_ray *ray,
 
 int		ft_trace_ray(t_ray *ray, t_scene scene)
 {
-	int			i;
 	void		*objects[5];
 	t_obj		obj1;
 	t_obj		obj2;
@@ -109,13 +92,13 @@ int		ft_trace_ray(t_ray *ray, t_scene scene)
 	objects[3] = scene.triangles;
 	objects[4] = scene.cylinders;
 	obj1.inter = -1;
-	i = 0;
-	while (i < 5)
+	obj2.type = 0;
+	while (obj2.type < 5)
 	{
-		obj2.ptr = objects[i];
-		obj2.type = i++;
+		obj2.ptr = objects[obj2.type];
 		obj2.inter = ft_closest_intersection(ray, scene, &obj2);
 		obj1.inter = ft_closest_obj(&obj1, &obj2);
+		obj2.type++;
 	}
 	if (obj1.inter == -1)
 		return (scene.background_color);

@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 11:38:14 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/20 09:36:40 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/20 14:47:52 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ t_light			*ft_new_ambiant(char **args, int line)
 
 	light = malloc(sizeof(*light));
 	if (light == NULL)
-	{
-		ft_fatal_error("Failed to create the ambiant light");
-		return (NULL);
-	}
+		return (ft_fatal_error_null("Failed to create the ambiant light"));
 	if (!ft_check_atof(args[0], "", line) ||
 			!ft_check_parse_color(args[1], line))
 	{
@@ -39,10 +36,7 @@ static t_camera	*ft_check_new_camera(char **args, int line)
 
 	camera = malloc(sizeof(*camera));
 	if (camera == NULL)
-	{
-		ft_fatal_error("Failed to create a new camera");
-		return (NULL);
-	}
+		return (ft_fatal_error_null("Failed to create a new camera"));
 	if (!ft_check_str_to_vector(args[0], 0, line) ||
 			!ft_check_str_to_vector(args[1], 1, line) ||
 			!ft_check_atoi(args[2], "", line))
@@ -81,10 +75,7 @@ t_bulb			*ft_new_light(char **args, int line)
 
 	light = malloc(sizeof(*light));
 	if (light == NULL)
-	{
-		ft_fatal_error("Failed to create a new light bulb");
-		return (NULL);
-	}
+		return (ft_fatal_error_null("Failed to create a new light bulb"));
 	if (!ft_check_str_to_vector(args[0], 0, line) ||
 			!ft_check_atof(args[1], "", line) ||
 			!ft_check_parse_color(args[2], line))

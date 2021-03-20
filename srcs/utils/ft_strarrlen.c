@@ -6,13 +6,13 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 09:42:43 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/18 10:56:54 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/21 19:46:11 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt_utils.h"
 
-int	ft_strarrlen(char* const *arr)
+int	ft_strarrlen(char **arr)
 {
 	int	i;
 

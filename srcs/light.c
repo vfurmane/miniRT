@@ -6,14 +6,14 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 12:42:28 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/20 11:48:28 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/20 19:50:07 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-void	ft_add_light_intensity(double intensity[3], int color,
-		double light_intensity)
+void		ft_add_light_intensity(double intensity[3], int color,
+			double light_intensity)
 {
 	int	i;
 	int	mask;
@@ -34,7 +34,7 @@ void	ft_add_light_intensity(double intensity[3], int color,
 	}
 }
 
-int		ft_is_in_shadow(t_vector point, t_scene scene, t_bulb *bulb)
+int			ft_is_in_shadow(t_vector point, t_scene scene, t_bulb *bulb)
 {
 	t_ray		light_ray;
 	double		closest_inter;
@@ -62,22 +62,28 @@ int		ft_is_in_shadow(t_vector point, t_scene scene, t_bulb *bulb)
 	return (0);
 }
 
-int		ft_compute_lighting(t_vector point, t_obj obj, t_scene scene, int color)
+double		ft_calculate_ndotl(t_vector normal, t_bulb *bulb, t_vector point)
 {
+	double		n_dot_l;
 	double		normal_len;
+	t_vector	light_ray;
+
+	normal_len = ft_vector_length(normal);
+	normal = ft_multiply_vector_double(normal, 1.0 / normal_len);
+	light_ray = ft_substract_vectors(bulb->center, point);
+	n_dot_l = ft_dot_product(normal, light_ray) /
+		(normal_len * ft_vector_length(light_ray));
+	return (n_dot_l);
+}
+
+void		ft_calculate_lights_intensity(t_scene scene, t_obj obj,
+			t_vector point, double intensity[3])
+{
+	t_bulb		*bulb;
 	double		n_dot_l;
 	t_vector	normal;
-	t_vector	light_ray;
-	t_bulb		*bulb;
-	int			new_color;
-	double		intensity[3];
 
 	bulb = scene.bulbs;
-	intensity[0] = 0;
-	intensity[1] = 0;
-	intensity[2] = 0;
-	ft_add_light_intensity(intensity, scene.ambiant->color,
-			scene.ambiant->intensity);
 	while (bulb != NULL)
 	{
 		if (ft_is_in_shadow(point, scene, bulb))
@@ -85,37 +91,25 @@ int		ft_compute_lighting(t_vector point, t_obj obj, t_scene scene, int color)
 			bulb = bulb->next;
 			continue ;
 		}
-		if (obj.type == SPHERE)
-		{
-			normal = ft_substract_vectors(point, ((t_sphere*)obj.ptr)->center);
-		}
-		else if (obj.type == CYLINDER)
-		{
-			normal = ft_substract_vectors(point,
-					ft_add_vectors(((t_cylinder*)obj.ptr)->center,
-					ft_multiply_vector_double(((t_cylinder*)obj.ptr)->direction,
-					ft_dot_product(ft_substract_vectors(point,
-					((t_cylinder*)obj.ptr)->center),
-					((t_cylinder*)obj.ptr)->direction))));
-		}
-		else if (obj.type == PLANE || obj.type == SQUARE)
-		{
-			normal = ((t_plane*)obj.ptr)->direction;
-		}
-		if (obj.type == TRIANGLE)
-		{
-			normal = ((t_triangle*)obj.ptr)->normal;
-		}
-		normal_len = ft_vector_length(normal);
-		normal = ft_multiply_vector_double(normal, 1.0 / normal_len);
-		light_ray = ft_substract_vectors(bulb->center, point);
-		n_dot_l = ft_dot_product(normal, light_ray) /
-			(normal_len * ft_vector_length(light_ray));
+		normal = ft_calculate_primitive_normal(point, obj);
+		n_dot_l = ft_calculate_ndotl(normal, bulb, point);
 		if (n_dot_l > 0)
 			ft_add_light_intensity(intensity, bulb->light.color,
 					bulb->light.intensity * n_dot_l);
 		bulb = bulb->next;
 	}
+}
+
+int			ft_compute_lighting(t_vector point, t_obj obj, t_scene scene,
+			int color)
+{
+	int			new_color;
+	double		intensity[3];
+
+	ft_memset(intensity, 0, 3 * sizeof(*intensity));
+	ft_add_light_intensity(intensity, scene.ambiant->color,
+			scene.ambiant->intensity);
+	ft_calculate_lights_intensity(scene, obj, point, intensity);
 	new_color = 0;
 	new_color += (int)(intensity[0] * ((color & 16711680) >> 16)) << 16;
 	new_color += (int)(intensity[1] * ((color & 65280) >> 8)) << 8;

@@ -6,26 +6,22 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 18:32:28 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/20 12:42:00 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/20 19:08:21 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-t_scene	*ft_initialize_scene(t_scene **scene, int argc, char **argv)
+t_scene		*ft_initialize_scene(t_scene **scene, int argc, char **argv)
 {
 	*scene = malloc(sizeof(**scene));
 	if (*scene == NULL)
-	{
-		ft_fatal_error("Cannot allocate the scene");
-		return (NULL);
-	}
+		return (ft_fatal_error_null("Cannot allocate the scene"));
 	(*scene)->title = ft_strjoin("miniRT - ", argv[1]);
 	if ((*scene)->title == NULL)
 	{
 		free(*scene);
-		ft_fatal_error("Cannot allocate the window's title");
-		return (NULL);
+		return (ft_fatal_error_null("Cannot allocate the window's title"));
 	}
 	if (ft_parameters(argc, argv, *scene) == -1)
 	{
@@ -45,7 +41,7 @@ t_scene	*ft_initialize_scene(t_scene **scene, int argc, char **argv)
 	return (*scene);
 }
 
-char	*ft_append_camerano_to_scene_name(char *scene_file, int camerano)
+char		*ft_append_camerano_to_scene_name(char *scene_file, int camerano)
 {
 	char	*str;
 	char	*str_camerano;
@@ -56,29 +52,25 @@ char	*ft_append_camerano_to_scene_name(char *scene_file, int camerano)
 	{
 		free(str_camerano);
 		free(str);
-		ft_fatal_error("Cannot allocate the camera number string");
-		return (NULL);
+		return (ft_fatal_error_null("Cannot allocate the camera number\
+		string"));
 	}
 	scene_file = ft_strjoin(str, str_camerano);
 	if (scene_file == NULL)
-	{
-		ft_fatal_error("Cannot allocate the sene file name");
-		return (NULL);
-	}
+		return (ft_fatal_error_null("Cannot allocate the sene file name"));
 	free(str);
 	free(str_camerano);
 	str = ft_strjoin(scene_file, ".bmp");
 	if (str == NULL)
 	{
 		free(scene_file);
-		ft_fatal_error("Cannot allocate the BMP file name");
-		return (NULL);
+		return (ft_fatal_error_null("Cannot allocate the BMP file name"));
 	}
 	free(scene_file);
 	return (str);
 }
 
-int		ft_initialize_bmp_file(t_scene *scene, t_buffer *buffer,
+int			ft_initialize_bmp_file(t_scene *scene, t_buffer *buffer,
 		char *scene_file, int camerano)
 {
 	int		fd;

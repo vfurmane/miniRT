@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 12:09:01 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/16 10:03:06 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/20 19:07:28 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,20 +51,15 @@ static char		*ft_strdupcat(char *dest, char *src)
 	unsigned long	src_size;
 
 	i = 0;
-	dest_start = 0;
-	while (dest[i++])
-		dest_start++;
-	i = 0;
-	src_size = 0;
-	while (src[i++])
-		src_size++;
-	i = -1;
+	dest_start = ft_strlen(dest);
+	src_size = ft_strlen(src);
 	res = malloc(sizeof(*res) * (dest_start + src_size + 1));
 	if (res == NULL)
 	{
 		free(dest);
 		return (NULL);
 	}
+	i = -1;
 	while (dest[++i])
 		res[i] = dest[i];
 	i = -1;
@@ -85,25 +80,22 @@ static int		ft_read(int fd, t_list *elm)
 	if (buffer == NULL)
 		return (-1);
 	result = 1;
-	if ((ret = read(fd, buffer, BUFFER_SIZE)))
+	ret = read(fd, buffer, BUFFER_SIZE);
+	if (ret != 0)
 	{
 		if (ret == -1)
 			return (-1);
 		buffer[ret] = '\0';
 		elm->content = ft_strdupcat(elm->content, buffer);
-		free(buffer);
 		if (elm->content == NULL)
 		{
-			free(elm->content);
+			result = -1;
 			free(elm);
-			return (-1);
 		}
 	}
 	else
-	{
 		result = 0;
-		free(buffer);
-	}
+	free(buffer);
 	return (result);
 }
 

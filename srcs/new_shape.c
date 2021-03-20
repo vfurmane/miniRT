@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 10:22:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/20 11:41:45 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/20 14:54:13 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ t_sphere	*ft_new_sphere(char **args, int line)
 
 	sphere = malloc(sizeof(*sphere));
 	if (sphere == NULL)
-	{
-		ft_fatal_error("Failed to create a new sphere");
-		return (NULL);
-	}
+		return (ft_fatal_error_null("Failed to create a new sphere"));
 	if (!ft_check_str_to_vector(args[0], 0, line) ||
 			!ft_check_atof(args[1], "", line) ||
 			!ft_check_parse_color(args[2], line))
@@ -42,10 +39,7 @@ t_plane		*ft_new_plane(char **args, int line)
 
 	plane = malloc(sizeof(*plane));
 	if (plane == NULL)
-	{
-		ft_fatal_error("Failed to create a new plane");
-		return (NULL);
-	}
+		return (ft_fatal_error_null("Failed to create a new plane"));
 	if (!ft_check_str_to_vector(args[0], 0, line) ||
 			!ft_check_str_to_vector(args[1], 1, line) ||
 			!ft_check_parse_color(args[2], line))
@@ -66,10 +60,7 @@ t_square	*ft_new_square(char **args, int line)
 
 	square = malloc(sizeof(*square));
 	if (square == NULL)
-	{
-		ft_fatal_error("Failed to create a new square");
-		return (NULL);
-	}
+		return (ft_fatal_error_null("Failed to create a new square"));
 	if (!ft_check_str_to_vector(args[0], 0, line) ||
 			!ft_check_str_to_vector(args[1], 1, line) ||
 			!ft_check_atof(args[2], "", line) ||
@@ -92,10 +83,7 @@ t_cylinder	*ft_new_cylinder(char **args, int line)
 
 	cylinder = malloc(sizeof(*cylinder));
 	if (cylinder == NULL)
-	{
-		ft_fatal_error("Failed to create a new cylinder");
-		return (NULL);
-	}
+		return (ft_fatal_error_null("Failed to create a new cylinder"));
 	if (!ft_check_str_to_vector(args[0], 0, line) ||
 			!ft_check_str_to_vector(args[1], 1, line) ||
 			!ft_check_atof(args[2], "", line) ||
@@ -121,10 +109,7 @@ t_triangle	*ft_new_triangle(char **args, int line)
 
 	triangle = malloc(sizeof(*triangle));
 	if (triangle == NULL)
-	{
-		ft_fatal_error("Failed to create a new triangle");
-		return (NULL);
-	}
+		return (ft_fatal_error_null("Failed to create a new triangle"));
 	if (!ft_check_str_to_vector(args[0], 0, line) ||
 			!ft_check_str_to_vector(args[1], 0, line) ||
 			!ft_check_str_to_vector(args[2], 0, line) ||
