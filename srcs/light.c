@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 12:42:28 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/19 15:18:11 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/20 11:48:28 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,10 @@ int		ft_compute_lighting(t_vector point, t_obj obj, t_scene scene, int color)
 		else if (obj.type == PLANE || obj.type == SQUARE)
 		{
 			normal = ((t_plane*)obj.ptr)->direction;
+		}
+		if (obj.type == TRIANGLE)
+		{
+			normal = ((t_triangle*)obj.ptr)->normal;
 		}
 		normal_len = ft_vector_length(normal);
 		normal = ft_multiply_vector_double(normal, 1.0 / normal_len);

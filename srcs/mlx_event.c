@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 10:03:13 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/20 09:20:23 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/20 09:55:07 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_move_camera(t_scene *scene, int key)
 		center = ft_substract_vectors(center, ft_multiply_vector_double(camera->right, 0.2));
 	ft_invert_camera_matrix(&camera->right, &camera->up, &camera->forward);
 	scene->current_camera->pixel_size = scene->plan.width * scene->plan.height /
-		138240 * 2;
+		138240 * MINI_RT_PIXEL_SIZE;
 	if (scene->current_camera->pixel_size == 0)
 		scene->current_camera->pixel_size = 1;
 	scene->current_camera->center = center;
@@ -59,7 +59,7 @@ void	ft_rotate_camera(t_scene *scene, int key)
 	direction.y = scene->current_camera->direction.y;
 	direction.z = cos(scene->current_camera->angle * M_PI / 180);
 	scene->current_camera->pixel_size = scene->plan.width * scene->plan.height /
-		138240 * 2;
+		138240 * MINI_RT_PIXEL_SIZE;
 	if (scene->current_camera->pixel_size == 0)
 		scene->current_camera->pixel_size = 1;
 	scene->current_camera->direction = direction;

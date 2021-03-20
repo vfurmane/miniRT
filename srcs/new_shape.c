@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 10:22:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/20 09:37:28 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/20 11:41:45 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,4 +113,31 @@ t_cylinder	*ft_new_cylinder(char **args, int line)
 	cylinder->color = ft_parse_color(args[4]);
 	ft_precalculate_cylinder(cylinder);
 	return (cylinder);
+}
+
+t_triangle	*ft_new_triangle(char **args, int line)
+{
+	t_triangle	*triangle;
+
+	triangle = malloc(sizeof(*triangle));
+	if (triangle == NULL)
+	{
+		ft_fatal_error("Failed to create a new triangle");
+		return (NULL);
+	}
+	if (!ft_check_str_to_vector(args[0], 0, line) ||
+			!ft_check_str_to_vector(args[1], 0, line) ||
+			!ft_check_str_to_vector(args[2], 0, line) ||
+			!ft_check_parse_color(args[3], line))
+	{
+		free(triangle);
+		return (NULL);
+	}
+	triangle->next = NULL;
+	triangle->point1 = ft_str_to_vector(args[0]);
+	triangle->point2 = ft_str_to_vector(args[1]);
+	triangle->point3 = ft_str_to_vector(args[2]);
+	triangle->color = ft_parse_color(args[3]);
+	ft_precalculate_triangle(triangle);
+	return (triangle);
 }

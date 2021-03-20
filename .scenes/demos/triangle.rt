@@ -1,0 +1,17 @@
+#	Resolution	Width			Height
+	R			1440			960
+
+#	Ambiant light	Intensity	Color
+	A				0.1			255,255,255
+
+
+#	Camera			Position	Direction	FOV
+	c				0,0,0		0,0,1		90
+
+#	Light			Position	Intensity	Color
+	l				0,2,0		0.5			255,255,255
+
+
+#	Triangle		Point1		Point2		Point3		Color
+	tr				-3,-1,10	-2,1,10		-1,-1,10	255,255,0
+	tr				0,-1,10		1,1,10		2,-1,12		255,255,0

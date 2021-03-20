@@ -27,6 +27,10 @@
 #  define MINI_RT_BONUS 0
 # endif
 
+# ifndef MINI_RT_PIXEL_SIZE
+#  define MINI_RT_PIXEL_SIZE 2
+# endif
+
 # ifndef M_PI
 #  define M_PI 3.1415926535
 # endif
@@ -69,6 +73,7 @@ typedef enum		e_obj_type
 	SPHERE,
 	PLANE,
 	SQUARE,
+	TRIANGLE,
 	CYLINDER
 }					t_obj_type;
 
@@ -119,12 +124,24 @@ typedef struct	s_plane
 
 typedef struct	s_square
 {
-	struct s_sqaure	*next;
+	struct s_square	*next;
 	t_vector		center;
 	int				color;
 	t_vector		direction;
 	double			width;
 }				t_square;
+
+typedef struct	s_triangle
+{
+	struct s_triangle	*next;
+	t_vector			point1;
+	int					color;
+	t_vector			point2;
+	t_vector			point3;
+	t_vector			edge1;
+	t_vector			edge2;
+	t_vector			normal;
+}				t_triangle;
 
 typedef struct	s_sphere
 {
@@ -181,6 +198,7 @@ typedef struct	s_scene
 	t_bulb			*bulbs;
 	t_sphere		*spheres;
 	t_square		*squares;
+	t_triangle		*triangles;
 	t_plane			*planes;
 	t_cylinder		*cylinders;
 }				t_scene;
@@ -223,6 +241,7 @@ int			ft_handle_sphere(char **args, t_scene *scene, int line);
 int			ft_handle_plane(char **args, t_scene *scene, int line);
 int			ft_handle_square(char **args, t_scene *scene, int line);
 int			ft_handle_cylinder(char **args, t_scene *scene, int line);
+int			ft_handle_triangle(char **args, t_scene *scene, int line);
 
 t_scene		*ft_initialize_scene(t_scene **scene, int argc, char **argv);
 int			ft_initialize_bmp_file(t_scene *scene, t_buffer *buffer, char *scene_file, int camerano);
@@ -247,6 +266,7 @@ t_sphere	*ft_new_sphere(char **args, int line);
 t_plane		*ft_new_plane(char **args, int line);
 t_square	*ft_new_square(char **args, int line);
 t_cylinder	*ft_new_cylinder(char **args, int line);
+t_triangle	*ft_new_triangle(char **args, int line);
 
 int			ft_parameters(int argc, char **argv, t_scene *scene);
 
@@ -294,5 +314,9 @@ void		ft_intersect_ray_sphere(t_ray *ray,
 
 void		ft_intersect_ray_square(t_ray *ray,
 				t_square *square, double t[2]);
+
+void		ft_intersect_ray_triangle(t_ray *ray,
+				t_triangle *triangle, double t[2]);
+void		ft_precalculate_triangle(t_triangle *triangle);
 
 #endif

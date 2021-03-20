@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:13:35 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/19 13:18:51 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/20 11:33:23 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	ft_parse_line(char *line, t_scene *scene)
 		ret = ft_handle_square(&args[1], scene, line_nbr);
 	else if (ft_strcmp(args[0], "cy") == 0)
 		ret = ft_handle_cylinder(&args[1], scene, line_nbr);
+	else if (ft_strcmp(args[0], "tr") == 0)
+		ret = ft_handle_triangle(&args[1], scene, line_nbr);
 	else if (args[0] != NULL)
 	{
 		printf("Error\nline %d: Unknown identifier '%s'\n", line_nbr, args[0]);
@@ -96,6 +98,7 @@ int	ft_parameters(int argc, char **argv, t_scene *scene)
 	scene->bulbs = NULL;
 	scene->spheres = NULL;
 	scene->squares = NULL;
+	scene->triangles = NULL;
 	scene->planes = NULL;
 	scene->cylinders = NULL;
 	if (argc < 2 || argc > 3)

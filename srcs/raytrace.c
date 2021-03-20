@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/19 15:04:02 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/20 11:25:28 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	ft_intersect_ray(t_ray *ray, t_obj obj, double inter[2])
 		ft_intersect_ray_sphere(ray, obj.ptr, inter);
 	else if (obj.type == SQUARE)
 		ft_intersect_ray_square(ray, obj.ptr, inter);
+	else if (obj.type == TRIANGLE)
+		ft_intersect_ray_triangle(ray, obj.ptr, inter);
 	else if (obj.type == CYLINDER)
 		ft_intersect_ray_cylinder(ray, obj.ptr, inter);
 }
@@ -96,7 +98,7 @@ double	ft_closest_intersection(t_ray *ray,
 int		ft_trace_ray(t_ray *ray, t_scene scene)
 {
 	int			i;
-	void		*objects[4];
+	void		*objects[5];
 	t_obj		obj1;
 	t_obj		obj2;
 	t_vector	point;
@@ -104,10 +106,11 @@ int		ft_trace_ray(t_ray *ray, t_scene scene)
 	objects[0] = scene.spheres;
 	objects[1] = scene.planes;
 	objects[2] = scene.squares;
-	objects[3] = scene.cylinders;
+	objects[3] = scene.triangles;
+	objects[4] = scene.cylinders;
 	obj1.inter = -1;
 	i = 0;
-	while (i < 4)
+	while (i < 5)
 	{
 		obj2.ptr = objects[i];
 		obj2.type = i++;

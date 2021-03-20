@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 18:31:03 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/19 11:46:57 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/20 11:36:01 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	ft_free_scene(t_scene **scene)
 	ft_lstfree((*scene)->spheres);
 	ft_lstfree((*scene)->planes);
 	ft_lstfree((*scene)->squares);
+	ft_lstfree((*scene)->triangles);
 	ft_lstfree((*scene)->cylinders);
 	free((*scene)->mlx);
 	free(*scene);
