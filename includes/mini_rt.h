@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 17:56:05 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/21 20:07:35 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/21 21:51:33 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@
 
 # ifndef MINI_RT_PIXEL_SIZE
 #  define MINI_RT_PIXEL_SIZE 2
+# endif
+
+# ifndef MINI_RT_ANTI_ALIASING_LEVEL
+#  define MINI_RT_ANTI_ALIASING_LEVEL 4
 # endif
 
 # ifndef M_PI
