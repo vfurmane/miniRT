@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 12:42:28 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/22 11:27:38 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/22 11:31:31 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,29 +36,29 @@ void		ft_add_light_intensity(double intensity[3], int color,
 
 int			ft_is_in_shadow(t_vector point, t_scene scene, t_bulb *bulb)
 {
-	t_ray		light_ray;
-	double		closest_inter;
+	void		*objects[5];
 	t_obj		obj;
+	t_ray		light_ray;
 
 	scene.inter_min = 0.00000000001;
 	scene.inter_max = 1;
 	light_ray.origin = point;
 	light_ray.direction = ft_substract_vectors(bulb->center, point);
-	obj.ptr = scene.planes;
-	obj.type = PLANE;
-	closest_inter = ft_closest_intersection(&light_ray, &scene, &obj);
-	if (closest_inter != -1)
-		return (1);
-	obj.ptr = scene.spheres;
-	obj.type = SPHERE;
-	closest_inter = ft_closest_intersection(&light_ray, &scene, &obj);
-	if (closest_inter != -1)
-		return (1);
-	obj.ptr = scene.cylinders;
-	obj.type = CYLINDER;
-	closest_inter = ft_closest_intersection(&light_ray, &scene, &obj);
-	if (closest_inter != -1)
-		return (1);
+	objects[0] = scene.spheres;
+	objects[1] = scene.planes;
+	objects[2] = scene.squares;
+	objects[3] = scene.triangles;
+	objects[4] = scene.cylinders;
+	obj.inter = -1;
+	obj.type = 0;
+	while (obj.type < 5)
+	{
+		obj.ptr = objects[obj.type];
+		obj.inter = ft_closest_intersection(&light_ray, &scene, &obj);
+		obj.type++;
+		if (obj.inter != -1)
+			return (1);
+	}
 	return (0);
 }
 
