@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 19:37:32 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/21 19:23:05 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/22 11:15:51 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		ft_get_anti_aliased_pixel_color(t_scene *scene, t_camera *camera,
 	while (i < camera->anti_aliasing_level * camera->anti_aliasing_level)
 	{
 		ray->direction = ft_canvas_to_viewport(pixel, &scene->plan, camera, i);
-		colors[i++] = ft_trace_ray(ray, *scene);
+		colors[i++] = ft_trace_ray(ray, scene);
 	}
 	pixel->color = ft_color_average(colors, camera->anti_aliasing_level *
 			camera->anti_aliasing_level);
@@ -50,7 +50,7 @@ int		ft_get_pixel_color(t_scene *scene, t_camera *camera, t_pixel *pixel)
 	else
 	{
 		ray.direction = ft_canvas_to_viewport(pixel, &scene->plan, camera, 0);
-		pixel->color = ft_trace_ray(&ray, *scene);
+		pixel->color = ft_trace_ray(&ray, scene);
 	}
 	return (pixel->color);
 }

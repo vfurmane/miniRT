@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:06:16 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/21 19:29:04 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/22 11:22:28 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,19 @@ double	ft_closest_obj(t_obj *obj1, t_obj *obj2)
 	return (-1);
 }
 
-void	ft_check_intersections(t_scene scene,
+void	ft_check_intersections(t_scene *scene,
 		t_obj *closest_obj, t_obj *obj_copy, double inter[2])
 {
-	if (inter[0] >= scene.inter_min &&
-			(inter[0] <= scene.inter_max || scene.inter_max == -1) &&
+	if (inter[0] >= scene->inter_min &&
+			(inter[0] <= scene->inter_max || scene->inter_max == -1) &&
 			(inter[0] < closest_obj->inter || closest_obj->inter == -1))
 	{
 		closest_obj->type = obj_copy->type;
 		closest_obj->ptr = obj_copy->ptr;
 		closest_obj->inter = inter[0];
 	}
-	if (inter[1] >= scene.inter_min &&
-			(inter[1] <= scene.inter_max || scene.inter_max == -1) &&
+	if (inter[1] >= scene->inter_min &&
+			(inter[1] <= scene->inter_max || scene->inter_max == -1) &&
 			(inter[1] < closest_obj->inter || closest_obj->inter == -1))
 	{
 		closest_obj->type = obj_copy->type;
@@ -61,7 +61,7 @@ void	ft_check_intersections(t_scene scene,
 }
 
 double	ft_closest_intersection(t_ray *ray,
-		t_scene scene, t_obj *obj)
+		t_scene *scene, t_obj *obj)
 {
 	double	inter[2];
 	t_obj	obj_copy;
@@ -79,18 +79,18 @@ double	ft_closest_intersection(t_ray *ray,
 	return (closest_obj.inter);
 }
 
-int		ft_trace_ray(t_ray *ray, t_scene scene)
+int		ft_trace_ray(t_ray *ray, t_scene *scene)
 {
 	void		*objects[5];
 	t_obj		obj1;
 	t_obj		obj2;
 	t_vector	point;
 
-	objects[0] = scene.spheres;
-	objects[1] = scene.planes;
-	objects[2] = scene.squares;
-	objects[3] = scene.triangles;
-	objects[4] = scene.cylinders;
+	objects[0] = scene->spheres;
+	objects[1] = scene->planes;
+	objects[2] = scene->squares;
+	objects[3] = scene->triangles;
+	objects[4] = scene->cylinders;
 	obj1.inter = -1;
 	obj2.type = 0;
 	while (obj2.type < 5)
@@ -101,7 +101,7 @@ int		ft_trace_ray(t_ray *ray, t_scene scene)
 		obj2.type++;
 	}
 	if (obj1.inter == -1)
-		return (scene.background_color);
+		return (scene->background_color);
 	point = ft_add_vectors(ray->origin,
 			ft_multiply_vector_double(ray->direction, obj1.inter));
 	return (ft_compute_lighting(point, obj1, scene,

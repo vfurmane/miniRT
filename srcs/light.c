@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 12:42:28 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/20 19:50:07 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/22 11:27:38 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,17 @@ int			ft_is_in_shadow(t_vector point, t_scene scene, t_bulb *bulb)
 	light_ray.direction = ft_substract_vectors(bulb->center, point);
 	obj.ptr = scene.planes;
 	obj.type = PLANE;
-	closest_inter = ft_closest_intersection(&light_ray, scene, &obj);
+	closest_inter = ft_closest_intersection(&light_ray, &scene, &obj);
 	if (closest_inter != -1)
 		return (1);
 	obj.ptr = scene.spheres;
 	obj.type = SPHERE;
-	closest_inter = ft_closest_intersection(&light_ray, scene, &obj);
+	closest_inter = ft_closest_intersection(&light_ray, &scene, &obj);
 	if (closest_inter != -1)
 		return (1);
 	obj.ptr = scene.cylinders;
 	obj.type = CYLINDER;
-	closest_inter = ft_closest_intersection(&light_ray, scene, &obj);
+	closest_inter = ft_closest_intersection(&light_ray, &scene, &obj);
 	if (closest_inter != -1)
 		return (1);
 	return (0);
@@ -76,17 +76,17 @@ double		ft_calculate_ndotl(t_vector normal, t_bulb *bulb, t_vector point)
 	return (n_dot_l);
 }
 
-void		ft_calculate_lights_intensity(t_scene scene, t_obj obj,
+void		ft_calculate_lights_intensity(t_scene *scene, t_obj obj,
 			t_vector point, double intensity[3])
 {
 	t_bulb		*bulb;
 	double		n_dot_l;
 	t_vector	normal;
 
-	bulb = scene.bulbs;
+	bulb = scene->bulbs;
 	while (bulb != NULL)
 	{
-		if (ft_is_in_shadow(point, scene, bulb))
+		if (ft_is_in_shadow(point, *scene, bulb))
 		{
 			bulb = bulb->next;
 			continue ;
@@ -100,15 +100,15 @@ void		ft_calculate_lights_intensity(t_scene scene, t_obj obj,
 	}
 }
 
-int			ft_compute_lighting(t_vector point, t_obj obj, t_scene scene,
+int			ft_compute_lighting(t_vector point, t_obj obj, t_scene *scene,
 			int color)
 {
 	int			new_color;
 	double		intensity[3];
 
 	ft_memset(intensity, 0, 3 * sizeof(*intensity));
-	ft_add_light_intensity(intensity, scene.ambiant->color,
-			scene.ambiant->intensity);
+	ft_add_light_intensity(intensity, scene->ambiant->color,
+			scene->ambiant->intensity);
 	ft_calculate_lights_intensity(scene, obj, point, intensity);
 	new_color = 0;
 	new_color += (int)(intensity[0] * ((color & 16711680) >> 16)) << 16;
