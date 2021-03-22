@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:47:22 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/22 14:04:22 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/22 18:39:19 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,22 @@ int	ft_handle_resolution(char **args, t_scene *scene, int line)
 	int	nbr;
 
 	if (scene->plan.width != -1)
-	{
-		printf("Error\nline %d: Resolution declared twice\n", line);
-		return (-1);
-	}
+		return (printf("Error\nline %d: Resolution declared twice\n", line)*
+				0 -1);
 	if (!ft_check_args_count(args, 2, line))
+		return (-1);
+	if (!ft_check_atoi(args[0], "", line) ||
+			!ft_check_atoi(args[1], "", line))
 		return (-1);
 	nbr = atoi(args[0]);
 	if (nbr <= 0)
-	{
-		printf("Error\nline %d: Width cannot be null or negative\n", line);
-		return (-1);
-	}
+		return (printf("Error\nline %d: Width cannot be null or negative\n",
+					line) * 0 - 1);
 	scene->plan.width = nbr;
 	nbr = atoi(args[1]);
 	if (nbr <= 0)
-	{
-		printf("Error\nline %d: Height cannot be null or negative\n", line);
-		return (-1);
-	}
+		return (printf("Error\nline %d: Height cannot be null or negative\n",
+					line) * 0 - 1);
 	scene->plan.height = nbr;
 	return (0);
 }
