@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:47:22 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/19 15:37:00 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/22 12:19:23 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ int	ft_handle_resolution(char **args, t_scene *scene, int line)
 {
 	int	nbr;
 
+	if (scene->plan.width != -1)
+	{
+		printf("Error\nline %d: Resolution declared twice\n", line);
+		return (-1);
+	}
 	if (!ft_check_args_count(args, 2, line))
 		return (-1);
 	nbr = atoi(args[0]);

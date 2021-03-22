@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:13:35 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/21 18:23:00 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/22 12:22:01 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int	ft_parameters(int argc, char **argv, t_scene *scene)
 
 	ft_memset(&scene->mlx, 0, sizeof(*scene) -
 		((void*)&scene->mlx - (void*)scene));
+	scene->plan.width = -1;
 	if (argc < 2 || argc > 3)
 		return (printf("Error\nUsage: %s scene [--save]\n", argv[0]) * 0 - 1);
 	file = argv[1];
@@ -113,6 +114,8 @@ int	ft_parameters(int argc, char **argv, t_scene *scene)
 		return (-1);
 	if (scene->ambiant == NULL)
 		return (printf("Error\nAmbiant light never set\n") * 0 - 1);
+	if (scene->plan.width == -1)
+		return (printf("Error\nResolution not set\n") * 0 - 1);
 	if (scene->cameras == NULL)
 		return (printf("Error\n0 camera defined, at least 1 needed\n") * 0 - 1);
 	return (0);
