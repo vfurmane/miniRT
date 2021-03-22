@@ -1,0 +1,16 @@
+#	Resolution		Widt		Height
+	R				1440		960
+
+#	Ambiant light	Intensity	Color
+	A				0.1			255,255,255
+
+
+#	Camera			Position	Direction	FOV
+	c				0,0,0		0,0,1		90
+
+#	Light			Position	Intensity	Color
+	l				0,2,0		0.5			255,255,255
+
+
+#	Sphere			Position	Diameter	Color
+	sp				0,0,10		5			255,255,0
