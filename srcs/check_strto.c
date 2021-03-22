@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 18:55:26 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/19 11:40:27 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/22 20:12:55 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int			ft_check_str_to_vector(const char *str, int norm, int line)
 		j = ft_step_to_number(str, j);
 		i++;
 	}
-	if (str[j] != '\0' || (j > 0 && str[j - 1] == ','))
+	if (str[j] != '\0' || (j > 0 && str[j - 1] == ',') || i < 3)
 	{
 		printf("Error\nline %d: Vector format must be [-1.0,1.0]\n", line);
 		return (0);
