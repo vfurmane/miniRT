@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 17:56:05 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/22 11:27:44 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/22 14:11:47 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,7 @@ int				ft_handle_cylinder(char **args, t_scene *scene, int line);
 int				ft_handle_triangle(char **args, t_scene *scene, int line);
 
 t_scene			*ft_initialize_scene(t_scene **scene, int argc, char **argv);
+int				ft_check_window_size(t_scene *scene);
 int				ft_initialize_bmp_file(t_scene *scene, t_buffer *buffer,
 					char *scene_file, int camerano);
 t_mlx_data		*ft_initialize_mlx_img(t_scene *scene);

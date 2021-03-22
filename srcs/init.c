@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 18:32:28 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/20 19:08:21 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/22 14:15:38 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,23 @@ t_scene		*ft_initialize_scene(t_scene **scene, int argc, char **argv)
 	(*scene)->background_color = ft_multiply_color((*scene)->ambiant->color,
 			(*scene)->ambiant->intensity);
 	return (*scene);
+}
+
+int			ft_check_window_size(t_scene *scene)
+{
+	int			width;
+	int			height;
+
+	if (mlx_get_screen_size(scene->mlx, &width, &height) != 0)
+	{
+		printf("Error\nCannot calculate the screen size. Please retry...\n");
+		return (0);
+	}
+	if (scene->plan.width > width)
+		scene->plan.width = width;
+	if (scene->plan.height > height)
+		scene->plan.height = height;
+	return (1);
 }
 
 char		*ft_append_camerano_to_scene_name(char *scene_file, int camerano)
