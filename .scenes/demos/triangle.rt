@@ -1,5 +1,5 @@
-#	Resolution	Width			Height
-	R			1440			960
+#	Resolution		Width		Height
+	R				1440		960
 
 #	Ambiant light	Intensity	Color
 	A				0.1			255,255,255
