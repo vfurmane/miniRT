@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:12:46 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/22 14:11:58 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/22 17:06:33 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ int			main(int argc, char **argv)
 	t_scene		*scene;
 	t_buffer	buffer;
 
-	if (ft_initialize_scene(&scene, argc, argv) == NULL)
+	if (argc < 2 || argc > 3)
+		return (printf("Error\nUsage: %s scene [--save]\n", argv[0]));
+	if (ft_initialize_scene(&scene, argv) == NULL)
 		return (1);	
 	if (scene->mlx != NULL)
 		if (ft_check_window_size(scene) == 0)

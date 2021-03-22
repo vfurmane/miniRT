@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 09:13:35 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/22 12:22:01 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/22 17:07:26 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ int	ft_parse_scene(char *file, t_scene *scene)
 	int		ret;
 	char	*line;
 
-	fd = open(file, O_RDONLY);
+	fd = open(file, O_RDWR);
 	if (fd == -1)
-		return (-1);
+		return (ft_fatal_error("Cannot open the scene file"));
 	ret = get_next_line(fd, &line);
 	while (ret != 0)
 	{
@@ -98,15 +98,13 @@ int	ft_parse_scene(char *file, t_scene *scene)
 	return (0);
 }
 
-int	ft_parameters(int argc, char **argv, t_scene *scene)
+int	ft_parameters(char **argv, t_scene *scene)
 {
 	char	*file;
 
 	ft_memset(&scene->mlx, 0, sizeof(*scene) -
 		((void*)&scene->mlx - (void*)scene));
 	scene->plan.width = -1;
-	if (argc < 2 || argc > 3)
-		return (printf("Error\nUsage: %s scene [--save]\n", argv[0]) * 0 - 1);
 	file = argv[1];
 	if (ft_strcmp(ft_strrchr(file, '.'), ".rt") != 0)
 		return (printf("Error\nFile extension is not .rt\n") * 0 - 1);

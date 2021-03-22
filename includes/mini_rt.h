@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 17:56:05 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/22 14:11:47 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/22 17:06:19 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ int				ft_handle_square(char **args, t_scene *scene, int line);
 int				ft_handle_cylinder(char **args, t_scene *scene, int line);
 int				ft_handle_triangle(char **args, t_scene *scene, int line);
 
-t_scene			*ft_initialize_scene(t_scene **scene, int argc, char **argv);
+t_scene			*ft_initialize_scene(t_scene **scene, char **argv);
 int				ft_check_window_size(t_scene *scene);
 int				ft_initialize_bmp_file(t_scene *scene, t_buffer *buffer,
 					char *scene_file, int camerano);
@@ -232,7 +232,7 @@ t_square		*ft_new_square(char **args, int line);
 t_cylinder		*ft_new_cylinder(char **args, int line);
 t_triangle		*ft_new_triangle(char **args, int line);
 
-int				ft_parameters(int argc, char **argv, t_scene *scene);
+int				ft_parameters(char **argv, t_scene *scene);
 
 t_vector		ft_calculate_primitive_normal(t_vector point, t_obj obj);
 int				ft_calculate_intersections(double k[3], double t[2]);

@@ -6,13 +6,13 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 18:32:28 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/22 14:15:38 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/22 17:06:10 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-t_scene		*ft_initialize_scene(t_scene **scene, int argc, char **argv)
+t_scene		*ft_initialize_scene(t_scene **scene, char **argv)
 {
 	*scene = malloc(sizeof(**scene));
 	if (*scene == NULL)
@@ -23,7 +23,7 @@ t_scene		*ft_initialize_scene(t_scene **scene, int argc, char **argv)
 		free(*scene);
 		return (ft_fatal_error_null("Cannot allocate the window's title"));
 	}
-	if (ft_parameters(argc, argv, *scene) == -1)
+	if (ft_parameters(argv, *scene) == -1)
 	{
 		ft_free_scene(scene);
 		return (NULL);
