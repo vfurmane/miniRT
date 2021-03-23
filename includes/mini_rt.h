@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 17:56:05 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/22 17:06:19 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/23 09:57:06 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,6 +243,7 @@ void			ft_proceed_window(t_scene *scene);
 
 int				ft_fatal_error(const char *str);
 void			*ft_fatal_error_null(const char *str);
+int				ft_error_line(char *str, int line);
 
 double			ft_closest_intersection(t_ray *ray, t_scene *scene, t_obj *obj);
 int				ft_calculate_intersections(double k[3], double t[2]);
