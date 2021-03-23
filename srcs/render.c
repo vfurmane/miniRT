@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 19:37:32 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/22 11:15:51 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/23 12:32:59 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		ft_get_anti_aliased_pixel_color(t_scene *scene, t_camera *camera,
 	colors = malloc(sizeof(*colors) * camera->anti_aliasing_level *
 			camera->anti_aliasing_level);
 	if (colors == NULL)
-		return (-1);
+		return (ft_fatal_error("Cannot allocate the colors array"));
 	while (i < camera->anti_aliasing_level * camera->anti_aliasing_level)
 	{
 		ray->direction = ft_canvas_to_viewport(pixel, &scene->plan, camera, i);

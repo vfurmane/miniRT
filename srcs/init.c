@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 18:32:28 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/23 09:36:57 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/23 12:37:03 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int			ft_initialize_bmp_file(t_scene *scene, t_buffer *buffer,
 	fd = open(file, O_WRONLY | O_CREAT, 0644);
 	free(file);
 	if (fd == -1)
-		return (-1);
+		return (ft_fatal_error("Cannot open the bmp file"));
 	if (!ft_set_bmp_header(scene, fd))
 		return (-1);
 	buffer->i = 0;
