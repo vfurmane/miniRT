@@ -6,7 +6,7 @@
 #    By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/28 15:38:44 by vfurmane          #+#    #+#              #
-#    Updated: 2021/03/22 13:30:09 by vfurmane         ###   ########.fr        #
+#    Updated: 2021/03/23 11:36:00 by vfurmane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,14 +18,13 @@ INCL		= $(addprefix -I, includes mlx_linux)
 NAME		= miniRT
 CC			= clang
 BONUS		= 
-CFLAGS		= -Wall -Wextra -Werror -g3 -ggdb $(BONUS)
+CFLAGS		= -Wall -Wextra -Werror $(BONUS)
 LIBS		= -L mlx_linux -lmlx_Linux -I mlx_linux -lXext -lX11 -lm -lz
 RM			= rm -f
 
 %.o:		%.c
 			$(CC) $(CFLAGS) -c $< $(INCL) -o $@
 
-all:		CFLAGS += -fsanitize=address
 all:		mlx $(NAME)
 
 $(NAME):	$(OBJS)
@@ -36,9 +35,6 @@ mlx:
 
 bonus:		BONUS=-D MINI_RT_BONUS=1
 bonus:		all
-
-bonus-nosa:		BONUS=-D MINI_RT_BONUS=1
-bonus-nosa:	$(NAME)
 
 nosanitize: $(NAME)
 
