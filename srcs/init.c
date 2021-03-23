@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 18:32:28 by vfurmane          #+#    #+#             */
-/*   Updated: 2021/03/22 17:06:10 by vfurmane         ###   ########.fr       */
+/*   Updated: 2021/03/23 09:36:57 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,7 @@ int			ft_check_window_size(t_scene *scene)
 	int			width;
 	int			height;
 
-	if (mlx_get_screen_size(scene->mlx, &width, &height) != 0)
-	{
-		printf("Error\nCannot calculate the screen size. Please retry...\n");
-		return (0);
-	}
+	mlx_get_screen_size(scene->mlx, &width, &height);
 	if (scene->plan.width > width)
 		scene->plan.width = width;
 	if (scene->plan.height > height)
