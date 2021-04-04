@@ -31,17 +31,17 @@ And finally to run the program:
 The scene you have to pass to the program has to be formatted this way:
 
 ```
-R	width:int				height:int
-A	ratio:float[0.0,1.0]	color:RGB[0,255]
+R   width:int               height:int
+A   ratio:float[0.0,1.0]    color:RGB[0,255]
 
-c	coordinates:XYZ			orientation:XYZ				fov:int[0,180]
-l	coordinates:XYZ			ratio:float[0.0,1.0]		color:RGB[0,255]
+c   coordinates:XYZ         orientation:XYZ             fov:int[0,180]
+l   coordinates:XYZ         ratio:float[0.0,1.0]        color:RGB[0,255]
 
-sp	coordinates:XYZ			diameter:float				color:RGB[0,255]
-pl	coordinates:XYZ			orientation:XYZ[-1.0,1.0]	color:RGB[0,255]
-sq	coordinates:XYZ			orientation:XYZ[-1.0,1.0]	size:float			color:RGB[0,255]
-cy	coordinates:XYZ			orientation:XYZ[-1.0,1.0]	diameter:float		height:float		color:RGB[0,255]
-tr	point1:XYZ				point2:XYZ					point3:XYZ			color:RGB[0,255]
+sp  coordinates:XYZ         diameter:float              color:RGB[0,255]
+pl  coordinates:XYZ         orientation:XYZ[-1.0,1.0]   color:RGB[0,255]
+sq  coordinates:XYZ         orientation:XYZ[-1.0,1.0]   size:float          color:RGB[0,255]
+cy  coordinates:XYZ         orientation:XYZ[-1.0,1.0]   diameter:float      height:float        color:RGB[0,255]
+tr  point1:XYZ              point2:XYZ                  point3:XYZ          color:RGB[0,255]
 ```
 
 Uppercase identifiers must be declared once. Lowercase identifiers can be declared any number of times.
